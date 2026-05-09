@@ -205,8 +205,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add Lighthouse CI script to `package.json`
     - _Requirements: 9.1, 9.2, 9.5_
 
-- [ ] 14. Content validation and UK English compliance
-  - [-] 14.1 Validate all copy for UK English and style compliance
+- [x] 14. Content validation and UK English compliance
+  - [x] 14.1 Validate all copy for UK English and style compliance
     - Review all user-visible text for UK English spelling (modelling, analysing, optimised, colour)
     - Verify zero em dash (—) or en dash (–) characters in any visible text
     - Verify glossary terms used consistently (no synonyms or alternate phrasings)
@@ -214,7 +214,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify no warm-toned hues (HSL hue 0°–60°) in any CSS colour value
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 6.3, 6.8_
 
-- [~] 15. Final checkpoint - Complete validation
+- [-] 15. Final checkpoint - Complete validation
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
