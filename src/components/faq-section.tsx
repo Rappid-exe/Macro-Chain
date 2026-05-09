@@ -82,12 +82,12 @@ export default function FAQSection() {
         {/* Bottom CTA */}
         <div className="mt-12 text-center">
           <span className="text-sm text-black/40">Still have questions?</span>{" "}
-          <a
-            href="#"
+          <button
+            onClick={() => (window as unknown as { openContactModal: () => void }).openContactModal()}
             className="text-sm font-semibold text-black hover:text-black/70 transition-colors"
           >
             Contact support
-          </a>
+          </button>
         </div>
       </div>
     </section>

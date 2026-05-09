@@ -68,6 +68,7 @@ function SocialIcon({ platform }: { platform: SocialLink["platform"] }) {
 export default function FooterSection() {
   return (
     <footer
+      id="contact"
       aria-label="Site footer"
       className="bg-bg-primary border-t border-border"
     >

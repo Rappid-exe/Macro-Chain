@@ -191,7 +191,7 @@ export default function HeroSection() {
             animate="visible"
             className="flex flex-col sm:flex-row gap-4 justify-center"
           >
-            <Button variant="default" size="lg">
+            <Button variant="solid" size="lg">
               Launch Terminal
             </Button>
           </motion.div>

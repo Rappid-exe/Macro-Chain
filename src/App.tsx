@@ -1,5 +1,6 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, useState } from "react";
 import { SectionErrorBoundary } from "@/components/section-error-boundary";
+import { ContactModal } from "@/components/contact-modal";
 
 // Navbar renders synchronously (fixed at top)
 import Navbar from "@/components/navbar";
@@ -19,6 +20,13 @@ function SectionFallback({ minHeight = "20rem" }: { minHeight?: string }) {
 }
 
 export default function App() {
+  const [contactOpen, setContactOpen] = useState(false);
+
+  // Listen for contact modal open events
+  if (typeof window !== "undefined") {
+    (window as unknown as { openContactModal: () => void }).openContactModal = () => setContactOpen(true);
+  }
+
   return (
     <>
       <a
@@ -29,6 +37,7 @@ export default function App() {
       </a>
 
       <Navbar />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
 
       <main id="main-content">
         <HeroSection />

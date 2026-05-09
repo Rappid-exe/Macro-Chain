@@ -152,7 +152,7 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button asChild size="sm">
+            <Button asChild size="sm" variant="solid">
               <a href="#signup">Join Waitlist</a>
             </Button>
           </div>
@@ -207,7 +207,7 @@ export default function Navbar() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <Button asChild>
+                  <Button asChild variant="solid">
                     <a href="#signup">Join Waitlist</a>
                   </Button>
                 </div>

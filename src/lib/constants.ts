@@ -141,24 +141,7 @@ export const FAQ_ITEMS: FAQItem[] = [
 
 export const FOOTER_TAGLINE = "The Causal Intelligence Engine.";
 
-export const FOOTER_LINK_GROUPS: FooterLinkGroup[] = [
-  {
-    heading: "Product",
-    links: [
-      { label: "Terminal", href: "#terminal" },
-      { label: "API", href: "#api" },
-      { label: "Backtesting", href: "#backtesting" },
-    ],
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About", href: "#about" },
-      { label: "Ethics", href: "#ethics" },
-      { label: "Research", href: "#research" },
-    ],
-  },
-];
+export const FOOTER_LINK_GROUPS: FooterLinkGroup[] = [];
 
 export const SOCIAL_LINKS: SocialLink[] = [
   {
