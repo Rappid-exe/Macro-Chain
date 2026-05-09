@@ -216,7 +216,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Test bottom bar contains copyright and legal links
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
 
-- [-] 14. Checkpoint - Verify all sections render correctly
+- [x] 14. Checkpoint - Verify all sections render correctly
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: all sections render, content matches V1, new sections (FAQ, Proof of Alpha, Footer, Waitlist) display correctly
 
@@ -281,7 +281,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Minimum 100 iterations
     - **Validates: Requirements 15.4**
 
-- [ ] 18. Final checkpoint - Full build and test verification
+- [-] 18. Final checkpoint - Full build and test verification
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: `npm run build` succeeds with zero errors, all unit tests pass, all content renders correctly, responsive layouts work at all breakpoints
 
