@@ -19,5 +19,11 @@ class Settings(BaseSettings):
     # offline demos or CI. Override via env var USE_FIXTURES=true.
     use_fixtures: bool = False
 
+    # When True and an Anthropic key is configured, augment the reasoner's
+    # base graph with speculative LLM-proposed 2nd-order tickers and a
+    # tailored executive summary. Safe to enable by default — if the key
+    # is missing we skip silently.
+    enable_llm_enrichment: bool = True
+
 
 settings = Settings()

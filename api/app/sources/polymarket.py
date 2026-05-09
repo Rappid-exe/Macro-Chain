@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any
 
 import httpx
@@ -227,3 +227,76 @@ async def get_event(event_id: str) -> EventSummary | None:
             return None
         resp.raise_for_status()
         return _normalize(resp.json())
+
+
+async def get_event_with_history(
+    event_id: str,
+    fidelity_minutes: int = 60,
+) -> tuple[EventSummary, list[dict[str, float]], str] | None:
+    """Fetch an event + its CLOB price history for the Yes token.
+
+    Returns (summary, history_points, description) or None if not found.
+    Each history point is {"t": iso_str, "yes": float}. We convert the CLOB's
+    unix seconds into ISO so the wire shape matches PricePoint directly.
+    """
+    gamma_id = event_id.removeprefix("pm-")
+    base = settings.polymarket_gamma_url.rstrip("/")
+
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        ev_resp = await client.get(f"{base}/events/{gamma_id}")
+        if ev_resp.status_code == 404:
+            return None
+        ev_resp.raise_for_status()
+        ev = ev_resp.json()
+
+        summary = _normalize(ev)
+        if summary is None:
+            return None
+
+        market = _primary_market(ev)
+        description = market.get("description") if market else ""
+        token_ids_raw = market.get("clobTokenIds") if market else None
+        yes_token: str | None = None
+        if isinstance(token_ids_raw, str):
+            try:
+                parsed = json.loads(token_ids_raw)
+                if parsed:
+                    yes_token = str(parsed[0])
+            except json.JSONDecodeError:
+                yes_token = None
+        elif isinstance(token_ids_raw, list) and token_ids_raw:
+            yes_token = str(token_ids_raw[0])
+
+        history: list[dict[str, float]] = []
+        if yes_token:
+            try:
+                hist_resp = await client.get(
+                    "https://clob.polymarket.com/prices-history",
+                    params={
+                        "market": yes_token,
+                        "interval": "max",
+                        "fidelity": fidelity_minutes,
+                    },
+                )
+                hist_resp.raise_for_status()
+                raw_hist = hist_resp.json().get("history") or []
+                # Downsample: if more than 400 points, keep every Nth so the
+                # chart stays snappy without losing shape.
+                if len(raw_hist) > 400:
+                    step = max(1, len(raw_hist) // 400)
+                    raw_hist = raw_hist[::step]
+                for p in raw_hist:
+                    t_unix = p.get("t")
+                    price = p.get("p")
+                    if t_unix is None or price is None:
+                        continue
+                    history.append(
+                        {
+                            "t": datetime.fromtimestamp(float(t_unix), tz=timezone.utc).isoformat(),
+                            "yes": float(price),
+                        }
+                    )
+            except Exception as exc:  # noqa: BLE001
+                log.warning("prices-history fetch failed for %s: %s", event_id, exc)
+
+    return summary, history, description or ""

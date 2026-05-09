@@ -4,11 +4,13 @@
     { "id": "theme:rate-cuts", "label": "Rate cuts" },
     { "id": "theme:inflation", "label": "Inflation" },
     { "id": "theme:ai-capex", "label": "AI capex cycle" },
-    { "id": "theme:oil-supply", "label": "Oil supply" },
-    { "id": "theme:shipping", "label": "Global shipping" },
+    { "id": "theme:oil-supply-cut", "label": "Oil supply restriction" },
+    { "id": "theme:oil-supply-add", "label": "Oil supply expansion" },
+    { "id": "theme:shipping", "label": "Global shipping disruption" },
     { "id": "theme:taiwan-risk", "label": "Taiwan Strait risk" },
     { "id": "theme:semi-fab", "label": "Semiconductor fabrication" },
-    { "id": "theme:usd-strength", "label": "USD strength" }
+    { "id": "theme:usd-strength", "label": "USD strength" },
+    { "id": "theme:crypto-rally", "label": "Crypto rally" }
   ],
   "commodities": [
     { "id": "com:wti", "label": "WTI crude" },
@@ -61,7 +63,13 @@
     { "id": "tkr:KO",    "symbol": "KO",    "name": "Coca-Cola",           "sector_ids": [] },
     { "id": "tkr:TLT",   "symbol": "TLT",   "name": "20Y+ Treasuries ETF", "sector_ids": [] },
     { "id": "tkr:GLD",   "symbol": "GLD",   "name": "Gold ETF",            "sector_ids": [] },
-    { "id": "tkr:UUP",   "symbol": "UUP",   "name": "USD index ETF",       "sector_ids": [] }
+    { "id": "tkr:UUP",   "symbol": "UUP",   "name": "USD index ETF",       "sector_ids": [] },
+    { "id": "tkr:IBIT",  "symbol": "IBIT",  "name": "iShares Bitcoin",     "sector_ids": [] },
+    { "id": "tkr:MSTR",  "symbol": "MSTR",  "name": "MicroStrategy",       "sector_ids": [] },
+    { "id": "tkr:COIN",  "symbol": "COIN",  "name": "Coinbase",            "sector_ids": [] },
+    { "id": "tkr:MARA",  "symbol": "MARA",  "name": "Marathon Digital",    "sector_ids": [] },
+    { "id": "tkr:RIOT",  "symbol": "RIOT",  "name": "Riot Platforms",      "sector_ids": [] },
+    { "id": "tkr:HOOD",  "symbol": "HOOD",  "name": "Robinhood",           "sector_ids": [] }
   ],
   "edges": [
     { "source": "theme:rate-cuts",    "target": "com:10y-yield",      "kind": "impacts",          "confidence": "direct",   "direction": "down", "rationale": "Fed easing lowers the front end; long end follows with term-premium dynamics." },
@@ -72,8 +80,10 @@
     { "source": "theme:rate-cuts",    "target": "tkr:TLT",            "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Long-duration Treasuries rally when rate expectations fall." },
     { "source": "theme:rate-cuts",    "target": "tkr:UUP",            "kind": "impacts",          "confidence": "inferred", "direction": "down", "rationale": "Narrower rate differentials typically weaken USD against peers." },
     { "source": "theme:inflation",    "target": "tkr:GLD",            "kind": "impacts",          "confidence": "inferred", "direction": "up",   "rationale": "Gold is a classical real-asset hedge against persistent inflation." },
-    { "source": "theme:oil-supply",   "target": "com:wti",            "kind": "impacts",          "confidence": "direct",   "direction": "mixed","rationale": "Supply shocks move spot crude; direction depends on whether the shock is additive or restrictive." },
-    { "source": "theme:oil-supply",   "target": "com:brent",          "kind": "correlated_with",  "confidence": "direct",   "direction": "mixed","rationale": "Brent tracks WTI with a basis; both respond to global supply shifts." },
+    { "source": "theme:oil-supply-cut",   "target": "com:wti",            "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "A supply restriction lifts spot crude by reducing the marginal barrel." },
+    { "source": "theme:oil-supply-cut",   "target": "com:brent",          "kind": "correlated_with",  "confidence": "direct",   "direction": "up",   "rationale": "Brent tracks WTI; both lift on a global supply restriction." },
+    { "source": "theme:oil-supply-add",   "target": "com:wti",            "kind": "impacts",          "confidence": "direct",   "direction": "down", "rationale": "Supply additions weigh on spot crude at the margin." },
+    { "source": "theme:oil-supply-add",   "target": "com:brent",          "kind": "correlated_with",  "confidence": "direct",   "direction": "down", "rationale": "Brent follows WTI on global supply expansion." },
     { "source": "com:wti",            "target": "sec:energy",         "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Oil majors' upstream cash flows scale with realized crude prices." },
     { "source": "com:wti",            "target": "tkr:XOM",            "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Integrated upstream P&L is a near-direct function of realized oil price." },
     { "source": "com:wti",            "target": "tkr:CVX",            "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Same mechanism as XOM; upstream earnings lever to crude." },
@@ -99,6 +109,12 @@
     { "source": "com:shipping-rates", "target": "sec:retail-discount","kind": "impacts",          "confidence": "inferred", "direction": "down", "rationale": "Import-heavy discount retailers cannot pass through shipping cost inflation without demand destruction." },
     { "source": "com:shipping-rates", "target": "tkr:DG",             "kind": "impacts",          "confidence": "inferred", "direction": "down", "rationale": "Import-mix-heavy assortment, thin margins; sensitive to freight and shipping inflation." },
     { "source": "theme:usd-strength", "target": "tkr:KO",             "kind": "impacts",          "confidence": "direct",   "direction": "down", "rationale": "KO reports majority non-US revenue; USD strength compresses translated earnings." },
-    { "source": "theme:usd-strength", "target": "tkr:WMT",            "kind": "impacts",          "confidence": "inferred", "direction": "up",   "rationale": "Strong USD lowers import input costs, benefiting domestic-sale-mix retailers." }
+    { "source": "theme:usd-strength", "target": "tkr:WMT",            "kind": "impacts",          "confidence": "inferred", "direction": "up",   "rationale": "Strong USD lowers import input costs, benefiting domestic-sale-mix retailers." },
+    { "source": "theme:crypto-rally", "target": "tkr:IBIT",           "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "IBIT holds spot BTC; price follows BTC 1:1 net of fees." },
+    { "source": "theme:crypto-rally", "target": "tkr:COIN",           "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Coinbase trading revenue scales with crypto volumes, which correlate with price rallies." },
+    { "source": "theme:crypto-rally", "target": "tkr:MSTR",           "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "MicroStrategy holds BTC on balance sheet as its core treasury asset." },
+    { "source": "theme:crypto-rally", "target": "tkr:MARA",           "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Bitcoin miner revenue is a direct function of BTC price for a given hash rate." },
+    { "source": "theme:crypto-rally", "target": "tkr:RIOT",           "kind": "impacts",          "confidence": "direct",   "direction": "up",   "rationale": "Same miner economics as MARA: revenue is BTC-price-linked." },
+    { "source": "theme:crypto-rally", "target": "tkr:HOOD",           "kind": "impacts",          "confidence": "inferred", "direction": "up",   "rationale": "Robinhood's crypto transaction-based revenue lifts with retail crypto activity." }
   ]
 }

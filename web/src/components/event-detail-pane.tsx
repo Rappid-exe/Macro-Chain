@@ -2,16 +2,17 @@
 
 import { useState } from "react";
 import { FileText } from "lucide-react";
-import type { EventSummary } from "@/lib/types";
+import type { EventDetail } from "@/lib/types";
 import { CausalGraphView } from "./causal-graph-view";
+import { PriceSparkline } from "./price-sparkline";
 import { ReportDrawer } from "./report-drawer";
 
-export function EventDetailPane({ event }: { event: EventSummary }) {
+export function EventDetailPane({ event }: { event: EventDetail }) {
   const [reportOpen, setReportOpen] = useState(false);
 
   return (
     <div className="grid h-full grid-cols-1 gap-4 lg:grid-cols-[minmax(0,380px)_1fr]">
-      {/* Left: event summary + price chart placeholder */}
+      {/* Left: event summary + price chart */}
       <aside className="flex flex-col gap-4 overflow-y-auto rounded-lg border border-border bg-bg-raised p-4">
         <div>
           <h2 className="text-base font-medium leading-snug text-fg">
@@ -24,13 +25,17 @@ export function EventDetailPane({ event }: { event: EventSummary }) {
           )}
         </div>
 
-        <div className="rounded-md border border-border bg-bg-sunken p-4">
-          <div className="text-[10px] uppercase tracking-wider text-fg-faint">
-            Price history
+        <div className="rounded-md border border-border bg-bg-sunken p-3">
+          <div className="flex items-baseline justify-between">
+            <span className="text-[10px] uppercase tracking-wider text-fg-faint">
+              Yes price (max interval)
+            </span>
+            <span className="text-[10px] text-fg-faint">
+              {event.history.length} pts
+            </span>
           </div>
-          <div className="mt-3 flex h-28 items-end justify-center text-xs text-fg-faint">
-            {/* Chart stub. When API is wired, swap for a recharts line chart. */}
-            chart pending
+          <div className="mt-2">
+            <PriceSparkline history={event.history} />
           </div>
         </div>
 
@@ -43,13 +48,24 @@ export function EventDetailPane({ event }: { event: EventSummary }) {
           />
           <Stat
             label="Volume 24h"
-            value={`$${(event.volume_24h / 1000).toFixed(0)}K`}
+            value={formatMoney(event.volume_24h)}
           />
           <Stat
             label="Impact score"
             value={event.impact_score?.toString() ?? "—"}
           />
         </dl>
+
+        {event.description && (
+          <details className="group rounded-md border border-border bg-bg-sunken p-3 text-xs">
+            <summary className="cursor-pointer select-none text-fg-muted hover:text-fg">
+              Resolution criteria
+            </summary>
+            <p className="mt-2 whitespace-pre-wrap text-[11px] leading-relaxed text-fg-muted">
+              {event.description}
+            </p>
+          </details>
+        )}
 
         <button
           onClick={() => setReportOpen(true)}
@@ -72,6 +88,12 @@ export function EventDetailPane({ event }: { event: EventSummary }) {
       />
     </div>
   );
+}
+
+function formatMoney(v: number) {
+  if (v >= 1_000_000) return `$${(v / 1_000_000).toFixed(1)}M`;
+  if (v >= 1_000) return `$${(v / 1_000).toFixed(0)}K`;
+  return `$${Math.round(v)}`;
 }
 
 function Stat({
