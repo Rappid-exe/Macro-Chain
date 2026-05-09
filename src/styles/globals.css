@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "Inter";
+  src: url("/src/fonts/inter-var.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette */
+  --color-bg-primary: #050505;
+  --color-surface: #1a1a1a;
+  --color-border: rgba(42, 42, 42, 0.2);
+  --color-text-primary: #eaeaea;
+  --color-text-secondary: #bdbdbd;
+  --color-signal-green: #00e676;
+
+  /* Typography */
+  --font-family: "Inter", -apple-system, "SF Pro Display", sans-serif;
+
+  /* Borders */
+  --radius: 2px;
+}
