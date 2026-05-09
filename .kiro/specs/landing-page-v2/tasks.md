@@ -139,7 +139,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Buttons announced with full label text to assistive technologies
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7_
 
-- [-] 8. Checkpoint - Verify above-fold and mid-page sections
+- [x] 8. Checkpoint - Verify above-fold and mid-page sections
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: Hero renders with animation, Alpha Decay shows 3 columns on desktop, Agent Stack has bento layout, Workflow buttons have icons
 
@@ -216,7 +216,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Test bottom bar contains copyright and legal links
     - _Requirements: 10.1, 10.2, 10.3, 10.4_
 
-- [ ] 14. Checkpoint - Verify all sections render correctly
+- [-] 14. Checkpoint - Verify all sections render correctly
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: all sections render, content matches V1, new sections (FAQ, Proof of Alpha, Footer, Waitlist) display correctly
 
