@@ -155,7 +155,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Ensure focus indicators: 2px width, 3:1 contrast ratio against adjacent colours
     - _Requirements: 10.3, 10.4, 10.5, 10.6_
 
-  - [ ]* 10.2 Write accessibility tests with axe-core
+  - [x]* 10.2 Write accessibility tests with axe-core
     - Set up @axe-core/playwright integration
     - Run automated WCAG 2.1 AA audit on full page
     - Verify colour contrast ratios (4.5:1 body text, 3:1 large text and interactive boundaries)
@@ -163,7 +163,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify heading hierarchy (no skipped levels)
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6_
 
-- [~] 11. Checkpoint - Full page integration
+- [x] 11. Checkpoint - Full page integration
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 12. Set up testing infrastructure and write integration tests
@@ -174,14 +174,14 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add test scripts to `package.json` (`test:unit`, `test:e2e`, `test:a11y`)
     - _Requirements: 9.1, 10.1_
 
-  - [ ]* 12.2 Write E2E responsive layout tests
+  - [x]* 12.2 Write E2E responsive layout tests
     - Test Alpha Decay Section: 3 columns at >768px, 1 column at ≤768px
     - Test Agent Stack Section: 2 columns at ≥1024px, 1 column at <1024px
     - Test no horizontal overflow at 320px and 2560px viewport widths
     - Test body text minimum computed font size ≥16px at all breakpoints
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.6_
 
-  - [ ]* 12.3 Write E2E navigation and interaction tests
+  - [x]* 12.3 Write E2E navigation and interaction tests
     - Test primary CTA navigates to `/terminal`
     - Test secondary CTA navigates to `/alphas`
     - Test keyboard tab order matches visual order
@@ -189,7 +189,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 1.5, 1.6, 10.4, 10.6_
 
 - [ ] 13. Performance optimisation and Lighthouse CI
-  - [~] 13.1 Optimise for Core Web Vitals targets
+  - [-] 13.1 Optimise for Core Web Vitals targets
     - Verify font preload eliminates render-blocking
     - Verify critical CSS inline prevents layout shift (CLS ≤ 0.1)
     - Verify no layout shifts from font swap (explicit dimensions or font-size-adjust)
