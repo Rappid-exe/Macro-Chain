@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -22,9 +22,6 @@ const KIND_ORDER: Record<GraphNode["kind"], number> = {
   ticker: 3,
 };
 
-// Column layout, with tickers wrapping into multiple sub-columns when there
-// are many. This keeps the graph readable for events that touch a whole
-// sector (e.g. Bitcoin -> 6 crypto names).
 function layout(graph: CausalGraph): Node[] {
   const columns: Record<number, GraphNode[]> = {};
   for (const n of graph.nodes) {
@@ -32,9 +29,9 @@ function layout(graph: CausalGraph): Node[] {
     (columns[col] ||= []).push(n);
   }
 
-  const colGap = 260;
-  const rowGap = 80;
-  const maxRowsPerCol = 6;
+  const colGap = 240;
+  const rowGap = 72;
+  const maxRowsPerCol = 7;
 
   const out: Node[] = [];
   for (const [colStr, nodes] of Object.entries(columns)) {
@@ -47,7 +44,7 @@ function layout(graph: CausalGraph): Node[] {
         subCol === subCols - 1
           ? nodes.length - subCol * maxRowsPerCol
           : maxRowsPerCol;
-      const x = col * colGap + subCol * (colGap * 0.75);
+      const x = col * colGap + subCol * (colGap * 0.7);
       const y = (rowInCol - (rowsInThisSubCol - 1) / 2) * rowGap;
       out.push({
         id: n.id,
@@ -61,9 +58,9 @@ function layout(graph: CausalGraph): Node[] {
 }
 
 const CONF_STROKE: Record<EdgeConfidence, string> = {
-  direct: "#7cf0a0",
-  inferred: "#8b93a1",
-  speculative: "#596170",
+  direct: "#ffa940", // amber for grounded
+  inferred: "#888888",
+  speculative: "#444444",
 };
 
 function toRFEdges(graph: CausalGraph): Edge[] {
@@ -72,55 +69,21 @@ function toRFEdges(graph: CausalGraph): Edge[] {
     source: e.source,
     target: e.target,
     className: e.confidence,
-    style: { stroke: CONF_STROKE[e.confidence], strokeWidth: 1.5 },
-    markerEnd: { type: MarkerType.ArrowClosed, color: CONF_STROKE[e.confidence] },
+    style: {
+      stroke: CONF_STROKE[e.confidence],
+      strokeWidth: 1.25,
+    },
+    markerEnd: {
+      type: MarkerType.ArrowClosed,
+      color: CONF_STROKE[e.confidence],
+    },
     data: { rationale: e.rationale, confidence: e.confidence, kind: e.kind },
   }));
 }
 
-export function CausalGraphView({ eventId }: { eventId: string }) {
-  const [graph, setGraph] = useState<CausalGraph | null>(null);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    let cancelled = false;
-    setGraph(null);
-    setError(null);
-
-    fetch(`/api/py/events/${encodeURIComponent(eventId)}/graph`)
-      .then(async (r) => {
-        if (!r.ok) throw new Error(`api ${r.status}`);
-        return (await r.json()) as CausalGraph;
-      })
-      .then((g) => {
-        if (!cancelled) setGraph(g);
-      })
-      .catch((err) => {
-        if (!cancelled) setError(String(err));
-      });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [eventId]);
-
-  const rfNodes = useMemo(() => (graph ? layout(graph) : []), [graph]);
-  const rfEdges = useMemo(() => (graph ? toRFEdges(graph) : []), [graph]);
-
-  if (error) {
-    return (
-      <div className="flex h-full w-full items-center justify-center p-8 text-sm text-accent-down">
-        Failed to load graph: {error}
-      </div>
-    );
-  }
-  if (!graph) {
-    return (
-      <div className="flex h-full w-full items-center justify-center p-8 text-sm text-fg-muted">
-        Building causal chain…
-      </div>
-    );
-  }
+export function CausalGraphView({ graph }: { graph: CausalGraph }) {
+  const rfNodes = useMemo(() => layout(graph), [graph]);
+  const rfEdges = useMemo(() => toRFEdges(graph), [graph]);
 
   return (
     <div className="h-full w-full">
@@ -133,12 +96,12 @@ export function CausalGraphView({ eventId }: { eventId: string }) {
         proOptions={{ hideAttribution: true }}
         minZoom={0.3}
         maxZoom={1.5}
+        nodesDraggable={false}
+        nodesConnectable={false}
+        panOnDrag
       >
-        <Background color="#1e232b" gap={20} />
-        <Controls
-          showInteractive={false}
-          className="!bg-bg-sunken !border-border"
-        />
+        <Background color="#111111" gap={24} />
+        <Controls showInteractive={false} />
       </ReactFlow>
       <GraphLegend />
     </div>
@@ -147,33 +110,35 @@ export function CausalGraphView({ eventId }: { eventId: string }) {
 
 function GraphLegend() {
   return (
-    <div className="pointer-events-none absolute bottom-3 left-3 flex flex-col gap-1 rounded-md border border-border bg-bg-sunken/90 p-2 text-[10px] text-fg-muted backdrop-blur">
-      <div className="mb-0.5 font-mono uppercase tracking-wider text-fg-faint">
-        Edges
-      </div>
-      <div className="flex items-center gap-2">
-        <span className="h-px w-6 bg-accent" /> direct
-      </div>
-      <div className="flex items-center gap-2">
-        <span
-          className="h-px w-6"
-          style={{
-            background:
-              "repeating-linear-gradient(to right,#8b93a1 0 4px,transparent 4px 8px)",
-          }}
-        />{" "}
-        inferred
-      </div>
-      <div className="flex items-center gap-2">
-        <span
-          className="h-px w-6"
-          style={{
-            background:
-              "repeating-linear-gradient(to right,#596170 0 2px,transparent 2px 4px)",
-          }}
-        />{" "}
-        speculative
-      </div>
+    <div className="pointer-events-none absolute bottom-3 left-3 flex flex-col gap-1 border border-border bg-bg-sunken/90 p-2 text-[9px] uppercase tracking-wider text-fg-muted backdrop-blur">
+      <div className="mb-0.5 text-fg-faint">edges</div>
+      <LegendRow color="#ffa940" label="direct" />
+      <LegendRow color="#888888" label="inferred" dashed />
+      <LegendRow color="#444444" label="speculative" dashed />
+    </div>
+  );
+}
+
+function LegendRow({
+  color,
+  label,
+  dashed,
+}: {
+  color: string;
+  label: string;
+  dashed?: boolean;
+}) {
+  return (
+    <div className="flex items-center gap-2">
+      <span
+        className="h-px w-6"
+        style={{
+          background: dashed
+            ? `repeating-linear-gradient(to right,${color} 0 3px,transparent 3px 6px)`
+            : color,
+        }}
+      />
+      {label}
     </div>
   );
 }

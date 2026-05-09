@@ -1,36 +1,53 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * Godel Terminal–inspired palette. Pure black base, amber accent, green
+ * for bullish signals, red for bearish. Monospace is the default body
+ * font — this is a Bloomberg-style tool, not a consumer web app.
+ */
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        // Dark analyst palette. Avoid the shadcn default slate look; it reads
-        // generic. Slight warm tint on the surfaces so charts pop.
         bg: {
-          DEFAULT: "#0b0d10",
-          raised: "#12151a",
-          sunken: "#070809",
+          DEFAULT: "#000000",
+          raised: "#0a0a0a",
+          sunken: "#050505",
         },
         border: {
-          DEFAULT: "#1e232b",
-          strong: "#2a3038",
+          DEFAULT: "#1a1a1a",
+          strong: "#2a2a2a",
         },
         fg: {
-          DEFAULT: "#e6e8eb",
-          muted: "#8b93a1",
-          faint: "#596170",
+          DEFAULT: "#e8e8e8",
+          muted: "#888888",
+          faint: "#555555",
         },
         accent: {
-          DEFAULT: "#7cf0a0", // up / bullish
-          down: "#ff7b7b",    // down / bearish
-          warn: "#f5c563",
+          DEFAULT: "#ffa940", // amber — Godel / Bloomberg signature
+          up: "#7cf0a0",
+          down: "#ff5555",
           info: "#6ea8ff",
+          warn: "#f5c563",
         },
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+        mono: [
+          "JetBrains Mono",
+          "IBM Plex Mono",
+          "ui-monospace",
+          "SFMono-Regular",
+          "Menlo",
+          "Consolas",
+          "monospace",
+        ],
+        sans: [
+          "JetBrains Mono",
+          "IBM Plex Mono",
+          "ui-monospace",
+          "monospace",
+        ],
       },
     },
   },

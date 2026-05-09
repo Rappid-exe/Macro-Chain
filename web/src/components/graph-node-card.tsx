@@ -6,71 +6,89 @@ import { cn } from "@/lib/cn";
 import type { GraphNode } from "@/lib/types";
 
 /**
- * A single node in the causal graph. Styled per node kind so the
- * hierarchy reads at a glance: event (far left), themes, commodities /
- * sectors, tickers (right).
+ * A node in the causal graph, terminal-style. Rectangular, mono font,
+ * tight padding, bracketed kind tag. Tickers show direction arrow.
  */
 export function GraphNodeCard({ data }: NodeProps<{ node: GraphNode }>) {
   const n = data.node;
 
   const kindStyles: Record<GraphNode["kind"], string> = {
-    event:
-      "border-fg/40 bg-fg/5 text-fg max-w-[260px]",
-    theme:
-      "border-accent-info/40 bg-accent-info/5 text-accent-info max-w-[220px]",
+    event: "border-accent bg-black text-fg max-w-[240px]",
+    theme: "border-accent-info/60 bg-black text-accent-info max-w-[200px]",
     commodity:
-      "border-accent-warn/40 bg-accent-warn/5 text-accent-warn max-w-[180px]",
-    sector:
-      "border-fg-muted/30 bg-bg-sunken text-fg-muted max-w-[180px]",
-    ticker:
-      "border-border-strong bg-bg-sunken text-fg max-w-[180px]",
+      "border-accent-warn/60 bg-black text-accent-warn max-w-[180px]",
+    sector: "border-border-strong bg-black text-fg-muted max-w-[180px]",
+    ticker: "border-border-strong bg-black text-fg max-w-[170px]",
+  };
+
+  const kindLabel: Record<GraphNode["kind"], string> = {
+    event: "EVT",
+    theme: "THM",
+    commodity: "COM",
+    sector: "SEC",
+    ticker: "TKR",
   };
 
   const arrow =
     n.direction === "up" ? (
-      <ArrowUp size={12} className="text-accent" />
+      <ArrowUp size={10} className="text-accent-up" />
     ) : n.direction === "down" ? (
-      <ArrowDown size={12} className="text-accent-down" />
+      <ArrowDown size={10} className="text-accent-down" />
     ) : n.direction === "mixed" ? (
-      <Minus size={12} className="text-accent-warn" />
+      <Minus size={10} className="text-accent-warn" />
     ) : null;
+
+  const tickerTone =
+    n.direction === "up"
+      ? "text-accent-up"
+      : n.direction === "down"
+        ? "text-accent-down"
+        : n.direction === "mixed"
+          ? "text-accent-warn"
+          : "text-fg";
 
   return (
     <div
       className={cn(
-        "rounded-md border px-3 py-2 text-xs shadow-sm transition",
+        "border px-2 py-1.5 font-mono text-[11px] leading-tight",
         kindStyles[n.kind],
       )}
     >
       <Handle
         type="target"
         position={Position.Left}
-        className="!border-0 !bg-border"
+        className="!h-0 !w-0 !border-0 !bg-transparent"
       />
       <div className="flex items-center gap-1.5">
+        <span className="text-[8px] uppercase tracking-wider text-fg-faint">
+          [{kindLabel[n.kind]}]
+        </span>
         {n.kind === "ticker" && arrow}
         <span
           className={cn(
-            "font-medium leading-snug",
-            n.kind === "ticker" && "font-mono",
+            "font-semibold",
+            n.kind === "ticker" && tickerTone,
             n.kind === "event" && "line-clamp-3 whitespace-normal",
           )}
         >
-          {n.kind === "event" ? n.label : truncate(n.label, 36)}
+          {n.kind === "event" ? n.label : truncate(n.label, 30)}
         </span>
       </div>
-      {n.sublabel && (
-        <div className="mt-0.5 text-[10px] text-fg-faint">{n.sublabel}</div>
+      {n.sublabel && n.kind !== "ticker" && (
+        <div className="mt-0.5 text-[9px] text-fg-faint">{n.sublabel}</div>
       )}
-      {n.kind === "ticker" && typeof n.magnitude === "number" && (
-        <div className="mt-0.5 font-mono text-[10px] text-fg-faint">
-          {Math.round(n.magnitude)} bps
+      {n.kind === "ticker" && (
+        <div className="mt-0.5 flex items-center justify-between text-[9px] text-fg-faint">
+          <span className="truncate">{n.sublabel}</span>
+          {typeof n.magnitude === "number" && (
+            <span className="tabular-nums">{Math.round(n.magnitude)}bp</span>
+          )}
         </div>
       )}
       <Handle
         type="source"
         position={Position.Right}
-        className="!border-0 !bg-border"
+        className="!h-0 !w-0 !border-0 !bg-transparent"
       />
     </div>
   );
