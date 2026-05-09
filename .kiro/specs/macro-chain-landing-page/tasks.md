@@ -214,7 +214,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify no warm-toned hues (HSL hue 0°–60°) in any CSS colour value
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 6.3, 6.8_
 
-- [-] 15. Final checkpoint - Complete validation
+- [x] 15. Final checkpoint - Complete validation
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
