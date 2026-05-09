@@ -2,6 +2,9 @@
 @import './tokens.css';
 @import './reset.css';
 @import './buttons.css';
+@import './sections/alpha-decay.css';
+@import './agent-stack.css';
+@import './sections.css';
 
 body {
   font-family: var(--font-family);

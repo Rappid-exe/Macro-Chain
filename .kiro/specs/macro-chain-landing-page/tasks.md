@@ -41,8 +41,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Ensure all interactive elements meet 44x44px minimum touch target
     - _Requirements: 6.3, 6.5, 8.5, 10.4_
 
-- [ ] 3. Implement Hero Section
-  - [-] 3.1 Build Hero Section HTML and styles
+- [x] 3. Implement Hero Section
+  - [x] 3.1 Build Hero Section HTML and styles
     - Add `<section id="hero" aria-labelledby="hero-heading">` with semantic structure
     - Add `<h1 id="hero-heading">` with text "Stop Trading the News. Trade the Ripple."
     - Add `<p class="hero-sub">` with sub-headline text about third-order equity impacts
@@ -60,8 +60,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify single h1 element exists on page
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
-- [ ] 4. Implement Alpha Decay Section
-  - [-] 4.1 Build Alpha Decay Section HTML and styles
+- [x] 4. Implement Alpha Decay Section
+  - [x] 4.1 Build Alpha Decay Section HTML and styles
     - Add `<section id="alpha-decay" aria-labelledby="alpha-decay-heading">`
     - Add `<h2 id="alpha-decay-heading">The Alpha Decay Problem</h2>`
     - Create three-column CSS Grid layout (`repeat(3, 1fr)` above 768px, `1fr` below)
@@ -76,8 +76,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify 3rd Order column has Signal Green border-left
     - _Requirements: 2.2, 2.3, 2.4, 2.6_
 
-- [ ] 5. Implement Agent Stack Section
-  - [-] 5.1 Build Agent Stack Feature Grid HTML and styles
+- [x] 5. Implement Agent Stack Section
+  - [x] 5.1 Build Agent Stack Feature Grid HTML and styles
     - Add `<section id="agent-stack" aria-labelledby="agent-stack-heading">`
     - Add `<h2 id="agent-stack-heading">` with appropriate section heading
     - Create 2x2 CSS Grid layout (`repeat(2, 1fr)` at ≥1024px, `1fr` below)
@@ -97,7 +97,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Implement Workflow Integration Section
-  - [ ] 7.1 Build Workflow Integration Section HTML and styles
+  - [-] 7.1 Build Workflow Integration Section HTML and styles
     - Add `<section id="workflow" aria-labelledby="workflow-heading">`
     - Add `<h2 id="workflow-heading">` with section heading (e.g., "Integrations" or "Workflow")
     - Add section copy: "Own the most painful 30 minutes of your research day. Automated causal mapping with one-click export to your team's workspace."
@@ -113,7 +113,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 4.1, 4.3_
 
 - [ ] 8. Implement Technical Proof Section
-  - [ ] 8.1 Build Technical Proof Section HTML and styles
+  - [-] 8.1 Build Technical Proof Section HTML and styles
     - Add `<section id="technical-proof" aria-labelledby="technical-proof-heading">`
     - Add `<h2 id="technical-proof-heading">` with appropriate section heading
     - Write Shannon Entropy explanation (≤50 words): named concept + plain-language role description

@@ -1,0 +1,56 @@
+/* Section-specific styles */
+
+/* Hero Section */
+#hero {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 100vh;
+  max-height: 100vh;
+  padding: var(--space-lg) var(--space-md);
+  max-width: var(--max-width);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+#hero-heading {
+  font-size: var(--font-size-h1);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.1;
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.hero-sub {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+  max-width: 680px;
+  line-height: 1.6;
+  margin: 0 0 var(--space-md) 0;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+/* Ensure hero fits above the fold on 1024x768 */
+@media (min-width: 1024px) and (min-height: 768px) {
+  #hero {
+    min-height: auto;
+    max-height: none;
+    padding-top: var(--space-xl);
+    padding-bottom: var(--space-xl);
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  #hero {
+    padding: var(--space-md) var(--space-sm);
+    min-height: 100vh;
+    min-height: 100dvh;
+  }
+}
