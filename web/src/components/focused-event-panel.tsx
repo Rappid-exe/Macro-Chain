@@ -54,7 +54,7 @@ export function FocusedEventPanel({
 
   if (!summary) {
     return (
-      <section className="flex min-h-0 flex-col items-center justify-center bg-bg text-[11px] text-fg-faint">
+      <section className="flex h-full min-h-0 flex-col items-center justify-center bg-bg text-[11px] text-fg-faint">
         No event selected.
       </section>
     );
@@ -65,7 +65,7 @@ export function FocusedEventPanel({
   const isUp = deltaPP >= 0;
 
   return (
-    <section className="flex min-h-0 flex-col overflow-y-auto bg-bg">
+    <section className="flex h-full min-h-0 flex-col overflow-y-auto bg-bg">
       {/* Header block */}
       <div className="border-b border-border bg-bg-sunken/40 px-4 pb-3 pt-3">
         <div className="flex items-center justify-between">

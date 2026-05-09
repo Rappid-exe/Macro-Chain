@@ -67,7 +67,7 @@ export function EventListPanel({
     s === "all" ? events.length : events.filter((e) => e.sector === s).length;
 
   return (
-    <aside className="flex min-h-0 flex-col bg-bg">
+    <aside className="flex h-full min-h-0 flex-col bg-bg">
       {/* Sector tabs */}
       <div className="flex border-b border-border text-[10px] tracking-wider">
         {SECTORS.map((s) => {

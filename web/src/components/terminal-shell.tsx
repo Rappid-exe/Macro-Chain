@@ -72,7 +72,7 @@ export function TerminalShell({
         autoSaveId="macro-chain:layout"
         className="min-h-0 flex-1"
       >
-        <Panel defaultSize={22} minSize={16} maxSize={40}>
+        <Panel defaultSize={22} minSize={16} maxSize={40} className="!overflow-hidden">
           <EventListPanel
             events={events}
             filtered={filtered}
@@ -83,7 +83,7 @@ export function TerminalShell({
           />
         </Panel>
         <ResizeHandle />
-        <Panel defaultSize={38} minSize={24}>
+        <Panel defaultSize={38} minSize={24} className="!overflow-hidden">
           <FocusedEventPanel
             summary={filtered.find((e) => e.id === selected) ?? null}
             detail={detail}
@@ -91,7 +91,7 @@ export function TerminalShell({
           />
         </Panel>
         <ResizeHandle />
-        <Panel defaultSize={40} minSize={24}>
+        <Panel defaultSize={40} minSize={24} className="!overflow-hidden">
           <GraphPanel eventId={selected} />
         </Panel>
       </PanelGroup>

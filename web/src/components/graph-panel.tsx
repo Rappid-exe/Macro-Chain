@@ -58,7 +58,7 @@ export function GraphPanel({ eventId }: { eventId: string | null }) {
     : {};
 
   return (
-    <section className="flex min-h-0 flex-col bg-bg">
+    <section className="flex h-full min-h-0 flex-col bg-bg">
       {/* Graph title bar */}
       <div className="flex shrink-0 items-center justify-between border-b border-border bg-bg-sunken/40 px-4 py-1.5">
         <SectionHeader>Causal Graph</SectionHeader>
