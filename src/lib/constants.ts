@@ -71,27 +71,27 @@ export const ALPHA_DECAY_CARDS: AlphaDecayCard[] = [
 
 export const AGENT_CARDS: AgentCard[] = [
   {
-    title: "The Scraper",
+    title: "The Detector",
     description:
-      "Real-time monitoring of Polymarket, Kalshi, and industrial news APIs.",
+      "Monitors real-time prediction markets and financial news feeds to identify high-impact global triggers.",
     emphasis: "standard",
   },
   {
-    title: "The Auditor",
+    title: "The Architect",
     description:
-      "Autonomous parsing of 10-K filings and global shipping manifests to find hidden dependencies.",
-    emphasis: "highlighted",
+      "Automatically parses corporate reports and trade data to build a logical map of industrial connections.",
+    emphasis: "standard",
   },
   {
-    title: "The Entropy Model",
+    title: "The Analyst",
     description:
-      "Mathematical modelling of 'Information Decay' to determine if a link is already priced in.",
-    emphasis: "highlighted",
+      "Evaluates the strength of the causal link to determine which specific equities are most likely to be affected.",
+    emphasis: "standard",
   },
   {
-    title: "The Reporter",
+    title: "The Publisher",
     description:
-      "Institutional-grade briefs delivered instantly to your existing workflow.",
+      "Generates structured institutional reports and downloadable briefs directly within the Macro-Chain terminal.",
     emphasis: "standard",
   },
 ];
