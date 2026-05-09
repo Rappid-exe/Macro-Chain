@@ -32,6 +32,7 @@ export default function AgentStackSection() {
 
   return (
     <section
+      id="agents"
       aria-labelledby="agent-stack-heading"
       className="bg-[#030303] px-6 py-24 lg:px-16"
     >

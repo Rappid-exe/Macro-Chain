@@ -18,10 +18,10 @@ export default function AlphaDecaySection() {
         id="alpha-decay-heading"
         className="mb-4 text-center text-3xl font-bold text-white"
       >
-        Why 3rd-Order Signals Matter
+        The Information Gap
       </h2>
       <p className="mb-16 text-center text-white/50 max-w-2xl mx-auto">
-        Most traders react to headlines. The real edge lives in the causal connections they miss.
+        Most traders react to headlines. We map the structural dependencies they miss.
       </p>
 
       <div className="mx-auto flex flex-wrap justify-center gap-8 max-w-6xl">

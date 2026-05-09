@@ -32,54 +32,9 @@ interface MenuItem {
 
 const menu: MenuItem[] = [
   { title: "Home", url: "#" },
-  {
-    title: "Product",
-    url: "#",
-    items: [
-      {
-        title: "Terminal",
-        description: "Real-time causal intelligence dashboard",
-        icon: <BarChart3 className="size-5 shrink-0" />,
-        url: "#terminal",
-      },
-      {
-        title: "API",
-        description: "Programmatic access to causal maps and alerts",
-        icon: <Zap className="size-5 shrink-0" />,
-        url: "#api",
-      },
-      {
-        title: "Backtesting",
-        description: "Validate signals against historical data",
-        icon: <Brain className="size-5 shrink-0" />,
-        url: "#backtesting",
-      },
-    ],
-  },
-  {
-    title: "Research",
-    url: "#",
-    items: [
-      {
-        title: "Methodology",
-        description: "How our Bayesian causal networks work",
-        icon: <Brain className="size-5 shrink-0" />,
-        url: "#methodology",
-      },
-      {
-        title: "Documentation",
-        description: "Technical guides and API reference",
-        icon: <Book className="size-5 shrink-0" />,
-        url: "#docs",
-      },
-      {
-        title: "White Papers",
-        description: "Published research on information decay",
-        icon: <FileText className="size-5 shrink-0" />,
-        url: "#papers",
-      },
-    ],
-  },
+  { title: "Agents", url: "#agents" },
+  { title: "FAQ", url: "#faq" },
+  { title: "Contact", url: "#contact" },
 ];
 
 const mobileExtraLinks = [
