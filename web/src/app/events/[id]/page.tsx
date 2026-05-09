@@ -2,8 +2,26 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { FIXTURE_EVENTS } from "@/lib/fixtures";
+import type { EventDetail } from "@/lib/types";
 import { SectorBadge } from "@/components/sector-badge";
 import { EventDetailPane } from "@/components/event-detail-pane";
+
+async function fetchEvent(id: string): Promise<EventDetail | null> {
+  const base = process.env.PY_API_URL ?? "http://localhost:8000";
+  try {
+    const res = await fetch(`${base}/events/${encodeURIComponent(id)}`, {
+      next: { revalidate: 30 },
+    });
+    if (res.status === 404) return null;
+    if (!res.ok) throw new Error(`api ${res.status}`);
+    return (await res.json()) as EventDetail;
+  } catch (err) {
+    console.warn(`event ${id} fetch failed, trying fixtures:`, err);
+    const fx = FIXTURE_EVENTS.find((e) => e.id === id);
+    if (!fx) return null;
+    return { ...fx, description: "", history: [] };
+  }
+}
 
 export default async function EventDetailPage({
   params,
@@ -11,7 +29,7 @@ export default async function EventDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const event = FIXTURE_EVENTS.find((e) => e.id === id);
+  const event = await fetchEvent(id);
   if (!event) notFound();
 
   const pct = Math.round(event.yes_price * 100);

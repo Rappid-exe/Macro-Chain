@@ -15,8 +15,9 @@ class Settings(BaseSettings):
     kalshi_api_url: str = "https://api.elections.kalshi.com/trade-api/v2"
 
     # When True, the API returns fixture data instead of calling upstream
-    # markets. Useful for offline demo and for CI.
-    use_fixtures: bool = True
+    # markets. Default False so live ingestion runs; flip to True for
+    # offline demos or CI. Override via env var USE_FIXTURES=true.
+    use_fixtures: bool = False
 
 
 settings = Settings()
