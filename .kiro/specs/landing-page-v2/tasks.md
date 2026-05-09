@@ -6,7 +6,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
 
 ## Tasks
 
-- [ ] 1. Project scaffolding and build configuration
+- [x] 1. Project scaffolding and build configuration
   - [x] 1.1 Initialise React + TypeScript project structure
     - Install dependencies: react, react-dom, @vitejs/plugin-react, typescript, @types/react, @types/react-dom, tailwindcss, postcss, autoprefixer, framer-motion, @radix-ui/react-slot, class-variance-authority, lucide-react, clsx, tailwind-merge
     - Update `package.json` with new dependencies and adjust scripts
@@ -23,7 +23,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Import `globals.css` in `src/main.tsx`
     - _Requirements: 1.2, 11.1, 11.2, 11.3, 11.4, 11.5_
 
-  - [-] 1.3 Set up shadcn/ui infrastructure
+  - [x] 1.3 Set up shadcn/ui infrastructure
     - Create `components.json` at project root with shadcn/ui configuration (style: default, tailwind config path, components alias, utils alias)
     - Create `src/lib/cn.ts` with `clsx` + `tailwind-merge` utility function
     - Create `src/components/ui/button.tsx` using class-variance-authority with variants (default: Signal Green bg, secondary: surface with green border, outline, ghost) and sizes (default, sm, lg, icon) with `asChild` prop via `@radix-ui/react-slot`
@@ -38,13 +38,13 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Include skip-navigation link as first focusable element: `<a href="#main-content" className="...">Skip to main content</a>`
     - _Requirements: 1.6, 12.4, 13.8_
 
-  - [-] 2.2 Create static content constants and data types
+  - [x] 2.2 Create static content constants and data types
     - Create `src/lib/constants.ts` with all text content: hero headline/sub-headline, alpha decay cards, agent stack cards, workflow copy, FAQ items, signal items, footer links
     - Create `src/lib/types.ts` with TypeScript interfaces: `SignalItem`, `AgentCard`, `AlphaDecayCard`, `FAQItem`, `FooterLinkGroup`, `SocialLink`
     - Ensure all text uses UK English spelling, no em/en dashes, no exclamation marks, no subjective superlatives
     - _Requirements: 1.5, 4.5, 5.3, 7.2, 7.3, 7.4, 15.1, 15.2, 15.3, 15.4_
 
-  - [-] 2.3 Create useReducedMotion hook
+  - [x] 2.3 Create useReducedMotion hook
     - Create `src/hooks/use-reduced-motion.ts` wrapping framer-motion's `useReducedMotion()` hook
     - Export for use across all animated components
     - _Requirements: 2.6, 3.7, 4.6, 13.5_
