@@ -1,10 +1,12 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import ReactFlow, {
   Background,
   Controls,
   MarkerType,
+  ReactFlowProvider,
+  useReactFlow,
   type Edge,
   type Node,
 } from "reactflow";
@@ -58,7 +60,7 @@ function layout(graph: CausalGraph): Node[] {
 }
 
 const CONF_STROKE: Record<EdgeConfidence, string> = {
-  direct: "#ffa940", // amber for grounded
+  direct: "#ffa940",
   inferred: "#888888",
   speculative: "#444444",
 };
@@ -81,28 +83,57 @@ function toRFEdges(graph: CausalGraph): Edge[] {
   }));
 }
 
+/**
+ * Child of ReactFlowProvider that re-fits the viewport whenever the
+ * underlying node set changes. Without this, React Flow keeps its
+ * previous viewport when the event changes and the new graph either
+ * looks squished in a corner or is entirely off-screen.
+ */
+function AutoFit({ nodeIds }: { nodeIds: string }) {
+  const { fitView } = useReactFlow();
+  useEffect(() => {
+    // Defer one frame so React Flow has mounted the new nodes before
+    // we ask for a fit. Without the rAF, fitView runs against the old
+    // node positions and the viewport lands in the wrong place.
+    const id = requestAnimationFrame(() => {
+      fitView({ padding: 0.2, duration: 250 });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [nodeIds, fitView]);
+  return null;
+}
+
 export function CausalGraphView({ graph }: { graph: CausalGraph }) {
   const rfNodes = useMemo(() => layout(graph), [graph]);
   const rfEdges = useMemo(() => toRFEdges(graph), [graph]);
 
+  // Stable token of the current node set; changes when event switches.
+  const nodeIds = useMemo(
+    () => graph.nodes.map((n) => n.id).join("|"),
+    [graph],
+  );
+
   return (
-    <div className="h-full w-full">
-      <ReactFlow
-        nodes={rfNodes}
-        edges={rfEdges}
-        nodeTypes={nodeTypes}
-        fitView
-        fitViewOptions={{ padding: 0.2 }}
-        proOptions={{ hideAttribution: true }}
-        minZoom={0.3}
-        maxZoom={1.5}
-        nodesDraggable={false}
-        nodesConnectable={false}
-        panOnDrag
-      >
-        <Background color="#111111" gap={24} />
-        <Controls showInteractive={false} />
-      </ReactFlow>
+    <div className="relative h-full w-full">
+      <ReactFlowProvider>
+        <ReactFlow
+          nodes={rfNodes}
+          edges={rfEdges}
+          nodeTypes={nodeTypes}
+          fitView
+          fitViewOptions={{ padding: 0.2 }}
+          proOptions={{ hideAttribution: true }}
+          minZoom={0.3}
+          maxZoom={1.5}
+          nodesDraggable={false}
+          nodesConnectable={false}
+          panOnDrag
+        >
+          <Background color="#111111" gap={24} />
+          <Controls showInteractive={false} />
+          <AutoFit nodeIds={nodeIds} />
+        </ReactFlow>
+      </ReactFlowProvider>
       <GraphLegend />
     </div>
   );
