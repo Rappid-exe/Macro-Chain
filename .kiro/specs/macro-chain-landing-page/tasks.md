@@ -198,7 +198,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify LCP target (≤2.5s) with Lighthouse on simulated 25 Mbps / 50ms RTT
     - _Requirements: 9.1, 9.2, 9.5_
 
-  - [ ]* 13.2 Set up Lighthouse CI configuration
+  - [x]* 13.2 Set up Lighthouse CI configuration
     - Install and configure Lighthouse CI
     - Set performance budgets: LCP ≤ 2.5s, CLS ≤ 0.1, INP ≤ 200ms
     - Configure simulated throttling (25 Mbps download, 50ms RTT)
@@ -206,7 +206,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 9.1, 9.2, 9.5_
 
 - [ ] 14. Content validation and UK English compliance
-  - [~] 14.1 Validate all copy for UK English and style compliance
+  - [-] 14.1 Validate all copy for UK English and style compliance
     - Review all user-visible text for UK English spelling (modelling, analysing, optimised, colour)
     - Verify zero em dash (—) or en dash (–) characters in any visible text
     - Verify glossary terms used consistently (no synonyms or alternate phrasings)
