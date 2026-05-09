@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
+import { criticalCssPlugin } from './plugins/vite-plugin-critical-css.js';
 
 export default defineConfig({
   root: '.',
@@ -22,4 +23,7 @@ export default defineConfig({
   server: {
     open: true,
   },
+  plugins: [
+    criticalCssPlugin(),
+  ],
 });

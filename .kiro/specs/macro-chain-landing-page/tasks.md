@@ -129,7 +129,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify no exclamation marks or superlatives in section text
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
-- [ ] 9. Implement responsive layout and final styling
+- [x] 9. Implement responsive layout and final styling
   - [x] 9.1 Implement responsive breakpoints and layout rules
     - Verify CSS Grid responds correctly at 1024px breakpoint (Agent Stack: 2-col → 1-col)
     - Verify CSS Grid responds correctly at 768px breakpoint (Alpha Decay: 3-col → 1-col)
@@ -139,14 +139,14 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add `max-width: var(--max-width)` container with auto margins for content centering
     - _Requirements: 8.1, 8.2, 8.3, 8.6_
 
-  - [-] 9.2 Implement critical CSS inlining for build
+  - [x] 9.2 Implement critical CSS inlining for build
     - Configure Vite plugin or build script to extract and inline critical above-the-fold CSS
     - Load remaining CSS asynchronously via `media="print" onload="this.media='all'"` pattern
     - Verify hero section renders styled without waiting for full CSS bundle
     - _Requirements: 1.7, 9.1_
 
-- [ ] 10. Implement accessibility hardening
-  - [-] 10.1 Add semantic structure and accessibility attributes
+- [x] 10. Implement accessibility hardening
+  - [x] 10.1 Add semantic structure and accessibility attributes
     - Verify single `<h1>` exists (hero heading) with sequential heading levels (h1 → h2, no skips)
     - Add `aria-labelledby` attributes to all `<section>` elements referencing their headings
     - Add meaningful `alt` text (1–150 chars) to any non-decorative images/mock-ups
