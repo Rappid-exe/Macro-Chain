@@ -188,8 +188,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Test focus indicators are visible on all interactive elements
     - _Requirements: 1.5, 1.6, 10.4, 10.6_
 
-- [ ] 13. Performance optimisation and Lighthouse CI
-  - [-] 13.1 Optimise for Core Web Vitals targets
+- [x] 13. Performance optimisation and Lighthouse CI
+  - [x] 13.1 Optimise for Core Web Vitals targets
     - Verify font preload eliminates render-blocking
     - Verify critical CSS inline prevents layout shift (CLS ≤ 0.1)
     - Verify no layout shifts from font swap (explicit dimensions or font-size-adjust)
