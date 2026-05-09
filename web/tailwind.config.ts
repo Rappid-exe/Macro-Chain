@@ -1,15 +1,18 @@
 import type { Config } from "tailwindcss";
 
 /**
- * Godel Terminal–inspired palette. Pure black base, amber accent, green
- * for bullish signals, red for bearish. Monospace is the default body
- * font — this is a Bloomberg-style tool, not a consumer web app.
+ * Shared palette for both the landing page (`/`) and the terminal (`/app`).
+ *
+ * Landing page tokens use explicit names (bg-primary, signal-green, etc.)
+ * so they don't collide with the terminal's shorthand (`bg-bg`, `text-fg`).
+ * Fonts: `font-mono` drives the terminal, `font-sans` drives the landing.
  */
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
+        // Terminal (existing)
         bg: {
           DEFAULT: "#000000",
           raised: "#0a0a0a",
@@ -25,12 +28,18 @@ const config: Config = {
           faint: "#555555",
         },
         accent: {
-          DEFAULT: "#ffa940", // amber — Godel / Bloomberg signature
+          DEFAULT: "#ffa940",
           up: "#7cf0a0",
           down: "#ff5555",
           info: "#6ea8ff",
           warn: "#f5c563",
         },
+        // Landing page
+        "bg-primary": "#050505",
+        surface: "#1A1A1A",
+        "text-primary": "#EAEAEA",
+        "text-secondary": "#BDBDBD",
+        "signal-green": "#00E676",
       },
       fontFamily: {
         mono: [
@@ -43,11 +52,15 @@ const config: Config = {
           "monospace",
         ],
         sans: [
-          "JetBrains Mono",
-          "IBM Plex Mono",
-          "ui-monospace",
-          "monospace",
+          "Inter",
+          "-apple-system",
+          "SF Pro Display",
+          "system-ui",
+          "sans-serif",
         ],
+      },
+      borderRadius: {
+        DEFAULT: "2px",
       },
     },
   },

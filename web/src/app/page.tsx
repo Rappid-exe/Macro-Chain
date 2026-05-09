@@ -1,28 +1,94 @@
-import { TerminalShell } from "@/components/terminal-shell";
-import { FIXTURE_EVENTS } from "@/lib/fixtures";
-import type { EventSummary } from "@/lib/types";
+import { lazy, Suspense } from "react";
+import HeroSection from "@/landing/components/hero-section";
+import { SectionErrorBoundary } from "@/landing/components/section-error-boundary";
 
-async function fetchEvents(): Promise<EventSummary[]> {
-  const base = process.env.PY_API_URL ?? "http://localhost:8000";
-  try {
-    const res = await fetch(`${base}/events?limit=50`, {
-      next: { revalidate: 15 },
-    });
-    if (!res.ok) throw new Error(`api ${res.status}`);
-    return (await res.json()) as EventSummary[];
-  } catch (err) {
-    console.warn("events fetch failed, using fixtures:", err);
-    return FIXTURE_EVENTS;
-  }
+// Below-fold sections lazy-loaded to keep the first paint snappy.
+const AlphaDecaySection = lazy(
+  () => import("@/landing/components/alpha-decay-section"),
+);
+const AgentStackSection = lazy(
+  () => import("@/landing/components/agent-stack-section"),
+);
+const WorkflowSection = lazy(
+  () => import("@/landing/components/workflow-section"),
+);
+const TechnicalProofSection = lazy(
+  () => import("@/landing/components/technical-proof-section"),
+);
+const FAQSection = lazy(() => import("@/landing/components/faq-section"));
+const ProofOfAlphaSection = lazy(
+  () => import("@/landing/components/proof-of-alpha-section"),
+);
+const WaitlistCTASection = lazy(
+  () => import("@/landing/components/waitlist-cta-section"),
+);
+const FooterSection = lazy(() => import("@/landing/components/footer-section"));
+
+function SectionFallback({ minHeight = "20rem" }: { minHeight?: string }) {
+  return <div style={{ minHeight }} aria-hidden="true" />;
 }
 
-export default async function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ e?: string }>;
-}) {
-  const events = await fetchEvents();
-  const { e: selectedId } = await searchParams;
+export default function Landing() {
+  return (
+    <div className="bg-bg-primary font-sans text-text-primary">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-sm focus:bg-signal-green focus:px-4 focus:py-2 focus:font-semibold focus:text-bg-primary focus:outline-none"
+      >
+        Skip to main content
+      </a>
 
-  return <TerminalShell events={events} selectedId={selectedId} />;
+      <main id="main-content">
+        <HeroSection />
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <AlphaDecaySection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <AgentStackSection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <WorkflowSection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <TechnicalProofSection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <FAQSection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <ProofOfAlphaSection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <WaitlistCTASection />
+          </Suspense>
+        </SectionErrorBoundary>
+
+        <SectionErrorBoundary fallback={<SectionFallback />}>
+          <Suspense fallback={<SectionFallback />}>
+            <FooterSection />
+          </Suspense>
+        </SectionErrorBoundary>
+      </main>
+    </div>
+  );
 }
