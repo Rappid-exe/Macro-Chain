@@ -23,7 +23,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Configure fallback stack: `-apple-system, 'SF Pro Display', sans-serif`
     - _Requirements: 6.4, 9.1_
 
-- [ ] 2. Implement design system tokens and base styles
+- [x] 2. Implement design system tokens and base styles
   - [x] 2.1 Create CSS custom properties and base reset
     - Create `src/styles/tokens.css` with all design system custom properties (palette, typography, spacing, borders)
     - Define `--color-bg-primary: #050505`, `--color-surface: #1A1A1A`, `--color-border: rgba(42, 42, 42, 0.2)`, `--color-text-primary: #EAEAEA`, `--color-text-secondary: #BDBDBD`, `--color-accent: #00E676`
@@ -33,7 +33,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Create `src/styles/main.css` that imports tokens and reset
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 8.4_
 
-  - [-] 2.2 Create button and interactive element base styles
+  - [x] 2.2 Create button and interactive element base styles
     - Define `.btn` base class with 44x44px minimum touch target, 2px border-radius
     - Define `.btn-primary` with Signal Green background (#00E676), #050505 text
     - Define `.btn-secondary` with transparent background, 1px Signal Green border, Signal Green text
@@ -42,7 +42,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 6.3, 6.5, 8.5, 10.4_
 
 - [ ] 3. Implement Hero Section
-  - [ ] 3.1 Build Hero Section HTML and styles
+  - [-] 3.1 Build Hero Section HTML and styles
     - Add `<section id="hero" aria-labelledby="hero-heading">` with semantic structure
     - Add `<h1 id="hero-heading">` with text "Stop Trading the News. Trade the Ripple."
     - Add `<p class="hero-sub">` with sub-headline text about third-order equity impacts
@@ -61,7 +61,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
 - [ ] 4. Implement Alpha Decay Section
-  - [ ] 4.1 Build Alpha Decay Section HTML and styles
+  - [-] 4.1 Build Alpha Decay Section HTML and styles
     - Add `<section id="alpha-decay" aria-labelledby="alpha-decay-heading">`
     - Add `<h2 id="alpha-decay-heading">The Alpha Decay Problem</h2>`
     - Create three-column CSS Grid layout (`repeat(3, 1fr)` above 768px, `1fr` below)
@@ -77,7 +77,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 2.2, 2.3, 2.4, 2.6_
 
 - [ ] 5. Implement Agent Stack Section
-  - [ ] 5.1 Build Agent Stack Feature Grid HTML and styles
+  - [-] 5.1 Build Agent Stack Feature Grid HTML and styles
     - Add `<section id="agent-stack" aria-labelledby="agent-stack-heading">`
     - Add `<h2 id="agent-stack-heading">` with appropriate section heading
     - Create 2x2 CSS Grid layout (`repeat(2, 1fr)` at ≥1024px, `1fr` below)
@@ -166,8 +166,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
 - [ ] 11. Checkpoint - Full page integration
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 12. Set up testing infrastructure and write integration tests
-  - [-] 12.1 Configure Vitest and Playwright test environments
+- [x] 12. Set up testing infrastructure and write integration tests
+  - [x] 12.1 Configure Vitest and Playwright test environments
     - Install Vitest, jsdom, Playwright, @axe-core/playwright as dev dependencies
     - Create `vitest.config.js` with jsdom environment for unit tests
     - Create `playwright.config.js` with desktop (1440px), tablet (768px), and mobile (375px) viewports
