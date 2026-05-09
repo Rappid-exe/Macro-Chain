@@ -1,0 +1,32 @@
+:root {
+  /* Palette */
+  --color-bg-primary: #050505;
+  --color-surface: #1A1A1A;
+  --color-border: rgba(42, 42, 42, 0.2);
+  --color-text-primary: #EAEAEA;
+  --color-text-secondary: #BDBDBD;
+  --color-accent: #00E676;
+
+  /* Typography */
+  --font-family: 'Inter', -apple-system, 'SF Pro Display', sans-serif;
+  --font-size-body: clamp(1rem, 1vw + 0.875rem, 1.125rem);
+  --font-size-h1: clamp(2.5rem, 4vw + 1rem, 4rem);
+  --font-size-h2: clamp(1.75rem, 2vw + 1rem, 2.5rem);
+  --font-size-h3: clamp(1.25rem, 1.5vw + 0.75rem, 1.5rem);
+
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 2rem;
+  --space-lg: 4rem;
+  --space-xl: 6rem;
+
+  /* Borders */
+  --radius: 2px;
+  --border-width: 1px;
+
+  /* Layout */
+  --max-width: 1200px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+}

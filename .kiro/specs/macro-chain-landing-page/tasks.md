@@ -6,7 +6,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
 
 ## Tasks
 
-- [ ] 1. Set up project structure and build tooling
+- [x] 1. Set up project structure and build tooling
   - [x] 1.1 Initialise Vite project with static HTML mode
     - Run `npm init -y` and install Vite as a dev dependency
     - Create `vite.config.js` with static site configuration (asset hashing, minification)
@@ -16,7 +16,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add build and dev scripts to `package.json`
     - _Requirements: 9.1, 9.2_
 
-  - [-] 1.2 Set up font assets and preloading
+  - [x] 1.2 Set up font assets and preloading
     - Add self-hosted Inter variable font (woff2 subset) to `src/fonts/`
     - Create `@font-face` declaration with `font-display: swap` for FOUT behaviour
     - Add `<link rel="preload">` for the font file in `index.html` head
@@ -24,7 +24,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 6.4, 9.1_
 
 - [ ] 2. Implement design system tokens and base styles
-  - [-] 2.1 Create CSS custom properties and base reset
+  - [x] 2.1 Create CSS custom properties and base reset
     - Create `src/styles/tokens.css` with all design system custom properties (palette, typography, spacing, borders)
     - Define `--color-bg-primary: #050505`, `--color-surface: #1A1A1A`, `--color-border: rgba(42, 42, 42, 0.2)`, `--color-text-primary: #EAEAEA`, `--color-text-secondary: #BDBDBD`, `--color-accent: #00E676`
     - Define typography scale using `clamp()` for fluid sizing (body min 16px)
@@ -33,7 +33,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Create `src/styles/main.css` that imports tokens and reset
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7, 6.8, 8.4_
 
-  - [~] 2.2 Create button and interactive element base styles
+  - [-] 2.2 Create button and interactive element base styles
     - Define `.btn` base class with 44x44px minimum touch target, 2px border-radius
     - Define `.btn-primary` with Signal Green background (#00E676), #050505 text
     - Define `.btn-secondary` with transparent background, 1px Signal Green border, Signal Green text
@@ -42,7 +42,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 6.3, 6.5, 8.5, 10.4_
 
 - [ ] 3. Implement Hero Section
-  - [~] 3.1 Build Hero Section HTML and styles
+  - [ ] 3.1 Build Hero Section HTML and styles
     - Add `<section id="hero" aria-labelledby="hero-heading">` with semantic structure
     - Add `<h1 id="hero-heading">` with text "Stop Trading the News. Trade the Ripple."
     - Add `<p class="hero-sub">` with sub-headline text about third-order equity impacts
@@ -61,7 +61,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6_
 
 - [ ] 4. Implement Alpha Decay Section
-  - [~] 4.1 Build Alpha Decay Section HTML and styles
+  - [ ] 4.1 Build Alpha Decay Section HTML and styles
     - Add `<section id="alpha-decay" aria-labelledby="alpha-decay-heading">`
     - Add `<h2 id="alpha-decay-heading">The Alpha Decay Problem</h2>`
     - Create three-column CSS Grid layout (`repeat(3, 1fr)` above 768px, `1fr` below)
@@ -77,7 +77,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 2.2, 2.3, 2.4, 2.6_
 
 - [ ] 5. Implement Agent Stack Section
-  - [~] 5.1 Build Agent Stack Feature Grid HTML and styles
+  - [ ] 5.1 Build Agent Stack Feature Grid HTML and styles
     - Add `<section id="agent-stack" aria-labelledby="agent-stack-heading">`
     - Add `<h2 id="agent-stack-heading">` with appropriate section heading
     - Create 2x2 CSS Grid layout (`repeat(2, 1fr)` at ≥1024px, `1fr` below)
@@ -93,11 +93,11 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify title elements have distinct styling from description elements
     - _Requirements: 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [~] 6. Checkpoint - Verify core sections
+- [ ] 6. Checkpoint - Verify core sections
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 7. Implement Workflow Integration Section
-  - [~] 7.1 Build Workflow Integration Section HTML and styles
+  - [ ] 7.1 Build Workflow Integration Section HTML and styles
     - Add `<section id="workflow" aria-labelledby="workflow-heading">`
     - Add `<h2 id="workflow-heading">` with section heading (e.g., "Integrations" or "Workflow")
     - Add section copy: "Own the most painful 30 minutes of your research day. Automated causal mapping with one-click export to your team's workspace."
@@ -113,7 +113,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 4.1, 4.3_
 
 - [ ] 8. Implement Technical Proof Section
-  - [~] 8.1 Build Technical Proof Section HTML and styles
+  - [ ] 8.1 Build Technical Proof Section HTML and styles
     - Add `<section id="technical-proof" aria-labelledby="technical-proof-heading">`
     - Add `<h2 id="technical-proof-heading">` with appropriate section heading
     - Write Shannon Entropy explanation (≤50 words): named concept + plain-language role description
@@ -130,7 +130,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
 - [ ] 9. Implement responsive layout and final styling
-  - [~] 9.1 Implement responsive breakpoints and layout rules
+  - [ ] 9.1 Implement responsive breakpoints and layout rules
     - Verify CSS Grid responds correctly at 1024px breakpoint (Agent Stack: 2-col → 1-col)
     - Verify CSS Grid responds correctly at 768px breakpoint (Alpha Decay: 3-col → 1-col)
     - Ensure tablet (768px–1023px) reduces to max 2 columns with no horizontal overflow
@@ -139,14 +139,14 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add `max-width: var(--max-width)` container with auto margins for content centering
     - _Requirements: 8.1, 8.2, 8.3, 8.6_
 
-  - [~] 9.2 Implement critical CSS inlining for build
+  - [ ] 9.2 Implement critical CSS inlining for build
     - Configure Vite plugin or build script to extract and inline critical above-the-fold CSS
     - Load remaining CSS asynchronously via `media="print" onload="this.media='all'"` pattern
     - Verify hero section renders styled without waiting for full CSS bundle
     - _Requirements: 1.7, 9.1_
 
 - [ ] 10. Implement accessibility hardening
-  - [~] 10.1 Add semantic structure and accessibility attributes
+  - [ ] 10.1 Add semantic structure and accessibility attributes
     - Verify single `<h1>` exists (hero heading) with sequential heading levels (h1 → h2, no skips)
     - Add `aria-labelledby` attributes to all `<section>` elements referencing their headings
     - Add meaningful `alt` text (1–150 chars) to any non-decorative images/mock-ups
@@ -163,11 +163,11 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify heading hierarchy (no skipped levels)
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6_
 
-- [~] 11. Checkpoint - Full page integration
+- [ ] 11. Checkpoint - Full page integration
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 12. Set up testing infrastructure and write integration tests
-  - [~] 12.1 Configure Vitest and Playwright test environments
+  - [-] 12.1 Configure Vitest and Playwright test environments
     - Install Vitest, jsdom, Playwright, @axe-core/playwright as dev dependencies
     - Create `vitest.config.js` with jsdom environment for unit tests
     - Create `playwright.config.js` with desktop (1440px), tablet (768px), and mobile (375px) viewports
@@ -189,7 +189,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 1.5, 1.6, 10.4, 10.6_
 
 - [ ] 13. Performance optimisation and Lighthouse CI
-  - [~] 13.1 Optimise for Core Web Vitals targets
+  - [ ] 13.1 Optimise for Core Web Vitals targets
     - Verify font preload eliminates render-blocking
     - Verify critical CSS inline prevents layout shift (CLS ≤ 0.1)
     - Verify no layout shifts from font swap (explicit dimensions or font-size-adjust)
@@ -206,7 +206,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 9.1, 9.2, 9.5_
 
 - [ ] 14. Content validation and UK English compliance
-  - [~] 14.1 Validate all copy for UK English and style compliance
+  - [ ] 14.1 Validate all copy for UK English and style compliance
     - Review all user-visible text for UK English spelling (modelling, analysing, optimised, colour)
     - Verify zero em dash (—) or en dash (–) characters in any visible text
     - Verify glossary terms used consistently (no synonyms or alternate phrasings)
@@ -214,7 +214,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify no warm-toned hues (HSL hue 0°–60°) in any CSS colour value
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 6.3, 6.8_
 
-- [~] 15. Final checkpoint - Complete validation
+- [ ] 15. Final checkpoint - Complete validation
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

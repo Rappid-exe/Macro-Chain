@@ -1,0 +1,10 @@
+@import './fonts.css';
+@import './tokens.css';
+@import './reset.css';
+
+body {
+  font-family: var(--font-family);
+  font-size: var(--font-size-body);
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-primary);
+}
