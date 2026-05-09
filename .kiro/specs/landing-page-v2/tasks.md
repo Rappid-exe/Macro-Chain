@@ -53,7 +53,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: `npm run build` completes with zero errors, Tailwind generates utility classes, shadcn Button renders correctly
 
-- [ ] 4. Hero section with BackgroundPaths animation
+- [x] 4. Hero section with BackgroundPaths animation
   - [x] 4.1 Implement BackgroundPaths and FloatingPaths components
     - Create `src/components/background-paths.tsx`
     - `FloatingPaths` generates exactly 36 SVG `<path>` elements with framer-motion animations
@@ -82,7 +82,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Reduced motion: display static layout with both rows visible
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 13.4_
 
-  - [-] 4.4 Write unit tests for LiveSignalsMarquee
+  - [x] 4.4 Write unit tests for LiveSignalsMarquee
     - Test exactly 4 unique signal texts rendered
     - Test two rows with opposite direction attributes
     - Test `aria-live="off"` attribute present
@@ -90,7 +90,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Test reduced motion renders static layout
     - _Requirements: 3.2, 3.3, 3.4, 3.7, 13.4_
 
-  - [-] 4.5 Implement HeroSection component
+  - [x] 4.5 Implement HeroSection component
     - Compose BackgroundPaths, headline (h1), sub-headline, two CTA buttons (Launch Terminal, View Backtested Alphas), and LiveSignalsMarquee
     - Hero headline and CTA visible within initial viewport at 1024×768 without scrolling
     - Use shadcn Button component for CTAs
@@ -104,8 +104,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - 3rd Order card visually highlighted (Signal Green accent)
     - _Requirements: 1.5, 14.1, 14.3_
 
-- [ ] 6. Agent Stack section with scroll animations
-  - [-] 6.1 Implement SectionWithMockup component
+- [x] 6. Agent Stack section with scroll animations
+  - [x] 6.1 Implement SectionWithMockup component
     - Create `src/components/section-with-mockup.tsx`
     - Use `useScroll` + `useTransform` from framer-motion for parallax (primary: 0.1–0.3× scroll, secondary: 0.4–0.6× scroll)
     - Entry animation triggered by `useInView` at 20% threshold: opacity 0 → 1, translateY 20–40px → 0, duration 400–800ms, stagger 80–150ms
@@ -113,7 +113,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Disable all motion when reduced motion is active
     - _Requirements: 4.3, 4.4, 4.6, 4.7_
 
-  - [ ] 6.2 Implement AgentStackSection component
+  - [x] 6.2 Implement AgentStackSection component
     - Create `src/components/agent-stack-section.tsx`
     - Bento/asymmetric grid at ≥1024px: "The Auditor" and/or "The Entropy Model" occupy larger grid area
     - Single-column stacked layout below 1024px in order: Scraper, Auditor, Entropy Model, Reporter
@@ -121,7 +121,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Wrap cards with SectionWithMockup for scroll animations
     - _Requirements: 4.1, 4.2, 4.5_
 
-  - [ ] 6.3 Write unit tests for AgentStackSection
+  - [x] 6.3 Write unit tests for AgentStackSection
     - Test all four agent cards render with correct titles and descriptions
     - Test bento layout classes applied at desktop viewport
     - Test single-column layout at mobile viewport
@@ -143,8 +143,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: Hero renders with animation, Alpha Decay shows 3 columns on desktop, Agent Stack has bento layout, Workflow buttons have icons
 
-- [ ] 9. Technical Proof section with SVG diagram
-  - [-] 9.1 Implement TechnicalProofSection component
+- [x] 9. Technical Proof section with SVG diagram
+  - [x] 9.1 Implement TechnicalProofSection component
     - Create `src/components/technical-proof-section.tsx`
     - SVG Bayesian Causal Network diagram: minimum 4 labelled nodes (economic variables) and 4 directed edges
     - Shannon Entropy explanation ≤ 50 words
@@ -157,8 +157,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - No subjective superlatives or exclamation marks
     - _Requirements: 6.1, 6.2, 6.3, 6.4, 6.5, 6.6, 6.7_
 
-- [ ] 10. FAQ section
-  - [-] 10.1 Implement FAQSection component
+- [x] 10. FAQ section
+  - [x] 10.1 Implement FAQSection component
     - Create `src/components/faq-section.tsx`
     - Render exactly 3 Q&A pairs from constants in vertically stacked layout
     - Separation between pairs: visible border or spacing ≥ 16px
@@ -169,15 +169,15 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - UK English throughout
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5, 7.6, 7.7, 7.8, 7.9_
 
-  - [ ] 10.2 Write unit tests for FAQSection
+  - [x] 10.2 Write unit tests for FAQSection
     - Test exactly 3 Q&A pairs rendered
     - Test correct question and answer text content
     - Test semantic markup (dl/dt/dd elements)
     - Test visual differentiation classes applied
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.8_
 
-- [ ] 11. Proof of Alpha section
-  - [-] 11.1 Implement ProofOfAlphaSection component
+- [x] 11. Proof of Alpha section
+  - [x] 11.1 Implement ProofOfAlphaSection component
     - Create `src/components/proof-of-alpha-section.tsx`
     - Two-panel layout: left panel = timeline (≥3 chronological entries for "Oil Spike" event), right panel = chart (SVG with time axis + value axis)
     - Chart plots Macro-Chain alert firing point 48 hours before equity movement with clear time marker/annotation
@@ -187,8 +187,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Chart labelled with horizontal time axis and vertical equity-movement axis with units/dates
     - _Requirements: 8.1, 8.2, 8.3, 8.4, 8.5, 8.6_
 
-- [ ] 12. Waitlist CTA section
-  - [-] 12.1 Implement WaitlistCTASection component
+- [x] 12. Waitlist CTA section
+  - [x] 12.1 Implement WaitlistCTASection component
     - Create `src/components/waitlist-cta-section.tsx`
     - Positioned directly above FooterSection
     - Button/input with Signal Green (#00E676) as primary colour, minimum width 200px
@@ -198,8 +198,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - On invalid/empty submission: display inline error, do not clear input
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5, 9.6_
 
-- [ ] 13. Footer section
-  - [-] 13.1 Implement FooterSection component
+- [x] 13. Footer section
+  - [x] 13.1 Implement FooterSection component
     - Create `src/components/footer-section.tsx`
     - Three-column layout at ≥768px: left (logo + tagline "The Causal Intelligence Engine."), centre (Product: Terminal/API/Backtesting + Company: About/Ethics/Research), right (social icons: X/Twitter, LinkedIn, GitHub)
     - Social links: icon with 44×44px touch target, accessible name, open in new tab (`target="_blank" rel="noopener noreferrer"`)
@@ -210,7 +210,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Navigation links scroll to section or navigate without error
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9_
 
-  - [ ] 13.2 Write unit tests for FooterSection
+  - [x] 13.2 Write unit tests for FooterSection
     - Test three columns render with correct content
     - Test social links have accessible names and target="_blank"
     - Test bottom bar contains copyright and legal links
