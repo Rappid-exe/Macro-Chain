@@ -7,20 +7,14 @@ import {
   PanelResizeHandle,
 } from "react-resizable-panels";
 import type { EventDetail, EventSummary, Sector } from "@/lib/types";
+import { useKeyboardNav } from "@/lib/use-keyboard-nav";
 import { EventListPanel } from "./event-list-panel";
 import { FocusedEventPanel } from "./focused-event-panel";
 import { GraphPanel } from "./graph-panel";
 import { TerminalHeader } from "./terminal-header";
 
-/**
- * Three-column layout with draggable splitters matching the sketch:
- *
- *  [ sector tabs + event list ] | [ focused event + chains ] | [ graph + sum ]
- *
- * Panel sizes are persisted to localStorage under `macro-chain:layout`
- * so users get their layout back on refresh. Default splits are tuned
- * for a 1440px+ monitor; narrower screens can drag tighter.
- */
+const SEARCH_INPUT_ID = "macro-chain-search";
+
 export function TerminalShell({
   events,
   selectedId,
@@ -29,20 +23,42 @@ export function TerminalShell({
   selectedId?: string;
 }) {
   const [sector, setSector] = useState<Sector | "all">("all");
+  const [query, setQuery] = useState("");
+  const [sort, setSort] = useState<Sort>("impact");
   const [selected, setSelected] = useState<string | null>(selectedId ?? null);
   const [detail, setDetail] = useState<EventDetail | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
-  const filtered = useMemo(
-    () =>
-      sector === "all" ? events : events.filter((e) => e.sector === sector),
-    [events, sector],
-  );
+  // Single source of truth for "what the list shows", shared between the
+  // left panel and the keyboard-nav hook so j/k walk the same order.
+  const visible = useMemo(() => {
+    const bySector =
+      sector === "all" ? events : events.filter((e) => e.sector === sector);
+    const searched = query
+      ? bySector.filter((e) =>
+          e.question.toLowerCase().includes(query.toLowerCase()),
+        )
+      : bySector;
+    return [...searched].sort((a, b) => {
+      switch (sort) {
+        case "impact":
+          return (b.impact_score ?? 0) - (a.impact_score ?? 0);
+        case "volume":
+          return b.volume_24h - a.volume_24h;
+        case "prob_high":
+          return b.yes_price - a.yes_price;
+        case "prob_low":
+          return a.yes_price - b.yes_price;
+        case "delta":
+          return Math.abs(b.delta_24h) - Math.abs(a.delta_24h);
+      }
+    });
+  }, [events, sector, query, sort]);
 
   useEffect(() => {
-    if (selected && filtered.some((e) => e.id === selected)) return;
-    if (filtered.length > 0) setSelected(filtered[0].id);
-  }, [filtered, selected]);
+    if (selected && visible.some((e) => e.id === selected)) return;
+    if (visible.length > 0) setSelected(visible[0].id);
+  }, [visible, selected]);
 
   useEffect(() => {
     if (!selected) {
@@ -64,6 +80,14 @@ export function TerminalShell({
     };
   }, [selected]);
 
+  useKeyboardNav({
+    events: visible,
+    selectedId: selected,
+    onSelect: setSelected,
+    onSectorChange: setSector,
+    searchInputId: SEARCH_INPUT_ID,
+  });
+
   return (
     <div className="flex h-screen flex-col overflow-hidden bg-bg text-fg">
       <TerminalHeader eventCount={events.length} />
@@ -74,18 +98,23 @@ export function TerminalShell({
       >
         <Panel defaultSize={22} minSize={16} maxSize={40} className="!overflow-hidden">
           <EventListPanel
-            events={events}
-            filtered={filtered}
+            allEvents={events}
+            visible={visible}
             sector={sector}
             onSectorChange={setSector}
+            query={query}
+            onQueryChange={setQuery}
+            sort={sort}
+            onSortChange={setSort}
             selected={selected}
             onSelect={setSelected}
+            searchInputId={SEARCH_INPUT_ID}
           />
         </Panel>
         <ResizeHandle />
         <Panel defaultSize={38} minSize={24} className="!overflow-hidden">
           <FocusedEventPanel
-            summary={filtered.find((e) => e.id === selected) ?? null}
+            summary={visible.find((e) => e.id === selected) ?? null}
             detail={detail}
             loading={detailLoading}
           />
@@ -102,8 +131,9 @@ export function TerminalShell({
 function ResizeHandle() {
   return (
     <PanelResizeHandle className="group relative w-px bg-border transition-colors data-[resize-handle-state=drag]:bg-accent data-[resize-handle-state=hover]:bg-accent">
-      {/* Wider invisible hit target so the hairline is easy to grab */}
       <div className="absolute inset-y-0 -left-1 -right-1 z-10" />
     </PanelResizeHandle>
   );
 }
+
+export type Sort = "impact" | "volume" | "prob_high" | "prob_low" | "delta";

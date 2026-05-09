@@ -82,6 +82,45 @@ body {
   animation: blink 1.6s infinite;
 }
 
+/* Row fade-in with a small upward slide; used for staggered list
+   entry animations. Compose with inline style delay for stagger. */
+@keyframes row-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.row-in {
+  animation: row-in 260ms cubic-bezier(0.2, 0.65, 0.25, 1) both;
+}
+
+/* Stroke-draw animation for the sparkline path */
+@keyframes stroke-draw {
+  from { stroke-dashoffset: var(--dash); }
+  to   { stroke-dashoffset: 0; }
+}
+.stroke-draw {
+  stroke-dasharray: var(--dash);
+  animation: stroke-draw 600ms cubic-bezier(0.25, 0.8, 0.3, 1) forwards;
+}
+
+/* Shimmering skeleton */
+@keyframes shimmer {
+  0%   { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255,255,255,0) 0,
+    rgba(255,169,64,0.06) 40%,
+    rgba(255,169,64,0.12) 50%,
+    rgba(255,169,64,0.06) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  background-size: 200px 100%;
+  background-repeat: no-repeat;
+  animation: shimmer 1.4s infinite;
+}
+
 /* Focus ring in amber rather than blue */
 *:focus-visible {
   outline: 1px solid #ffa940;

@@ -212,7 +212,13 @@ function OrderGroup({
       </div>
       <ul className="mt-1.5 divide-y divide-border/30">
         {impacts.map((i, idx) => (
-          <ImpactRow key={`${i.symbol}-${idx}`} impact={i} />
+          <li
+            key={`${i.symbol}-${idx}`}
+            className="row-in"
+            style={{ animationDelay: `${idx * 35}ms` }}
+          >
+            <ImpactRow impact={i} />
+          </li>
         ))}
       </ul>
     </div>
@@ -234,7 +240,7 @@ function ImpactRow({ impact }: { impact: TickerImpact }) {
         : "text-accent-warn";
 
   return (
-    <li className="flex items-start gap-3 py-1.5 text-[11px]">
+    <div className="flex items-start gap-3 py-1.5 text-[11px]">
       <span className={cn("flex w-16 shrink-0 items-center gap-1", tone)}>
         <Icon size={11} />
         <span className="font-semibold">{impact.symbol}</span>
@@ -247,7 +253,7 @@ function ImpactRow({ impact }: { impact: TickerImpact }) {
         <span className="mx-1.5 text-fg-faint">&mdash;</span>
         {impact.thesis}
       </span>
-    </li>
+    </div>
   );
 }
 
@@ -307,7 +313,7 @@ function SkeletonLines({ count }: { count: number }) {
       {Array.from({ length: count }).map((_, i) => (
         <div
           key={i}
-          className="h-2.5 animate-pulse bg-border"
+          className="shimmer h-2.5 bg-border/40"
           style={{ width: `${90 - i * 10}%` }}
         />
       ))}

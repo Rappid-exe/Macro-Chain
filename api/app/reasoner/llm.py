@@ -41,7 +41,11 @@ MAX_SPECULATIVE_TICKERS = 5
 
 
 class SpecTicker(BaseModel):
-    symbol: str = Field(..., max_length=10)
+    # Relaxed from 10 to 15 chars to accommodate tickers like MAERSK-B.CO,
+    # 7974.T (Tokyo). We filter out non-US exotic tickers at merge time if
+    # we want to, but we don't let one malformed symbol nuke the whole
+    # payload.
+    symbol: str = Field(..., max_length=15)
     name: str
     direction: Literal["up", "down", "mixed"]
     rationale: str
@@ -51,6 +55,14 @@ class SpecTicker(BaseModel):
 class EnrichmentPayload(BaseModel):
     executive_summary: str
     speculative_tickers: list[SpecTicker] = []
+
+
+class _RawPayload(BaseModel):
+    """Looser shape for initial parse. We validate SpecTickers one by one
+    after so a single bad symbol doesn't nuke the whole response."""
+
+    executive_summary: str = ""
+    speculative_tickers: list[dict] = []
 
 
 _SYSTEM_INSTRUCTION = """You are an equities analyst assistant. You receive a prediction market event, a prebuilt causal graph of impacted equities, and a list of existing graph node ids.
@@ -257,11 +269,15 @@ def _extract_anthropic_text(resp: Any) -> str:
 
 
 def _parse_payload(text: str) -> EnrichmentPayload | None:
-    """Extract and validate the JSON object from any LLM reply."""
+    """Extract and validate the JSON object from any LLM reply.
+
+    We parse into a loose schema first and then validate SpecTickers one
+    at a time. This way, a single malformed ticker row (bad symbol, wrong
+    direction string, missing field) doesn't throw away the exec summary
+    and all the other good rows.
+    """
     if not text:
         return None
-    # Gemini with response_mime_type returns pure JSON; Anthropic may wrap
-    # in prose. Find the first {...} span defensively.
     start = text.find("{")
     end = text.rfind("}")
     if start == -1 or end == -1 or end <= start:
@@ -271,13 +287,29 @@ def _parse_payload(text: str) -> EnrichmentPayload | None:
     try:
         data = json.loads(blob)
     except json.JSONDecodeError as exc:
-        log.warning("llm JSON decode failed at %s: ...%r", exc, blob[max(0, exc.pos - 80) : exc.pos + 80])
+        log.warning(
+            "llm JSON decode failed at %s: ...%r",
+            exc,
+            blob[max(0, exc.pos - 80) : exc.pos + 80],
+        )
         return None
+
     try:
-        return EnrichmentPayload.model_validate(data)
+        raw = _RawPayload.model_validate(data)
     except ValidationError as exc:
-        log.warning("llm payload failed schema validation: %s", exc)
+        log.warning("llm payload top-level validation failed: %s", exc)
         return None
+
+    validated: list[SpecTicker] = []
+    for row in raw.speculative_tickers:
+        try:
+            validated.append(SpecTicker.model_validate(row))
+        except ValidationError as exc:
+            log.info("dropping malformed spec ticker %r: %s", row, exc.errors())
+    return EnrichmentPayload(
+        executive_summary=raw.executive_summary,
+        speculative_tickers=validated,
+    )
 
 
 def _merge(

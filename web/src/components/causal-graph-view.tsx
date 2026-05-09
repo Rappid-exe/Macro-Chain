@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ReactFlow, {
   Background,
   Controls,
@@ -52,7 +52,7 @@ function layout(graph: CausalGraph): Node[] {
         id: n.id,
         type: "card",
         position: { x, y },
-        data: { node: n },
+        data: { node: n, highlighted: false, dimmed: false },
       });
     });
   }
@@ -74,6 +74,7 @@ function toRFEdges(graph: CausalGraph): Edge[] {
     style: {
       stroke: CONF_STROKE[e.confidence],
       strokeWidth: 1.25,
+      transition: "stroke 160ms, stroke-width 160ms, opacity 160ms",
     },
     markerEnd: {
       type: MarkerType.ArrowClosed,
@@ -84,30 +85,90 @@ function toRFEdges(graph: CausalGraph): Edge[] {
 }
 
 /**
- * Child of ReactFlowProvider that re-fits the viewport whenever the
- * underlying node set changes. Without this, React Flow keeps its
- * previous viewport when the event changes and the new graph either
- * looks squished in a corner or is entirely off-screen.
+ * Re-fits the viewport whenever the underlying node set changes.
  */
 function AutoFit({ nodeIds }: { nodeIds: string }) {
   const { fitView } = useReactFlow();
   useEffect(() => {
-    // Defer one frame so React Flow has mounted the new nodes before
-    // we ask for a fit. Without the rAF, fitView runs against the old
-    // node positions and the viewport lands in the wrong place.
     const id = requestAnimationFrame(() => {
-      fitView({ padding: 0.2, duration: 250 });
+      fitView({ padding: 0.2, duration: 300 });
     });
     return () => cancelAnimationFrame(id);
   }, [nodeIds, fitView]);
   return null;
 }
 
-export function CausalGraphView({ graph }: { graph: CausalGraph }) {
-  const rfNodes = useMemo(() => layout(graph), [graph]);
-  const rfEdges = useMemo(() => toRFEdges(graph), [graph]);
+/**
+ * BFS upstream from a target to the event node, returning every node id
+ * and edge id on any shortest path. Used to highlight causal chains
+ * when the user hovers a ticker (or any node).
+ */
+function upstreamPathFrom(
+  nodeId: string,
+  graph: CausalGraph,
+): { nodes: Set<string>; edges: Set<string> } {
+  const rev = new Map<string, { src: string; edgeId: string }[]>();
+  for (const e of graph.edges) {
+    if (!rev.has(e.target)) rev.set(e.target, []);
+    rev.get(e.target)!.push({ src: e.source, edgeId: e.id });
+  }
+  const seenNodes = new Set<string>([nodeId]);
+  const seenEdges = new Set<string>();
+  const queue = [nodeId];
+  while (queue.length) {
+    const cur = queue.shift()!;
+    for (const parent of rev.get(cur) ?? []) {
+      seenEdges.add(parent.edgeId);
+      if (!seenNodes.has(parent.src)) {
+        seenNodes.add(parent.src);
+        queue.push(parent.src);
+      }
+    }
+  }
+  return { nodes: seenNodes, edges: seenEdges };
+}
 
-  // Stable token of the current node set; changes when event switches.
+export function CausalGraphView({ graph }: { graph: CausalGraph }) {
+  const baseNodes = useMemo(() => layout(graph), [graph]);
+  const baseEdges = useMemo(() => toRFEdges(graph), [graph]);
+  const [hoverId, setHoverId] = useState<string | null>(null);
+
+  const { highlightNodes, highlightEdges } = useMemo(() => {
+    if (!hoverId) {
+      return { highlightNodes: null, highlightEdges: null };
+    }
+    const { nodes, edges } = upstreamPathFrom(hoverId, graph);
+    return { highlightNodes: nodes, highlightEdges: edges };
+  }, [hoverId, graph]);
+
+  const displayNodes = useMemo(() => {
+    if (!highlightNodes) return baseNodes;
+    return baseNodes.map((n) => ({
+      ...n,
+      data: {
+        ...n.data,
+        highlighted: highlightNodes.has(n.id),
+        dimmed: !highlightNodes.has(n.id),
+      },
+    }));
+  }, [baseNodes, highlightNodes]);
+
+  const displayEdges = useMemo(() => {
+    if (!highlightEdges) return baseEdges;
+    return baseEdges.map((e) => {
+      const on = highlightEdges.has(e.id);
+      return {
+        ...e,
+        style: {
+          ...e.style,
+          strokeWidth: on ? 2.25 : 1,
+          opacity: on ? 1 : 0.15,
+        },
+        animated: on && (e.data?.confidence as string) !== "speculative",
+      };
+    });
+  }, [baseEdges, highlightEdges]);
+
   const nodeIds = useMemo(
     () => graph.nodes.map((n) => n.id).join("|"),
     [graph],
@@ -117,17 +178,19 @@ export function CausalGraphView({ graph }: { graph: CausalGraph }) {
     <div className="relative h-full w-full">
       <ReactFlowProvider>
         <ReactFlow
-          nodes={rfNodes}
-          edges={rfEdges}
+          nodes={displayNodes}
+          edges={displayEdges}
           nodeTypes={nodeTypes}
           fitView
-          fitViewOptions={{ padding: 0.2 }}
+          fitViewOptions={{ padding: 0.2, duration: 300 }}
           proOptions={{ hideAttribution: true }}
           minZoom={0.3}
           maxZoom={1.5}
           nodesDraggable={false}
           nodesConnectable={false}
           panOnDrag
+          onNodeMouseEnter={(_, n) => setHoverId(n.id)}
+          onNodeMouseLeave={() => setHoverId(null)}
         >
           <Background color="#111111" gap={24} />
           <Controls showInteractive={false} />
@@ -135,6 +198,19 @@ export function CausalGraphView({ graph }: { graph: CausalGraph }) {
         </ReactFlow>
       </ReactFlowProvider>
       <GraphLegend />
+      <HoverHint show={!!hoverId} />
+    </div>
+  );
+}
+
+function HoverHint({ show }: { show: boolean }) {
+  return (
+    <div
+      className={`pointer-events-none absolute top-3 right-3 border border-border bg-bg-sunken/90 px-2 py-1 text-[9px] uppercase tracking-wider text-fg-muted transition-opacity duration-150 ${
+        show ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      tracing causal path
     </div>
   );
 }

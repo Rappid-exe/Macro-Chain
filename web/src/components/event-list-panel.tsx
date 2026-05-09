@@ -1,19 +1,19 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef } from "react";
 import { Search } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { EventSummary, Sector } from "@/lib/types";
+import type { Sort } from "./terminal-shell";
 
 type SectorFilter = Sector | "all";
-type Sort = "impact" | "volume" | "prob_high" | "prob_low" | "delta";
 
-const SECTORS: { value: SectorFilter; label: string }[] = [
-  { value: "all", label: "ALL" },
-  { value: "tech", label: "TECH" },
-  { value: "energy", label: "ENG" },
-  { value: "economy", label: "ECO" },
-  { value: "geopolitics", label: "GEO" },
+const SECTORS: { value: SectorFilter; label: string; hotkey: string }[] = [
+  { value: "all", label: "ALL", hotkey: "1" },
+  { value: "tech", label: "TECH", hotkey: "2" },
+  { value: "energy", label: "ENG", hotkey: "3" },
+  { value: "economy", label: "ECO", hotkey: "4" },
+  { value: "geopolitics", label: "GEO", hotkey: "5" },
 ];
 
 const SORTS: { value: Sort; label: string }[] = [
@@ -25,46 +25,45 @@ const SORTS: { value: Sort; label: string }[] = [
 ];
 
 export function EventListPanel({
-  events,
-  filtered,
+  allEvents,
+  visible,
   sector,
   onSectorChange,
+  query,
+  onQueryChange,
+  sort,
+  onSortChange,
   selected,
   onSelect,
+  searchInputId,
 }: {
-  events: EventSummary[];
-  filtered: EventSummary[];
+  allEvents: EventSummary[];
+  visible: EventSummary[];
   sector: SectorFilter;
   onSectorChange: (s: SectorFilter) => void;
+  query: string;
+  onQueryChange: (q: string) => void;
+  sort: Sort;
+  onSortChange: (s: Sort) => void;
   selected: string | null;
   onSelect: (id: string) => void;
+  searchInputId: string;
 }) {
-  const [query, setQuery] = useState("");
-  const [sort, setSort] = useState<Sort>("impact");
-
-  const searched = query
-    ? filtered.filter((e) =>
-        e.question.toLowerCase().includes(query.toLowerCase()),
-      )
-    : filtered;
-
-  const sorted = [...searched].sort((a, b) => {
-    switch (sort) {
-      case "impact":
-        return (b.impact_score ?? 0) - (a.impact_score ?? 0);
-      case "volume":
-        return b.volume_24h - a.volume_24h;
-      case "prob_high":
-        return b.yes_price - a.yes_price;
-      case "prob_low":
-        return a.yes_price - b.yes_price;
-      case "delta":
-        return Math.abs(b.delta_24h) - Math.abs(a.delta_24h);
-    }
-  });
-
   const countBySector = (s: SectorFilter) =>
-    s === "all" ? events.length : events.filter((e) => e.sector === s).length;
+    s === "all"
+      ? allEvents.length
+      : allEvents.filter((e) => e.sector === s).length;
+
+  const listRef = useRef<HTMLDivElement>(null);
+
+  // Scroll the selected row into view when keyboard nav moves it.
+  useEffect(() => {
+    if (!selected || !listRef.current) return;
+    const el = listRef.current.querySelector<HTMLElement>(
+      `[data-event-id="${selected}"]`,
+    );
+    el?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+  }, [selected]);
 
   return (
     <aside className="flex h-full min-h-0 flex-col bg-bg">
@@ -76,6 +75,7 @@ export function EventListPanel({
             <button
               key={s.value}
               onClick={() => onSectorChange(s.value)}
+              title={`Hotkey: ${s.hotkey}`}
               className={cn(
                 "relative flex-1 border-r border-border py-2.5 last:border-r-0 transition-colors",
                 active
@@ -100,15 +100,16 @@ export function EventListPanel({
         <div className="flex flex-1 items-center gap-1.5">
           <Search size={11} className="text-fg-faint" />
           <input
+            id={searchInputId}
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="filter..."
+            onChange={(e) => onQueryChange(e.target.value)}
+            placeholder="filter... (press /)"
             className="w-full bg-transparent text-[11px] text-fg placeholder:text-fg-faint focus:outline-none"
           />
         </div>
         <select
           value={sort}
-          onChange={(e) => setSort(e.target.value as Sort)}
+          onChange={(e) => onSortChange(e.target.value as Sort)}
           className="cursor-pointer bg-transparent text-[10px] uppercase tracking-wider text-fg-muted focus:outline-none"
         >
           {SORTS.map((s) => (
@@ -128,13 +129,13 @@ export function EventListPanel({
       </div>
 
       {/* Rows */}
-      <div className="min-h-0 flex-1 overflow-y-auto">
-        {sorted.length === 0 ? (
+      <div ref={listRef} className="min-h-0 flex-1 overflow-y-auto">
+        {visible.length === 0 ? (
           <div className="p-6 text-center text-[11px] text-fg-faint">
             {query ? `No events match "${query}"` : "No events in this sector."}
           </div>
         ) : (
-          sorted.map((e) => (
+          visible.map((e) => (
             <EventRow
               key={e.id}
               event={e}
@@ -145,14 +146,29 @@ export function EventListPanel({
         )}
       </div>
 
-      {/* Footer */}
+      {/* Footer: result count + keyboard hints */}
       <div className="flex items-center justify-between border-t border-border bg-bg-sunken px-3 py-1 text-[9px] uppercase tracking-wider text-fg-faint">
         <span>
-          {sorted.length} / {events.length}
+          {visible.length} / {allEvents.length}
         </span>
-        <span>sort: {SORTS.find((s) => s.value === sort)?.label}</span>
+        <span className="flex items-center gap-2">
+          <Kbd>j</Kbd>
+          <Kbd>k</Kbd>
+          <Kbd>/</Kbd>
+          <Kbd>1</Kbd>
+          <span className="opacity-50">–</span>
+          <Kbd>5</Kbd>
+        </span>
       </div>
     </aside>
+  );
+}
+
+function Kbd({ children }: { children: React.ReactNode }) {
+  return (
+    <span className="inline-flex h-3.5 min-w-[14px] items-center justify-center rounded-sm border border-border-strong px-1 font-mono text-[9px] text-fg-muted">
+      {children}
+    </span>
   );
 }
 
@@ -172,6 +188,7 @@ function EventRow({
 
   return (
     <button
+      data-event-id={event.id}
       onClick={onSelect}
       className={cn(
         "group grid w-full grid-cols-[1fr_2.5rem_3rem_2.5rem] gap-2 border-b border-border/40 px-3 py-1.5 text-left text-[11px] transition-colors",
@@ -184,7 +201,9 @@ function EventRow({
         <span
           className={cn(
             "h-3 w-[2px] shrink-0 transition-colors",
-            selected ? "bg-accent" : "bg-transparent group-hover:bg-border-strong",
+            selected
+              ? "bg-accent"
+              : "bg-transparent group-hover:bg-border-strong",
           )}
         />
         <span className="truncate">{event.question}</span>

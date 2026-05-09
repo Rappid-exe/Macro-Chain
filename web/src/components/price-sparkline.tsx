@@ -18,8 +18,17 @@ export function PriceSparkline({
   history: PricePoint[];
   height?: number;
 }) {
-  const w = 400; // viewBox width; real pixel width is governed by the wrapper
+  const w = 400;
   const path = useMemo(() => buildPath(history, w, height), [history, height]);
+
+  // Unique key so the CSS animation replays whenever the series changes.
+  const animKey = useMemo(
+    () =>
+      history.length > 0
+        ? `${history[0].t}-${history[history.length - 1].t}-${history.length}`
+        : "empty",
+    [history],
+  );
 
   if (history.length < 2) {
     return (
@@ -37,16 +46,19 @@ export function PriceSparkline({
   const isUp = last >= first;
   const stroke = isUp ? "#7cf0a0" : "#ff5555";
   const fill = isUp ? "rgba(124,240,160,0.10)" : "rgba(255,85,85,0.10)";
+  // Upper bound of path length; exact value doesn't matter for visual
+  // since dasharray + dashoffset are in the same units. Over-estimate.
+  const dashLen = Math.max(w, history.length * 6);
 
   return (
     <div style={{ height }} className="w-full">
       <svg
+        key={animKey}
         viewBox={`0 0 ${w} ${height}`}
         preserveAspectRatio="none"
         width="100%"
         height="100%"
       >
-        {/* 50% baseline */}
         <line
           x1={0}
           x2={w}
@@ -55,9 +67,7 @@ export function PriceSparkline({
           stroke="#1a1a1a"
           strokeDasharray="2 3"
         />
-        {/* area */}
         <path d={path.area} fill={fill} />
-        {/* line */}
         <path
           d={path.line}
           fill="none"
@@ -66,8 +76,9 @@ export function PriceSparkline({
           strokeLinejoin="round"
           strokeLinecap="round"
           vectorEffect="non-scaling-stroke"
+          className="stroke-draw"
+          style={{ ["--dash" as string]: dashLen }}
         />
-        {/* last-point marker */}
         <circle
           cx={path.lastX}
           cy={path.lastY}

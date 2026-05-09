@@ -5,20 +5,29 @@ import { ArrowDown, ArrowUp, Minus } from "lucide-react";
 import { cn } from "@/lib/cn";
 import type { GraphNode } from "@/lib/types";
 
+type NodeData = { node: GraphNode; highlighted?: boolean; dimmed?: boolean };
+
 /**
- * A node in the causal graph, terminal-style. Rectangular, mono font,
- * tight padding, bracketed kind tag. Tickers show direction arrow.
+ * Graph node card with hover-path visual state.
+ * - default: normal
+ * - highlighted: on the current causal path, amber ring, raised
+ * - dimmed: off the current path, opacity 0.25
  */
-export function GraphNodeCard({ data }: NodeProps<{ node: GraphNode }>) {
+export function GraphNodeCard({ data }: NodeProps<NodeData>) {
   const n = data.node;
+  const { highlighted, dimmed } = data;
 
   const kindStyles: Record<GraphNode["kind"], string> = {
-    event: "border-accent bg-black text-fg max-w-[240px]",
-    theme: "border-accent-info/60 bg-black text-accent-info max-w-[200px]",
+    event:
+      "border-accent bg-black text-fg max-w-[240px]",
+    theme:
+      "border-accent-info/60 bg-black text-accent-info max-w-[200px]",
     commodity:
       "border-accent-warn/60 bg-black text-accent-warn max-w-[180px]",
-    sector: "border-border-strong bg-black text-fg-muted max-w-[180px]",
-    ticker: "border-border-strong bg-black text-fg max-w-[170px]",
+    sector:
+      "border-border-strong bg-black text-fg-muted max-w-[180px]",
+    ticker:
+      "border-border-strong bg-black text-fg max-w-[170px]",
   };
 
   const kindLabel: Record<GraphNode["kind"], string> = {
@@ -50,8 +59,10 @@ export function GraphNodeCard({ data }: NodeProps<{ node: GraphNode }>) {
   return (
     <div
       className={cn(
-        "border px-2 py-1.5 font-mono text-[11px] leading-tight",
+        "border px-2 py-1.5 font-mono text-[11px] leading-tight transition-all duration-150",
         kindStyles[n.kind],
+        highlighted && "!border-accent shadow-[0_0_0_1px_#ffa940] scale-105",
+        dimmed && "opacity-25",
       )}
     >
       <Handle
