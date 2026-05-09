@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+}
+
+html,
+body {
+  background-color: #0b0d10;
+  color: #e6e8eb;
+  font-family: var(--font-sans);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* React Flow overrides for dark theme */
+.react-flow__node {
+  font-family: var(--font-sans);
+}
+.react-flow__edge-path {
+  stroke-width: 1.5;
+}
+.react-flow__edge.inferred .react-flow__edge-path {
+  stroke-dasharray: 6 4;
+}
+.react-flow__edge.speculative .react-flow__edge-path {
+  stroke-dasharray: 2 3;
+  opacity: 0.7;
+}
+.react-flow__background {
+  background-color: #0b0d10;
+}
+
+/* Subtle scrollbar on dark bg */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a3038;
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3a424d;
+}
