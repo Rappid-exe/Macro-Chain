@@ -10,6 +10,8 @@ class Settings(BaseSettings):
 
     anthropic_api_key: str | None = None
     openai_api_key: str | None = None
+    google_api_key: str | None = None
+    gemini_model: str = "gemini-2.5-flash"
 
     polymarket_gamma_url: str = "https://gamma-api.polymarket.com"
     kalshi_api_url: str = "https://api.elections.kalshi.com/trade-api/v2"

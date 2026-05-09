@@ -1,18 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowDown, ArrowUp, Minus } from "lucide-react";
+import { ArrowDown, ArrowUp, Minus, Sparkles } from "lucide-react";
 import { cn } from "@/lib/cn";
-import type { EventDetail, EventSummary, Report, TickerImpact } from "@/lib/types";
+import type {
+  EventDetail,
+  EventSummary,
+  Report,
+  TickerImpact,
+} from "@/lib/types";
 import { PriceSparkline } from "./price-sparkline";
 import { SectionHeader } from "./section-header";
 
 /**
- * Middle column. The "F.E." (focused event) from the sketch:
- *   - executive summary
- *   - equities list broken into 1st / 2nd / 3rd order chains
- * Also shows the price sparkline and key stats so the analyst has
- * everything in one pane without needing to navigate.
+ * Middle column: the "focused event" (F.E.) from the sketch.
+ * Top block: question + metadata + stat strip + sparkline.
+ * Middle block: executive summary.
+ * Bottom block: equities list broken into 1st/2nd/3rd order chains.
  */
 export function FocusedEventPanel({
   summary,
@@ -45,8 +49,6 @@ export function FocusedEventPanel({
     return () => {
       cancelled = true;
     };
-    // summary.id is the meaningful dep; we intentionally exclude summary
-    // object identity to avoid re-fetching on list re-orders.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [summary?.id]);
 
@@ -60,35 +62,46 @@ export function FocusedEventPanel({
 
   const pct = Math.round(summary.yes_price * 100);
   const deltaPP = summary.delta_24h * 100;
+  const isUp = deltaPP >= 0;
 
   return (
     <section className="flex min-h-0 flex-col overflow-y-auto bg-bg">
       {/* Header block */}
-      <div className="border-b border-border px-4 py-3">
-        <SectionHeader>F.E.  Focused Event</SectionHeader>
-        <h2 className="mt-2 text-[13px] leading-snug text-fg">
-          {summary.question}
-        </h2>
-        <div className="mt-2 flex items-baseline gap-4 text-[10px] uppercase tracking-wider text-fg-faint">
-          <span>{summary.source}</span>
-          <span>{summary.sector}</span>
-          {summary.resolution_date && (
-            <span>
-              resolves{" "}
-              <span className="text-fg-muted">
-                {new Date(summary.resolution_date).toLocaleDateString()}
-              </span>
-            </span>
-          )}
+      <div className="border-b border-border bg-bg-sunken/40 px-4 pb-3 pt-3">
+        <div className="flex items-center justify-between">
+          <SectionHeader>F.E. &middot; Focused Event</SectionHeader>
+          <div className="flex items-center gap-2 text-[9px] uppercase tracking-wider text-fg-faint">
+            <span>{summary.source}</span>
+            <span className="text-border-strong">|</span>
+            <span>{summary.sector}</span>
+          </div>
         </div>
 
+        <h2 className="mt-2 text-[13px] font-semibold leading-snug text-fg">
+          {summary.question}
+        </h2>
+
+        {summary.resolution_date && (
+          <div className="mt-1.5 text-[10px] uppercase tracking-wider text-fg-faint">
+            resolves{" "}
+            <span className="text-fg-muted">
+              {new Date(summary.resolution_date).toLocaleDateString(undefined, {
+                year: "numeric",
+                month: "short",
+                day: "numeric",
+              })}
+            </span>
+          </div>
+        )}
+
         {/* Stat strip */}
-        <div className="mt-3 grid grid-cols-4 divide-x divide-border border border-border bg-bg-sunken">
+        <div className="mt-3 grid grid-cols-4 divide-x divide-border border border-border bg-bg">
           <Stat label="YES" value={`${pct}%`} />
           <Stat
-            label="24h Δ"
-            value={`${deltaPP >= 0 ? "+" : ""}${deltaPP.toFixed(1)}pp`}
-            tone={deltaPP >= 0 ? "up" : "down"}
+            label="24H Δ"
+            value={`${isUp ? "+" : ""}${deltaPP.toFixed(1)}`}
+            suffix="pp"
+            tone={Math.abs(deltaPP) < 0.1 ? undefined : isUp ? "up" : "down"}
           />
           <Stat label="VOL 24H" value={formatMoney(summary.volume_24h)} />
           <Stat
@@ -108,39 +121,40 @@ export function FocusedEventPanel({
 
         {/* Sparkline */}
         {detail && detail.history.length > 1 && (
-          <div className="mt-3 border border-border bg-bg-sunken p-2">
-            <div className="flex items-center justify-between">
-              <SectionHeader compact>Yes price history</SectionHeader>
+          <div className="mt-3 border border-border bg-bg px-2 pb-1.5 pt-1">
+            <div className="flex items-baseline justify-between">
+              <span className="text-[9px] uppercase tracking-wider text-fg-faint">
+                Yes price history
+              </span>
               <span className="text-[9px] text-fg-faint">
-                {detail.history.length} pts
+                {detail.history.length} points
               </span>
             </div>
-            <div className="mt-1">
-              <PriceSparkline history={detail.history} height={70} />
-            </div>
+            <PriceSparkline history={detail.history} height={64} />
           </div>
         )}
       </div>
 
       {/* Executive summary */}
       <div className="border-b border-border px-4 py-3">
-        <SectionHeader>Exec Summary</SectionHeader>
-        <div className="mt-2 text-[12px] leading-relaxed text-fg-muted">
+        <div className="flex items-center gap-2">
+          <SectionHeader>Executive Summary</SectionHeader>
+          {report && report.executive_summary.length > 200 && (
+            <span className="flex items-center gap-1 text-[9px] text-accent">
+              <Sparkles size={9} /> llm
+            </span>
+          )}
+        </div>
+        <div className="mt-2 text-[12px] leading-relaxed text-fg">
           {reportLoading && !report ? (
-            <span className="text-fg-faint">Reasoning chain…</span>
+            <SkeletonLines count={3} />
           ) : report ? (
             <>
-              <p>{report.executive_summary}</p>
-              <div className="mt-2 flex flex-wrap gap-3 text-[10px] uppercase tracking-wider text-fg-faint">
-                <span>
-                  scenario <span className="text-fg">{report.scenario}</span>
-                </span>
-                <span>
-                  horizon <span className="text-fg">{report.horizon_days}d</span>
-                </span>
-                <span>
-                  conf <span className="text-fg">{report.confidence}</span>
-                </span>
+              <p className="text-fg-muted">{report.executive_summary}</p>
+              <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-1 text-[10px] uppercase tracking-wider text-fg-faint">
+                <TagPair label="scenario" value={report.scenario.toUpperCase()} />
+                <TagPair label="horizon" value={`${report.horizon_days}d`} />
+                <TagPair label="confidence" value={report.confidence} />
               </div>
             </>
           ) : (
@@ -149,17 +163,18 @@ export function FocusedEventPanel({
         </div>
       </div>
 
-      {/* Equities, grouped by order */}
-      <div className="flex-1 overflow-y-auto px-4 py-3">
-        <SectionHeader>Equities</SectionHeader>
+      {/* Equities */}
+      <div className="flex-1 px-4 py-3">
+        <SectionHeader>Impacted Equities</SectionHeader>
         {loading && !report ? (
-          <div className="mt-3 text-[11px] text-fg-faint">Loading chains…</div>
+          <div className="mt-3">
+            <SkeletonLines count={5} />
+          </div>
         ) : report && report.impacts.length > 0 ? (
           <EquitiesList report={report} />
         ) : (
           <div className="mt-3 text-[11px] text-fg-faint">
-            No tradeable impacts in the seed graph. Try a different event or
-            enable LLM enrichment in api/.env.
+            No tradeable impacts identified.
           </div>
         )}
       </div>
@@ -173,10 +188,10 @@ function EquitiesList({ report }: { report: Report }) {
   const third = report.impacts.filter((i) => i.order === 3);
 
   return (
-    <div className="mt-2 space-y-3">
+    <div className="mt-2 space-y-4">
       {first.length > 0 && <OrderGroup label="1st order" impacts={first} />}
       {second.length > 0 && <OrderGroup label="2nd order" impacts={second} />}
-      {third.length > 0 && <OrderGroup label="3rd order" impacts={third} />}
+      {third.length > 0 && <OrderGroup label="3rd order · speculative" impacts={third} />}
     </div>
   );
 }
@@ -190,12 +205,12 @@ function OrderGroup({
 }) {
   return (
     <div>
-      <div className="flex items-center gap-2 border-b border-border/50 pb-1 text-[10px] uppercase tracking-wider text-fg-faint">
+      <div className="flex items-baseline gap-2 border-b border-border/60 pb-1 text-[10px] uppercase tracking-wider">
         <span className="text-accent">↳</span>
-        {label}
+        <span className="text-fg-muted">{label}</span>
         <span className="text-fg-faint">({impacts.length})</span>
       </div>
-      <ul className="mt-1.5 space-y-1">
+      <ul className="mt-1.5 divide-y divide-border/30">
         {impacts.map((i, idx) => (
           <ImpactRow key={`${i.symbol}-${idx}`} impact={i} />
         ))}
@@ -219,17 +234,17 @@ function ImpactRow({ impact }: { impact: TickerImpact }) {
         : "text-accent-warn";
 
   return (
-    <li className="flex items-start gap-2 py-1 text-[11px]">
+    <li className="flex items-start gap-3 py-1.5 text-[11px]">
       <span className={cn("flex w-16 shrink-0 items-center gap-1", tone)}>
         <Icon size={11} />
         <span className="font-semibold">{impact.symbol}</span>
       </span>
-      <span className="w-14 shrink-0 tabular-nums text-fg-faint">
+      <span className="w-14 shrink-0 text-right tabular-nums text-fg-faint">
         {Math.round(impact.magnitude_bps)}bp
       </span>
       <span className="min-w-0 flex-1 leading-relaxed text-fg-muted">
         <span className="text-fg">{impact.name}</span>
-        <span className="mx-1.5 text-fg-faint">—</span>
+        <span className="mx-1.5 text-fg-faint">&mdash;</span>
         {impact.thesis}
       </span>
     </li>
@@ -239,10 +254,12 @@ function ImpactRow({ impact }: { impact: TickerImpact }) {
 function Stat({
   label,
   value,
+  suffix,
   tone,
 }: {
   label: string;
   value: string;
+  suffix?: string;
   tone?: "up" | "down" | "accent";
 }) {
   const toneCls =
@@ -254,13 +271,46 @@ function Stat({
           ? "text-accent"
           : "text-fg";
   return (
-    <div className="px-2 py-1.5">
+    <div className="px-2.5 py-2">
       <div className="text-[9px] uppercase tracking-wider text-fg-faint">
         {label}
       </div>
-      <div className={cn("mt-0.5 text-[13px] font-semibold tabular-nums", toneCls)}>
+      <div
+        className={cn(
+          "mt-0.5 text-[13px] font-semibold leading-tight tabular-nums",
+          toneCls,
+        )}
+      >
         {value}
+        {suffix && (
+          <span className="ml-0.5 text-[10px] font-normal text-fg-faint">
+            {suffix}
+          </span>
+        )}
       </div>
+    </div>
+  );
+}
+
+function TagPair({ label, value }: { label: string; value: string }) {
+  return (
+    <span>
+      {label}{" "}
+      <span className="tracking-normal text-fg">{value}</span>
+    </span>
+  );
+}
+
+function SkeletonLines({ count }: { count: number }) {
+  return (
+    <div className="space-y-1.5">
+      {Array.from({ length: count }).map((_, i) => (
+        <div
+          key={i}
+          className="h-2.5 animate-pulse bg-border"
+          style={{ width: `${90 - i * 10}%` }}
+        />
+      ))}
     </div>
   );
 }

@@ -6,9 +6,7 @@ import { CausalGraphView } from "./causal-graph-view";
 import { SectionHeader } from "./section-header";
 
 /**
- * Right column. Causal graph on top, summary block on bottom.
- * Matches the sketch: graph sized large, with a boxed "G" caption area
- * beneath showing the reasoner's take in plain text.
+ * Right column. Causal graph on top, compact reasoner readout below.
  */
 export function GraphPanel({ eventId }: { eventId: string | null }) {
   const [graph, setGraph] = useState<CausalGraph | null>(null);
@@ -52,43 +50,59 @@ export function GraphPanel({ eventId }: { eventId: string | null }) {
     };
   }, [eventId]);
 
+  const byKind = graph
+    ? graph.nodes.reduce<Record<string, number>>((acc, n) => {
+        acc[n.kind] = (acc[n.kind] ?? 0) + 1;
+        return acc;
+      }, {})
+    : {};
+
   return (
     <section className="flex min-h-0 flex-col bg-bg">
-      {/* Graph area */}
-      <div className="min-h-0 flex-1 border-b border-border">
-        <div className="flex items-center justify-between border-b border-border bg-bg-sunken px-4 py-1.5">
-          <SectionHeader>Causal Graph</SectionHeader>
-          {graph && (
-            <span className="text-[10px] text-fg-faint">
-              {graph.nodes.length} nodes · {graph.edges.length} edges
+      {/* Graph title bar */}
+      <div className="flex shrink-0 items-center justify-between border-b border-border bg-bg-sunken/40 px-4 py-1.5">
+        <SectionHeader>Causal Graph</SectionHeader>
+        {graph && (
+          <div className="flex items-center gap-3 text-[9px] uppercase tracking-wider text-fg-faint">
+            {["event", "theme", "commodity", "sector", "ticker"].map((k) =>
+              byKind[k] ? (
+                <span key={k}>
+                  {k.slice(0, 3)}{" "}
+                  <span className="text-fg-muted">{byKind[k]}</span>
+                </span>
+              ) : null,
+            )}
+            <span className="text-border-strong">|</span>
+            <span>
+              edges <span className="text-fg-muted">{graph.edges.length}</span>
             </span>
-          )}
-        </div>
-        <div className="relative h-[calc(100%-28px)]">
-          {!eventId ? (
-            <EmptyState label="Select an event to render its causal graph." />
-          ) : err ? (
-            <EmptyState label={`Graph error: ${err}`} tone="down" />
-          ) : !graph ? (
-            <EmptyState label="Building causal chain…" />
-          ) : (
-            <CausalGraphView graph={graph} />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      {/* Summary */}
-      <div className="max-h-[30%] min-h-[120px] overflow-y-auto px-4 py-3">
-        <SectionHeader>Reasoner Summary</SectionHeader>
-        <div className="mt-2 text-[11px] leading-relaxed text-fg-muted">
+      {/* Graph canvas */}
+      <div className="relative min-h-0 flex-1 border-b border-border">
+        {!eventId ? (
+          <EmptyState label="Select an event to render its causal graph." />
+        ) : err ? (
+          <EmptyState label={`Graph error: ${err}`} tone="down" />
+        ) : !graph ? (
+          <EmptyState label="Building causal chain..." />
+        ) : (
+          <CausalGraphView graph={graph} />
+        )}
+      </div>
+
+      {/* Reasoner readout */}
+      <div className="max-h-[35%] min-h-[110px] shrink-0 overflow-y-auto bg-bg-sunken/40 px-4 py-3">
+        <SectionHeader>Reasoner Readout</SectionHeader>
+        <div className="mt-2 space-y-2 text-[11px] leading-relaxed text-fg-muted">
           {report ? (
             <>
               <p>{report.executive_summary}</p>
               {report.assumptions.length > 0 && (
-                <div className="mt-2">
-                  <span className="text-[10px] uppercase tracking-wider text-fg-faint">
-                    Assumptions:
-                  </span>{" "}
+                <div className="border-l-2 border-border pl-2 text-[10px] text-fg-faint">
+                  <span className="uppercase tracking-wider">Assumptions:</span>{" "}
                   {report.assumptions.join(" · ")}
                 </div>
               )}

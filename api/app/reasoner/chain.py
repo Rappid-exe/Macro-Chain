@@ -67,25 +67,37 @@ def build_graph(event: EventDetail) -> CausalGraph:
     event_node = _event_node(event)
     nodes[event_node.id] = event_node
 
-    # Seed: link the event to each matched theme with an `impacts` edge.
-    # These are direct because the matcher is deterministic evidence.
+    # Scenario-aware seeding. If the YES price is >= 0.5 we reason under
+    # "the event resolves YES" and the theme activates in its natural
+    # direction (up). If YES is < 0.5 the scenario is "NO resolves",
+    # which means the theme does NOT activate — we seed themes as 'down'
+    # so downstream direction composition correctly inverts. For a market
+    # like "Will Bitcoin hit $150k?" at 10%, the reasoned scenario is a
+    # crypto downturn, so IBIT/COIN should propagate as 'down'.
+    scenario_yes = event.yes_price >= 0.5
+    seed_dir: Direction = "up" if scenario_yes else "down"
+
     for theme_id in themes:
         theme = KG_SINGLETON.nodes.get(theme_id)
         if theme is None:
             continue
         nodes[theme_id] = GraphNode(id=theme_id, kind="theme", label=theme.label)
         edge_id = f"{event_node.id}->{theme_id}"
+        activation = "activates" if scenario_yes else "fails to activate"
         edges[edge_id] = GraphEdge(
             id=edge_id,
             source=event_node.id,
             target=theme_id,
             kind="impacts",
             confidence="direct",
-            rationale=f"Event text directly references the {theme.label} theme.",
+            rationale=(
+                f"Under the {('YES' if scenario_yes else 'NO')} scenario the "
+                f"{theme.label} theme {activation}."
+            ),
         )
 
     # BFS outward, tracking composed direction + shortest depth per node.
-    node_direction: dict[str, Direction] = {tid: "up" for tid in themes}
+    node_direction: dict[str, Direction] = {tid: seed_dir for tid in themes}
     node_depth: dict[str, int] = {tid: 0 for tid in themes}
 
     frontier = list(themes)

@@ -1,6 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import {
+  Panel,
+  PanelGroup,
+  PanelResizeHandle,
+} from "react-resizable-panels";
 import type { EventDetail, EventSummary, Sector } from "@/lib/types";
 import { EventListPanel } from "./event-list-panel";
 import { FocusedEventPanel } from "./focused-event-panel";
@@ -8,13 +13,13 @@ import { GraphPanel } from "./graph-panel";
 import { TerminalHeader } from "./terminal-header";
 
 /**
- * Top-level three-column terminal layout. Matches the sketch:
+ * Three-column layout with draggable splitters matching the sketch:
  *
- *  [ sector tabs + event list ] [ focused event + exec summary + chains ] [ graph + summary ]
+ *  [ sector tabs + event list ] | [ focused event + chains ] | [ graph + sum ]
  *
- * Selection is URL-driven via ?e=<id> so refreshes and shares work.
- * Detail + graph + report are fetched client-side when an event is
- * selected; the left list is server-rendered for fast first paint.
+ * Panel sizes are persisted to localStorage under `macro-chain:layout`
+ * so users get their layout back on refresh. Default splits are tuned
+ * for a 1440px+ monitor; narrower screens can drag tighter.
  */
 export function TerminalShell({
   events,
@@ -28,10 +33,9 @@ export function TerminalShell({
   const [detail, setDetail] = useState<EventDetail | null>(null);
   const [detailLoading, setDetailLoading] = useState(false);
 
-  // Default selection: first event in the current sector filter. Keeps
-  // the middle and right panels populated at all times.
   const filtered = useMemo(
-    () => (sector === "all" ? events : events.filter((e) => e.sector === sector)),
+    () =>
+      sector === "all" ? events : events.filter((e) => e.sector === sector),
     [events, sector],
   );
 
@@ -61,24 +65,45 @@ export function TerminalShell({
   }, [selected]);
 
   return (
-    <div className="flex h-screen flex-col bg-bg text-fg">
+    <div className="flex h-screen flex-col overflow-hidden bg-bg text-fg">
       <TerminalHeader eventCount={events.length} />
-      <div className="grid min-h-0 flex-1 grid-cols-[320px_minmax(0,1fr)_minmax(0,1.15fr)] divide-x divide-border">
-        <EventListPanel
-          events={events}
-          filtered={filtered}
-          sector={sector}
-          onSectorChange={setSector}
-          selected={selected}
-          onSelect={setSelected}
-        />
-        <FocusedEventPanel
-          summary={filtered.find((e) => e.id === selected) ?? null}
-          detail={detail}
-          loading={detailLoading}
-        />
-        <GraphPanel eventId={selected} />
-      </div>
+      <PanelGroup
+        direction="horizontal"
+        autoSaveId="macro-chain:layout"
+        className="min-h-0 flex-1"
+      >
+        <Panel defaultSize={22} minSize={16} maxSize={40}>
+          <EventListPanel
+            events={events}
+            filtered={filtered}
+            sector={sector}
+            onSectorChange={setSector}
+            selected={selected}
+            onSelect={setSelected}
+          />
+        </Panel>
+        <ResizeHandle />
+        <Panel defaultSize={38} minSize={24}>
+          <FocusedEventPanel
+            summary={filtered.find((e) => e.id === selected) ?? null}
+            detail={detail}
+            loading={detailLoading}
+          />
+        </Panel>
+        <ResizeHandle />
+        <Panel defaultSize={40} minSize={24}>
+          <GraphPanel eventId={selected} />
+        </Panel>
+      </PanelGroup>
     </div>
+  );
+}
+
+function ResizeHandle() {
+  return (
+    <PanelResizeHandle className="group relative w-px bg-border transition-colors data-[resize-handle-state=drag]:bg-accent data-[resize-handle-state=hover]:bg-accent">
+      {/* Wider invisible hit target so the hairline is easy to grab */}
+      <div className="absolute inset-y-0 -left-1 -right-1 z-10" />
+    </PanelResizeHandle>
   );
 }
