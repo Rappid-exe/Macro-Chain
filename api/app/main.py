@@ -23,6 +23,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
 from app.reasoner.chain import build_graph, build_report
 from app.reasoner.llm import enrich_with_llm
+from app.reasoner.scoring import score_event
 from app.schemas import CausalGraph, EventDetail, EventSummary, Report
 from app.sources import fixtures, polymarket
 
@@ -50,10 +51,12 @@ async def list_events(limit: int = 50) -> list[EventSummary]:
     if settings.use_fixtures:
         return fixtures.list_events()
     try:
-        return await polymarket.list_events(limit=limit)
+        events = await polymarket.list_events(limit=limit)
     except Exception as exc:  # noqa: BLE001 — degrade gracefully
         log.warning("polymarket live fetch failed, falling back to fixtures: %s", exc)
         return fixtures.list_events()
+
+    return [e.model_copy(update={"impact_score": score_event(e)}) for e in events]
 
 
 @app.get("/events/{event_id}", response_model=EventDetail)

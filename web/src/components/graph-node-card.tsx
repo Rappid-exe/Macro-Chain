@@ -7,18 +7,23 @@ import type { GraphNode } from "@/lib/types";
 
 /**
  * A single node in the causal graph. Styled per node kind so the
- * hierarchy reads at a glance: event (top), theme, commodity/sector,
- * ticker (leaf).
+ * hierarchy reads at a glance: event (far left), themes, commodities /
+ * sectors, tickers (right).
  */
 export function GraphNodeCard({ data }: NodeProps<{ node: GraphNode }>) {
   const n = data.node;
 
   const kindStyles: Record<GraphNode["kind"], string> = {
-    event: "border-fg/40 bg-fg/5 text-fg min-w-[220px]",
-    theme: "border-accent-info/40 bg-accent-info/5 text-accent-info",
-    commodity: "border-accent-warn/40 bg-accent-warn/5 text-accent-warn",
-    sector: "border-fg-muted/30 bg-bg-sunken text-fg-muted",
-    ticker: "border-border-strong bg-bg-sunken text-fg",
+    event:
+      "border-fg/40 bg-fg/5 text-fg max-w-[260px]",
+    theme:
+      "border-accent-info/40 bg-accent-info/5 text-accent-info max-w-[220px]",
+    commodity:
+      "border-accent-warn/40 bg-accent-warn/5 text-accent-warn max-w-[180px]",
+    sector:
+      "border-fg-muted/30 bg-bg-sunken text-fg-muted max-w-[180px]",
+    ticker:
+      "border-border-strong bg-bg-sunken text-fg max-w-[180px]",
   };
 
   const arrow =
@@ -37,11 +42,21 @@ export function GraphNodeCard({ data }: NodeProps<{ node: GraphNode }>) {
         kindStyles[n.kind],
       )}
     >
-      <Handle type="target" position={Position.Left} className="!border-0 !bg-border" />
+      <Handle
+        type="target"
+        position={Position.Left}
+        className="!border-0 !bg-border"
+      />
       <div className="flex items-center gap-1.5">
         {n.kind === "ticker" && arrow}
-        <span className={cn("font-medium", n.kind === "ticker" && "font-mono")}>
-          {n.label.length > 44 ? n.label.slice(0, 42) + "…" : n.label}
+        <span
+          className={cn(
+            "font-medium leading-snug",
+            n.kind === "ticker" && "font-mono",
+            n.kind === "event" && "line-clamp-3 whitespace-normal",
+          )}
+        >
+          {n.kind === "event" ? n.label : truncate(n.label, 36)}
         </span>
       </div>
       {n.sublabel && (
@@ -59,4 +74,8 @@ export function GraphNodeCard({ data }: NodeProps<{ node: GraphNode }>) {
       />
     </div>
   );
+}
+
+function truncate(s: string, n: number) {
+  return s.length > n ? s.slice(0, n - 1) + "…" : s;
 }

@@ -22,7 +22,9 @@ const KIND_ORDER: Record<GraphNode["kind"], number> = {
   ticker: 3,
 };
 
-// Simple column-based layout: kind determines column, then space vertically.
+// Column layout, with tickers wrapping into multiple sub-columns when there
+// are many. This keeps the graph readable for events that touch a whole
+// sector (e.g. Bitcoin -> 6 crypto names).
 function layout(graph: CausalGraph): Node[] {
   const columns: Record<number, GraphNode[]> = {};
   for (const n of graph.nodes) {
@@ -30,14 +32,23 @@ function layout(graph: CausalGraph): Node[] {
     (columns[col] ||= []).push(n);
   }
 
-  const colGap = 280;
-  const rowGap = 110;
+  const colGap = 260;
+  const rowGap = 80;
+  const maxRowsPerCol = 6;
+
   const out: Node[] = [];
   for (const [colStr, nodes] of Object.entries(columns)) {
     const col = Number(colStr);
+    const subCols = Math.ceil(nodes.length / maxRowsPerCol);
     nodes.forEach((n, i) => {
-      const x = col * colGap;
-      const y = (i - (nodes.length - 1) / 2) * rowGap;
+      const subCol = Math.floor(i / maxRowsPerCol);
+      const rowInCol = i % maxRowsPerCol;
+      const rowsInThisSubCol =
+        subCol === subCols - 1
+          ? nodes.length - subCol * maxRowsPerCol
+          : maxRowsPerCol;
+      const x = col * colGap + subCol * (colGap * 0.75);
+      const y = (rowInCol - (rowsInThisSubCol - 1) / 2) * rowGap;
       out.push({
         id: n.id,
         type: "card",
