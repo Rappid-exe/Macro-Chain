@@ -221,14 +221,14 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
   - Verify: all sections render, content matches V1, new sections (FAQ, Proof of Alpha, Footer, Waitlist) display correctly
 
 - [ ] 15. Responsive layout and accessibility hardening
-  - [ ] 15.1 Implement responsive breakpoints across all sections
+  - [-] 15.1 Implement responsive breakpoints across all sections
     - Verify and adjust: 3-column → 2-column → 1-column transitions at 1024px and 768px breakpoints
     - Ensure no horizontal overflow at any viewport 320px–2560px
     - Body text minimum 16px across all viewports
     - All images/SVGs constrained to max-width 100% of parent
     - _Requirements: 14.1, 14.2, 14.3, 14.4, 14.5, 14.6_
 
-  - [ ] 15.2 Implement accessibility features
+  - [-] 15.2 Implement accessibility features
     - Verify single h1, sequential heading levels (no skips)
     - All interactive elements keyboard-navigable with visible focus indicators (2px width, 3:1 contrast)
     - Focus order matches visual reading order (top-to-bottom, left-to-right)
@@ -260,7 +260,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - _Requirements: 12.1, 12.2, 12.5_
 
 - [ ] 17. Content validation and property-based tests
-  - [ ] 17.1 Validate all text content for language standards
+  - [-] 17.1 Validate all text content for language standards
     - Review all strings in `src/lib/constants.ts` for UK English spelling
     - Verify no em dashes (—), en dashes (–), or exclamation marks
     - Verify no subjective superlatives from banned list

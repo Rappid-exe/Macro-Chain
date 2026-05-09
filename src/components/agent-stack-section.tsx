@@ -6,6 +6,7 @@ function AgentStackSection() {
   return (
     <section aria-labelledby="agent-stack-heading" className="py-20 px-4">
       <SectionWithMockup
+        headingId="agent-stack-heading"
         title="Agent Stack"
         description="Four autonomous agents working in concert to map causal intelligence before the market prices it in."
       >
@@ -30,7 +31,7 @@ function AgentStackSection() {
               <h3 className="text-lg font-bold text-text-primary">
                 {card.title}
               </h3>
-              <p className="mt-2 text-sm leading-relaxed text-text-secondary">
+              <p className="mt-2 text-base leading-relaxed text-text-secondary">
                 {card.description}
               </p>
             </article>

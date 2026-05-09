@@ -16,6 +16,7 @@ interface SectionWithMockupProps {
   mockupAlt?: string;
   reverse?: boolean;
   className?: string;
+  headingId?: string;
 }
 
 /**
@@ -32,6 +33,7 @@ export function SectionWithMockup({
   mockupAlt,
   reverse = false,
   className,
+  headingId,
 }: SectionWithMockupProps) {
   const prefersReducedMotion = usePreferReducedMotion();
   const sectionRef = useRef<HTMLDivElement>(null);
@@ -65,7 +67,7 @@ export function SectionWithMockup({
         >
           {/* Text content */}
           <div className="flex-1 space-y-4">
-            <h3 className="text-2xl font-bold text-text-primary">{title}</h3>
+            <h2 id={headingId} className="text-2xl font-bold text-text-primary">{title}</h2>
             <p className="text-base leading-relaxed text-text-secondary">
               {description}
             </p>
@@ -114,7 +116,7 @@ export function SectionWithMockup({
             ease: "easeOut",
           }}
         >
-          <h3 className="text-2xl font-bold text-text-primary">{title}</h3>
+          <h2 id={headingId} className="text-2xl font-bold text-text-primary">{title}</h2>
           <p className="text-base leading-relaxed text-text-secondary">
             {description}
           </p>

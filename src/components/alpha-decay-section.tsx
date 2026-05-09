@@ -14,7 +14,7 @@ export default function AlphaDecaySection() {
         Alpha Decay
       </h2>
 
-      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 lg:grid-cols-3">
+      <div className="mx-auto grid max-w-6xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         {ALPHA_DECAY_CARDS.map((card) => (
           <article
             key={card.order}

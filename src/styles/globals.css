@@ -10,6 +10,20 @@
   font-display: swap;
 }
 
+@layer base {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  img,
+  svg,
+  video {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
 :root {
   /* Palette */
   --color-bg-primary: #050505;
@@ -49,4 +63,21 @@
 .marquee-container:hover .marquee-track,
 .marquee-container:focus-within .marquee-track {
   animation-play-state: paused;
+}
+
+/* Global focus-visible styles for interactive elements */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-signal-green);
+  outline-offset: 2px;
+  border-radius: var(--radius);
+}
+
+/* Remove default outline for elements with custom ring styles */
+.focus-visible\\:ring-2:focus-visible {
+  outline: none;
 }

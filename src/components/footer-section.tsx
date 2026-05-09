@@ -73,13 +73,13 @@ export default function FooterSection() {
     >
       <div className="mx-auto max-w-7xl px-6 py-12 lg:px-8">
         {/* Main three-column grid */}
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           {/* Left column: Logo + Tagline */}
           <div>
             <p className="text-lg font-semibold text-text-primary">
               Macro-Chain
             </p>
-            <p className="mt-2 text-sm text-text-secondary">{FOOTER_TAGLINE}</p>
+            <p className="mt-2 text-base text-text-secondary">{FOOTER_TAGLINE}</p>
           </div>
 
           {/* Centre column: Navigation link groups */}
@@ -94,7 +94,7 @@ export default function FooterSection() {
                     <li key={link.label}>
                       <a
                         href={link.href}
-                        className="text-sm text-text-secondary transition-colors hover:text-signal-green"
+                        className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-signal-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-green focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-sm"
                       >
                         {link.label}
                       </a>
@@ -114,7 +114,7 @@ export default function FooterSection() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={social.ariaLabel}
-                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-text-secondary transition-colors hover:text-signal-green"
+                className="inline-flex min-h-[44px] min-w-[44px] items-center justify-center text-text-secondary transition-colors hover:text-signal-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-green focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-sm"
               >
                 <SocialIcon platform={social.platform} />
               </a>
@@ -130,7 +130,7 @@ export default function FooterSection() {
               <a
                 key={link.label}
                 href={link.href}
-                className="text-sm text-text-secondary transition-colors hover:text-signal-green"
+                className="inline-flex min-h-[44px] items-center text-sm text-text-secondary transition-colors hover:text-signal-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-signal-green focus-visible:ring-offset-2 focus-visible:ring-offset-bg-primary rounded-sm"
               >
                 {link.label}
               </a>

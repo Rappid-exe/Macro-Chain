@@ -71,7 +71,7 @@ export default function ProofOfAlphaSection() {
                 <p className="text-base font-semibold text-text-primary">
                   {entry.label}
                 </p>
-                <p className="text-sm text-text-secondary">
+                <p className="text-base text-text-secondary">
                   {entry.description}
                 </p>
               </li>
