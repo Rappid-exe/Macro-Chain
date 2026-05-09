@@ -7,7 +7,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
 ## Tasks
 
 - [ ] 1. Set up project structure and build tooling
-  - [-] 1.1 Initialise Vite project with static HTML mode
+  - [x] 1.1 Initialise Vite project with static HTML mode
     - Run `npm init -y` and install Vite as a dev dependency
     - Create `vite.config.js` with static site configuration (asset hashing, minification)
     - Create directory structure: `src/`, `src/styles/`, `src/scripts/`, `src/fonts/`, `public/`
@@ -16,7 +16,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add build and dev scripts to `package.json`
     - _Requirements: 9.1, 9.2_
 
-  - [~] 1.2 Set up font assets and preloading
+  - [-] 1.2 Set up font assets and preloading
     - Add self-hosted Inter variable font (woff2 subset) to `src/fonts/`
     - Create `@font-face` declaration with `font-display: swap` for FOUT behaviour
     - Add `<link rel="preload">` for the font file in `index.html` head
@@ -24,7 +24,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 6.4, 9.1_
 
 - [ ] 2. Implement design system tokens and base styles
-  - [~] 2.1 Create CSS custom properties and base reset
+  - [-] 2.1 Create CSS custom properties and base reset
     - Create `src/styles/tokens.css` with all design system custom properties (palette, typography, spacing, borders)
     - Define `--color-bg-primary: #050505`, `--color-surface: #1A1A1A`, `--color-border: rgba(42, 42, 42, 0.2)`, `--color-text-primary: #EAEAEA`, `--color-text-secondary: #BDBDBD`, `--color-accent: #00E676`
     - Define typography scale using `clamp()` for fluid sizing (body min 16px)
