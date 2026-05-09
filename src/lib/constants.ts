@@ -109,19 +109,29 @@ export const WORKFLOW_COPY =
 
 export const FAQ_ITEMS: FAQItem[] = [
   {
-    question: "How does Macro-Chain prevent hallucinations?",
+    question: "What is Causal Intelligence and how does it differ from standard news alerts?",
     answer:
-      "Our Auditor agent cross-references 10-K filings with global shipping manifests. We do not generate links; we verify existing industrial dependencies.",
+      "Standard alerts tell you what happened. Causal Intelligence identifies the hidden ripples, the secondary and tertiary effects that headlines create across global supply chains and equities.",
   },
   {
-    question:
-      "What is the average latency between a trigger and a 3rd-order alert?",
-    answer: "Our stack delivers validated causal maps in under 180 seconds.",
+    question: "Who is Macro-Chain built for?",
+    answer:
+      "While our terminal is designed for institutional fund managers and macro strategists, it is an essential tool for any trader looking to identify high-conviction opportunities before they become common market knowledge.",
   },
   {
-    question: "Can I customise the sectors monitored?",
+    question: "How accurate are the predictive models?",
     answer:
-      "Yes, the Terminal allows for vertical-specific focus on Energy, Semis, or Ag-Tech.",
+      "Macro-Chain uses a multi-agent system to cross-reference real-world data, such as shipping manifests and regulatory filings, with geopolitical triggers. We provide a Confidence Score for every causal link to help you weigh risk.",
+  },
+  {
+    question: "Does this platform automate trading?",
+    answer:
+      "No. Macro-Chain is a decision-support terminal. It identifies opportunities and generates institutional-grade reports, but the final execution remains in the hands of the human operator.",
+  },
+  {
+    question: "Can I integrate Macro-Chain with my existing research stack?",
+    answer:
+      "Yes. We provide one-click integrations for Notion and Slack, allowing you to push live causal maps and automated briefs directly into your team's existing workspace.",
   },
 ];
 
@@ -151,16 +161,6 @@ export const FOOTER_LINK_GROUPS: FooterLinkGroup[] = [
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  {
-    platform: "twitter",
-    href: "https://x.com/macrochain",
-    ariaLabel: "Follow Macro-Chain on X (formerly Twitter)",
-  },
-  {
-    platform: "linkedin",
-    href: "https://linkedin.com/company/macrochain",
-    ariaLabel: "Connect with Macro-Chain on LinkedIn",
-  },
   {
     platform: "github",
     href: "https://github.com/Rappid-exe/Macro-Chain",

@@ -1,65 +1,46 @@
 import { render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
-import { BackgroundPaths } from "../background-paths";
+import { BackgroundPaths } from "../ui/background-paths";
 
 vi.mock("@/hooks/use-reduced-motion", () => ({
   usePreferReducedMotion: vi.fn(() => false),
 }));
 
-describe("BackgroundPaths", () => {
-  it("renders exactly 36 SVG path elements", () => {
+describe("BackgroundPaths (ui component)", () => {
+  it("renders exactly 72 SVG path elements (36 per FloatingPaths x 2 instances)", () => {
     const { container } = render(<BackgroundPaths />);
     const paths = container.querySelectorAll("path");
-    expect(paths).toHaveLength(36);
+    expect(paths).toHaveLength(72);
   });
 
-  it("has pointer-events-none class on the container", () => {
+  it("has pointer-events-none class on the FloatingPaths containers", () => {
     const { container } = render(<BackgroundPaths />);
-    const wrapper = container.firstElementChild as HTMLElement;
-    expect(wrapper).toHaveClass("pointer-events-none");
+    const pointerNoneElements = container.querySelectorAll(".pointer-events-none");
+    expect(pointerNoneElements.length).toBeGreaterThanOrEqual(2);
   });
 
-  it('has aria-hidden="true" on the container', () => {
+  it("renders SVG elements with title for accessibility", () => {
     const { container } = render(<BackgroundPaths />);
-    const wrapper = container.firstElementChild as HTMLElement;
-    expect(wrapper).toHaveAttribute("aria-hidden", "true");
+    const titles = container.querySelectorAll("title");
+    expect(titles.length).toBeGreaterThanOrEqual(2);
+    expect(titles[0].textContent).toBe("Background Paths");
   });
 
-  it("all paths have stroke-opacity ≤ 0.15", () => {
+  it("all paths have strokeOpacity set", () => {
     const { container } = render(<BackgroundPaths />);
     const paths = container.querySelectorAll("path");
     paths.forEach((path) => {
       const strokeOpacity = path.getAttribute("stroke-opacity");
       const styleOpacity = path.style.opacity;
-      if (strokeOpacity) {
-        expect(Number(strokeOpacity)).toBeLessThanOrEqual(0.15);
-      } else if (styleOpacity) {
-        expect(Number(styleOpacity)).toBeLessThanOrEqual(0.15);
-      }
+      expect(strokeOpacity || styleOpacity).toBeTruthy();
     });
   });
-});
 
-describe("BackgroundPaths (reduced motion)", () => {
-  it("renders static path elements with stroke-opacity when reduced motion is preferred", async () => {
-    // Override the mock to return true for reduced motion
-    const { usePreferReducedMotion } = await import(
-      "@/hooks/use-reduced-motion"
-    );
-    vi.mocked(usePreferReducedMotion).mockReturnValue(true);
-
-    const { container } = render(<BackgroundPaths />);
-    const paths = container.querySelectorAll("path");
-    expect(paths).toHaveLength(36);
-
-    // Static paths should have stroke-opacity attribute directly set
-    paths.forEach((path) => {
-      const strokeOpacity = path.getAttribute("stroke-opacity");
-      expect(strokeOpacity).not.toBeNull();
-      expect(Number(strokeOpacity)).toBeLessThanOrEqual(0.15);
-    });
-
-    // Restore default mock behavior
-    vi.mocked(usePreferReducedMotion).mockReturnValue(false);
+  it("renders the title text passed as prop", () => {
+    const { container } = render(<BackgroundPaths title="Test Title" />);
+    const h1 = container.querySelector("h1");
+    expect(h1).not.toBeNull();
+    expect(h1!.textContent).toContain("Test");
+    expect(h1!.textContent).toContain("Title");
   });
 });

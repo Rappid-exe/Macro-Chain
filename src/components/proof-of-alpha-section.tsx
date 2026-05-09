@@ -209,7 +209,7 @@ export default function ProofOfAlphaSection() {
             {/* Data line */}
             <polyline
               fill="none"
-              stroke="#00E676"
+              stroke="#FACC15"
               strokeWidth="2.5"
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -230,7 +230,7 @@ export default function ProofOfAlphaSection() {
                   cx={x}
                   cy={y}
                   r="4"
-                  fill="#00E676"
+                  fill="#FACC15"
                   stroke="#050505"
                   strokeWidth="2"
                 />
@@ -243,7 +243,7 @@ export default function ProofOfAlphaSection() {
               y1="42"
               x2="60"
               y2="258"
-              stroke="#00E676"
+              stroke="#FACC15"
               strokeWidth="1.5"
               strokeDasharray="6 3"
               opacity="0.7"
@@ -251,7 +251,7 @@ export default function ProofOfAlphaSection() {
             <text
               x="60"
               y="35"
-              fill="#00E676"
+              fill="#FACC15"
               fontSize="10"
               fontFamily="Inter, sans-serif"
               textAnchor="middle"

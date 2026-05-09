@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 
 vi.mock("framer-motion", () => ({
   motion: { div: "div", path: "path" },
@@ -15,10 +15,6 @@ vi.mock("@/hooks/use-reduced-motion", () => ({
 import AgentStackSection from "../agent-stack-section";
 
 describe("AgentStackSection", () => {
-  beforeEach(() => {
-    vi.clearAllMocks();
-  });
-
   describe("agent card content (Req 4.5)", () => {
     it('renders "The Scraper" card with correct description', () => {
       render(<AgentStackSection />);
@@ -67,34 +63,24 @@ describe("AgentStackSection", () => {
     });
   });
 
-  describe("bento layout at desktop viewport (Req 4.1)", () => {
-    it("applies lg:grid-cols-2 class for bento layout", () => {
+  describe("skew card layout", () => {
+    it("renders cards in a flex container", () => {
       const { container } = render(<AgentStackSection />);
-      const grid = container.querySelector(".grid-cols-1");
-      expect(grid).not.toBeNull();
-      expect(grid!.className).toContain("lg:grid-cols-2");
+      const flexContainer = container.querySelector(".flex.justify-center");
+      expect(flexContainer).not.toBeNull();
     });
 
-    it("applies lg:grid-rows-[auto_auto] class for bento layout", () => {
+    it("each card has gradient accent spans", () => {
       const { container } = render(<AgentStackSection />);
-      const grid = container.querySelector(".grid-cols-1");
-      expect(grid).not.toBeNull();
-      expect(grid!.className).toContain("lg:grid-rows-");
+      // Each card wrapper has 2 gradient spans (solid + blurred)
+      const gradientSpans = container.querySelectorAll("[style*='linear-gradient']");
+      expect(gradientSpans.length).toBe(8); // 4 cards × 2 spans each
     });
 
-    it("applies lg:row-span-2 to highlighted cards for asymmetric sizing", () => {
+    it("highlighted cards have signal-green border class", () => {
       const { container } = render(<AgentStackSection />);
-      const highlightedCards = container.querySelectorAll(".lg\\:row-span-2");
+      const highlightedCards = container.querySelectorAll("article.border-signal-green\\/40");
       expect(highlightedCards.length).toBeGreaterThanOrEqual(1);
-    });
-  });
-
-  describe("single-column layout at mobile viewport (Req 4.2)", () => {
-    it("applies grid-cols-1 as the base grid class", () => {
-      const { container } = render(<AgentStackSection />);
-      const grid = container.querySelector(".grid-cols-1");
-      expect(grid).not.toBeNull();
-      expect(grid!.className).toContain("grid-cols-1");
     });
   });
 });

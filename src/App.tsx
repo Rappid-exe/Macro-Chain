@@ -1,16 +1,16 @@
 import { lazy, Suspense } from "react";
 import { SectionErrorBoundary } from "@/components/section-error-boundary";
 
+// Navbar renders synchronously (fixed at top)
+import Navbar from "@/components/navbar";
+
 // Hero renders synchronously (above the fold, critical path)
 import HeroSection from "@/components/hero-section";
 
 // Below-fold sections are lazy-loaded for performance
 const AlphaDecaySection = lazy(() => import("@/components/alpha-decay-section"));
 const AgentStackSection = lazy(() => import("@/components/agent-stack-section"));
-const WorkflowSection = lazy(() => import("@/components/workflow-section"));
-const TechnicalProofSection = lazy(() => import("@/components/technical-proof-section"));
 const FAQSection = lazy(() => import("@/components/faq-section"));
-const ProofOfAlphaSection = lazy(() => import("@/components/proof-of-alpha-section"));
 const WaitlistCTASection = lazy(() => import("@/components/waitlist-cta-section"));
 const FooterSection = lazy(() => import("@/components/footer-section"));
 
@@ -27,6 +27,8 @@ export default function App() {
       >
         Skip to main content
       </a>
+
+      <Navbar />
 
       <main id="main-content">
         <HeroSection />
@@ -45,25 +47,7 @@ export default function App() {
 
         <SectionErrorBoundary fallback={<SectionFallback />}>
           <Suspense fallback={<SectionFallback />}>
-            <WorkflowSection />
-          </Suspense>
-        </SectionErrorBoundary>
-
-        <SectionErrorBoundary fallback={<SectionFallback />}>
-          <Suspense fallback={<SectionFallback />}>
-            <TechnicalProofSection />
-          </Suspense>
-        </SectionErrorBoundary>
-
-        <SectionErrorBoundary fallback={<SectionFallback />}>
-          <Suspense fallback={<SectionFallback />}>
             <FAQSection />
-          </Suspense>
-        </SectionErrorBoundary>
-
-        <SectionErrorBoundary fallback={<SectionFallback />}>
-          <Suspense fallback={<SectionFallback />}>
-            <ProofOfAlphaSection />
           </Suspense>
         </SectionErrorBoundary>
 

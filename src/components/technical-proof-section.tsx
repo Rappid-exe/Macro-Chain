@@ -88,7 +88,7 @@ export default function TechnicalProofSection() {
 
             {/* Nodes */}
             {/* Oil Price */}
-            <circle cx="100" cy="70" r="30" fill="#1A1A1A" stroke="#00E676" strokeWidth="2" />
+            <circle cx="100" cy="70" r="30" fill="#1A1A1A" stroke="#FACC15" strokeWidth="2" />
             <text
               x="100"
               y="75"
@@ -101,7 +101,7 @@ export default function TechnicalProofSection() {
             </text>
 
             {/* Shipping Costs */}
-            <circle cx="370" cy="70" r="30" fill="#1A1A1A" stroke="#00E676" strokeWidth="2" />
+            <circle cx="370" cy="70" r="30" fill="#1A1A1A" stroke="#FACC15" strokeWidth="2" />
             <text
               x="370"
               y="65"
@@ -124,7 +124,7 @@ export default function TechnicalProofSection() {
             </text>
 
             {/* Semiconductor Supply */}
-            <circle cx="270" cy="210" r="30" fill="#1A1A1A" stroke="#00E676" strokeWidth="2" />
+            <circle cx="270" cy="210" r="30" fill="#1A1A1A" stroke="#FACC15" strokeWidth="2" />
             <text
               x="270"
               y="205"
@@ -147,7 +147,7 @@ export default function TechnicalProofSection() {
             </text>
 
             {/* Consumer Electronics */}
-            <circle cx="320" cy="340" r="30" fill="#1A1A1A" stroke="#00E676" strokeWidth="2" />
+            <circle cx="320" cy="340" r="30" fill="#1A1A1A" stroke="#FACC15" strokeWidth="2" />
             <text
               x="320"
               y="335"
@@ -170,7 +170,7 @@ export default function TechnicalProofSection() {
             </text>
 
             {/* Inflation */}
-            <circle cx="100" cy="310" r="30" fill="#1A1A1A" stroke="#00E676" strokeWidth="2" />
+            <circle cx="100" cy="310" r="30" fill="#1A1A1A" stroke="#FACC15" strokeWidth="2" />
             <text
               x="100"
               y="315"

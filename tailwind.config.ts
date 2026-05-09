@@ -10,7 +10,7 @@ const config: Config = {
         border: "rgba(42, 42, 42, 0.2)",
         "text-primary": "#EAEAEA",
         "text-secondary": "#BDBDBD",
-        "signal-green": "#00E676",
+        "signal-green": "#FACC15",
       },
       fontFamily: {
         sans: ["Inter", "-apple-system", "'SF Pro Display'", "sans-serif"],

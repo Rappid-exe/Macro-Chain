@@ -83,7 +83,7 @@ export default function FooterSection() {
           </div>
 
           {/* Centre column: Navigation link groups */}
-          <div className="flex gap-12">
+          <div className="flex gap-12 justify-center">
             {FOOTER_LINK_GROUPS.map((group) => (
               <div key={group.heading}>
                 <h3 className="text-sm font-semibold text-text-primary">
