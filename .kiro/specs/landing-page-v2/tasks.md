@@ -49,7 +49,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Export for use across all animated components
     - _Requirements: 2.6, 3.7, 4.6, 13.5_
 
-- [ ] 3. Checkpoint - Verify project scaffolding
+- [x] 3. Checkpoint - Verify project scaffolding
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: `npm run build` completes with zero errors, Tailwind generates utility classes, shadcn Button renders correctly
 
@@ -139,7 +139,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Buttons announced with full label text to assistive technologies
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5, 5.6, 5.7_
 
-- [ ] 8. Checkpoint - Verify above-fold and mid-page sections
+- [-] 8. Checkpoint - Verify above-fold and mid-page sections
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: Hero renders with animation, Alpha Decay shows 3 columns on desktop, Agent Stack has bento layout, Workflow buttons have icons
 
