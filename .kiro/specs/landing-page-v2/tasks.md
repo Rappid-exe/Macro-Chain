@@ -30,8 +30,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Ensure minimum touch target of 44×44px on all button sizes
     - _Requirements: 1.3, 9.4, 13.6_
 
-- [ ] 2. Core application shell and shared utilities
-  - [ ] 2.1 Create App component and lazy-loading architecture
+- [x] 2. Core application shell and shared utilities
+  - [x] 2.1 Create App component and lazy-loading architecture
     - Create `src/App.tsx` composing all section components in order: HeroSection, AlphaDecaySection, AgentStackSection, WorkflowSection, TechnicalProofSection, FAQSection, ProofOfAlphaSection, WaitlistCTASection, FooterSection
     - Wrap below-fold sections (AlphaDecay through Footer) in `React.lazy()` + `<Suspense>` with static fallbacks
     - Add `<ErrorBoundary>` wrapper around each lazy section
