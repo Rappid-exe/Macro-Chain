@@ -96,8 +96,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
 - [ ] 6. Checkpoint - Verify core sections
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 7. Implement Workflow Integration Section
-  - [-] 7.1 Build Workflow Integration Section HTML and styles
+- [x] 7. Implement Workflow Integration Section
+  - [x] 7.1 Build Workflow Integration Section HTML and styles
     - Add `<section id="workflow" aria-labelledby="workflow-heading">`
     - Add `<h2 id="workflow-heading">` with section heading (e.g., "Integrations" or "Workflow")
     - Add section copy: "Own the most painful 30 minutes of your research day. Automated causal mapping with one-click export to your team's workspace."
@@ -112,8 +112,8 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify hover/pressed states are visually applied
     - _Requirements: 4.1, 4.3_
 
-- [ ] 8. Implement Technical Proof Section
-  - [-] 8.1 Build Technical Proof Section HTML and styles
+- [x] 8. Implement Technical Proof Section
+  - [x] 8.1 Build Technical Proof Section HTML and styles
     - Add `<section id="technical-proof" aria-labelledby="technical-proof-heading">`
     - Add `<h2 id="technical-proof-heading">` with appropriate section heading
     - Write Shannon Entropy explanation (≤50 words): named concept + plain-language role description

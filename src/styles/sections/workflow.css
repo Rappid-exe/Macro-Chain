@@ -1,0 +1,44 @@
+/* Workflow Integration Section */
+
+#workflow {
+  padding: var(--space-xl) var(--space-md);
+  max-width: var(--max-width);
+  margin: 0 auto;
+}
+
+#workflow-heading {
+  font-size: var(--font-size-h2);
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin: 0 0 var(--space-sm) 0;
+}
+
+.workflow-copy {
+  font-size: var(--font-size-body);
+  color: var(--color-text-secondary);
+  max-width: 680px;
+  line-height: 1.6;
+  margin: 0 0 var(--space-md) 0;
+}
+
+.workflow-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.workflow-btn {
+  padding: var(--space-xs) var(--space-md);
+}
+
+.workflow-btn:hover {
+  background-color: rgba(0, 230, 118, 0.1);
+}
+
+.workflow-btn:active {
+  background-color: rgba(0, 230, 118, 0.2);
+}
+
+.workflow-btn.is-pressed {
+  background-color: rgba(0, 230, 118, 0.2);
+}
