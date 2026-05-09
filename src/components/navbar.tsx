@@ -33,8 +33,8 @@ interface MenuItem {
 const menu: MenuItem[] = [
   { title: "Home", url: "#" },
   { title: "Agents", url: "#agents" },
-  { title: "FAQ", url: "#faq" },
   { title: "Contact", url: "#contact" },
+  { title: "FAQ", url: "#faq" },
 ];
 
 const mobileExtraLinks = [

@@ -14,7 +14,7 @@ import type {
 export const HERO_HEADLINE = "The Causal Intelligence Terminal";
 
 export const HERO_SUB_HEADLINE =
-  "Macro-Chain maps 3rd-order geopolitical triggers to equity impact before the market prices them in.";
+  "Macro-Chain maps 3rd-order triggers to equity impact before the market prices them in.";
 
 // ---------------------------------------------------------------------------
 // Live Signals Marquee
@@ -127,11 +127,6 @@ export const FAQ_ITEMS: FAQItem[] = [
     question: "Does this platform automate trading?",
     answer:
       "No. Macro-Chain is a decision-support terminal. It identifies opportunities and generates institutional-grade reports, but the final execution remains in the hands of the human operator.",
-  },
-  {
-    question: "Can I integrate Macro-Chain with my existing research stack?",
-    answer:
-      "Yes. We provide one-click integrations for Notion and Slack, allowing you to push live causal maps and automated briefs directly into your team's existing workspace.",
   },
 ];
 

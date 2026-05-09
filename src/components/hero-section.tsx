@@ -234,16 +234,8 @@ export default function HeroSection() {
             <span className="text-base md:text-lg font-semibold tracking-tight">Bloomberg</span>
           </div>
 
-          {/* Polymarket — bowtie/envelope mark based on actual logo */}
+          {/* Polymarket */}
           <div className="flex items-center gap-2.5 text-white/40 hover:text-white/70 transition-colors duration-300">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" className="shrink-0">
-              <path d="M2 4L12 12L2 20V4Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" fill="none" />
-              <path d="M22 4L12 12L22 20V4Z" stroke="currentColor" strokeWidth="2" strokeLinejoin="round" fill="none" />
-              <path d="M2 4H12" stroke="currentColor" strokeWidth="2" />
-              <path d="M12 4H22" stroke="currentColor" strokeWidth="2" />
-              <path d="M2 20H12" stroke="currentColor" strokeWidth="2" />
-              <path d="M12 20H22" stroke="currentColor" strokeWidth="2" />
-            </svg>
             <span className="text-sm md:text-base font-light tracking-wide">Polymarket</span>
           </div>
 
