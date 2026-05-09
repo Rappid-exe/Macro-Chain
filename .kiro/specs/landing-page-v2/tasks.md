@@ -220,7 +220,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
   - Ensure all tests pass, ask the user if questions arise.
   - Verify: all sections render, content matches V1, new sections (FAQ, Proof of Alpha, Footer, Waitlist) display correctly
 
-- [ ] 15. Responsive layout and accessibility hardening
+- [x] 15. Responsive layout and accessibility hardening
   - [x] 15.1 Implement responsive breakpoints across all sections
     - Verify and adjust: 3-column → 2-column → 1-column transitions at 1024px and 768px breakpoints
     - Ensure no horizontal overflow at any viewport 320px–2560px
@@ -237,7 +237,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - All interactive elements meet 44×44px touch target
     - _Requirements: 13.1, 13.2, 13.3, 13.6, 13.7, 13.8, 13.9_
 
-  - [-] 15.3 Write accessibility E2E tests
+  - [x] 15.3 Write accessibility E2E tests
     - Run axe-core audit via Playwright at multiple viewports (375px, 768px, 1024px, 1440px)
     - Test keyboard navigation order
     - Test focus indicators visible on all interactive elements
@@ -245,7 +245,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - _Requirements: 13.1, 13.3, 13.7, 13.8_
 
 - [ ] 16. Performance optimisation
-  - [ ] 16.1 Implement lazy loading and code splitting
+  - [x] 16.1 Implement lazy loading and code splitting
     - Verify `React.lazy()` + `<Suspense>` for all below-fold sections
     - Verify framer-motion in separate chunk via `manualChunks`
     - Preload Inter woff2 in `<head>` with `font-display: swap`
@@ -253,7 +253,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Add `<SectionErrorBoundary>` fallbacks for failed lazy loads
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5_
 
-  - [ ] 16.2 Write performance E2E tests
+  - [-] 16.2 Write performance E2E tests
     - Test LCP ≤ 2.5s at simulated 25 Mbps / 50ms RTT
     - Test CLS ≤ 0.1 across full page scroll
     - Test Hero visible without scroll at 1024×768
@@ -266,7 +266,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Verify no subjective superlatives from banned list
     - _Requirements: 15.1, 15.2, 15.3, 15.4_
 
-  - [ ] 17.2 Write property test: no banned punctuation
+  - [-] 17.2 Write property test: no banned punctuation
     - **Property 1: Text content contains no banned punctuation**
     - Install `fast-check` as dev dependency
     - Import all text constants from `constants.ts`
@@ -274,7 +274,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Minimum 100 iterations
     - **Validates: Requirements 15.2, 15.3**
 
-  - [ ] 17.3 Write property test: no subjective superlatives
+  - [-] 17.3 Write property test: no subjective superlatives
     - **Property 2: Text content contains no subjective superlatives**
     - Import all text constants from `constants.ts`
     - Assert no string contains words from banned superlatives list
