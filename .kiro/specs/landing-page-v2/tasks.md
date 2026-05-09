@@ -54,7 +54,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
   - Verify: `npm run build` completes with zero errors, Tailwind generates utility classes, shadcn Button renders correctly
 
 - [ ] 4. Hero section with BackgroundPaths animation
-  - [ ] 4.1 Implement BackgroundPaths and FloatingPaths components
+  - [x] 4.1 Implement BackgroundPaths and FloatingPaths components
     - Create `src/components/background-paths.tsx`
     - `FloatingPaths` generates exactly 36 SVG `<path>` elements with framer-motion animations
     - Each path has independent animation timeline (10–30s cycle, infinite repeat)
@@ -70,7 +70,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Test reduced motion renders static paths
     - _Requirements: 2.2, 2.4, 2.5, 2.6_
 
-  - [ ] 4.3 Implement LiveSignalsMarquee component
+  - [x] 4.3 Implement LiveSignalsMarquee component
     - Create `src/components/marquee.tsx` with generic `Marquee` component
     - Create `src/components/hero-section.tsx` composing BackgroundPaths + content + LiveSignalsMarquee
     - Render two rows scrolling in opposite directions (left-to-right, right-to-left)
@@ -96,8 +96,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Use shadcn Button component for CTAs
     - _Requirements: 1.5, 2.1, 12.5_
 
-- [ ] 5. Alpha Decay section
-  - [ ] 5.1 Implement AlphaDecaySection component
+- [x] 5. Alpha Decay section
+  - [x] 5.1 Implement AlphaDecaySection component
     - Create `src/components/alpha-decay-section.tsx`
     - Three-column grid at ≥1024px, single-column below 768px
     - Render three cards (1st Order, 2nd Order, 3rd Order) with exact V1 content from constants
@@ -127,8 +127,8 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Test single-column layout at mobile viewport
     - _Requirements: 4.1, 4.2, 4.5_
 
-- [ ] 7. Workflow section with Lucide icons
-  - [ ] 7.1 Implement WorkflowSection component
+- [x] 7. Workflow section with Lucide icons
+  - [x] 7.1 Implement WorkflowSection component
     - Create `src/components/workflow-section.tsx`
     - Render preserved copy from constants
     - "Send to Notion" button with Lucide `NotebookPen` (or closest Notion icon) rendered left of label

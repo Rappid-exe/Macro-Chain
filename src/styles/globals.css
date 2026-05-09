@@ -25,3 +25,28 @@
   /* Borders */
   --radius: 2px;
 }
+
+/* Marquee animations */
+@keyframes marquee-scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+@keyframes marquee-scroll-right {
+  0% {
+    transform: translateX(-33.333%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Pause marquee on hover/focus */
+.marquee-container:hover .marquee-track,
+.marquee-container:focus-within .marquee-track {
+  animation-play-state: paused;
+}
