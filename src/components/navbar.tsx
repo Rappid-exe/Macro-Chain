@@ -80,7 +80,6 @@ const menu: MenuItem[] = [
       },
     ],
   },
-  { title: "Pricing", url: "#pricing" },
 ];
 
 const mobileExtraLinks = [
@@ -198,14 +197,6 @@ export default function Navbar() {
             </div>
           </div>
           <div className="flex gap-2">
-            <Button
-              asChild
-              variant="ghost"
-              size="sm"
-              className="text-white/60 hover:text-white hover:bg-white/[0.05]"
-            >
-              <a href="#login">Log in</a>
-            </Button>
             <Button asChild size="sm">
               <a href="#signup">Join Waitlist</a>
             </Button>
@@ -261,13 +252,6 @@ export default function Navbar() {
                   </div>
                 </div>
                 <div className="flex flex-col gap-3">
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="border-white/[0.15] text-white hover:bg-white/[0.05]"
-                  >
-                    <a href="#login">Log in</a>
-                  </Button>
                   <Button asChild>
                     <a href="#signup">Join Waitlist</a>
                   </Button>
