@@ -244,7 +244,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Test skip-navigation link functionality
     - _Requirements: 13.1, 13.3, 13.7, 13.8_
 
-- [ ] 16. Performance optimisation
+- [x] 16. Performance optimisation
   - [x] 16.1 Implement lazy loading and code splitting
     - Verify `React.lazy()` + `<Suspense>` for all below-fold sections
     - Verify framer-motion in separate chunk via `manualChunks`
@@ -253,20 +253,20 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Add `<SectionErrorBoundary>` fallbacks for failed lazy loads
     - _Requirements: 12.1, 12.2, 12.3, 12.4, 12.5_
 
-  - [-] 16.2 Write performance E2E tests
+  - [x] 16.2 Write performance E2E tests
     - Test LCP ≤ 2.5s at simulated 25 Mbps / 50ms RTT
     - Test CLS ≤ 0.1 across full page scroll
     - Test Hero visible without scroll at 1024×768
     - _Requirements: 12.1, 12.2, 12.5_
 
-- [ ] 17. Content validation and property-based tests
+- [x] 17. Content validation and property-based tests
   - [x] 17.1 Validate all text content for language standards
     - Review all strings in `src/lib/constants.ts` for UK English spelling
     - Verify no em dashes (—), en dashes (–), or exclamation marks
     - Verify no subjective superlatives from banned list
     - _Requirements: 15.1, 15.2, 15.3, 15.4_
 
-  - [-] 17.2 Write property test: no banned punctuation
+  - [x] 17.2 Write property test: no banned punctuation
     - **Property 1: Text content contains no banned punctuation**
     - Install `fast-check` as dev dependency
     - Import all text constants from `constants.ts`
@@ -274,7 +274,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Minimum 100 iterations
     - **Validates: Requirements 15.2, 15.3**
 
-  - [-] 17.3 Write property test: no subjective superlatives
+  - [x] 17.3 Write property test: no subjective superlatives
     - **Property 2: Text content contains no subjective superlatives**
     - Import all text constants from `constants.ts`
     - Assert no string contains words from banned superlatives list
