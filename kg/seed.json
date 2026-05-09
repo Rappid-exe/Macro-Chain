@@ -1,0 +1,8 @@
+{
+  "_comment": "Seed knowledge graph. Tickers, commodities, and typed edges. This is deliberately small for the hackathon. Edges marked confidence=direct here render as solid in the UI.",
+  "tickers": [],
+  "commodities": [],
+  "sectors": [],
+  "themes": [],
+  "edges": []
+}
