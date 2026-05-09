@@ -3,9 +3,12 @@
 import { useEffect, useMemo, useState } from "react";
 import ReactFlow, {
   Background,
+  BackgroundVariant,
   Controls,
   MarkerType,
   ReactFlowProvider,
+  useEdgesState,
+  useNodesState,
   useReactFlow,
   type Edge,
   type Node,
@@ -24,6 +27,12 @@ const KIND_ORDER: Record<GraphNode["kind"], number> = {
   ticker: 3,
 };
 
+// Grid the auto-layout snaps to. Matches the visible Background grid
+// (GRID_SIZE * GRID_DOTS) so auto-placed nodes land on dot intersections.
+const GRID_SIZE = 20;
+const COL_STEP = GRID_SIZE * 12; // 240px, divisible by GRID_SIZE
+const ROW_STEP = GRID_SIZE * 4; //  80px
+
 function layout(graph: CausalGraph): Node[] {
   const columns: Record<number, GraphNode[]> = {};
   for (const n of graph.nodes) {
@@ -31,8 +40,6 @@ function layout(graph: CausalGraph): Node[] {
     (columns[col] ||= []).push(n);
   }
 
-  const colGap = 240;
-  const rowGap = 72;
   const maxRowsPerCol = 7;
 
   const out: Node[] = [];
@@ -46,12 +53,19 @@ function layout(graph: CausalGraph): Node[] {
         subCol === subCols - 1
           ? nodes.length - subCol * maxRowsPerCol
           : maxRowsPerCol;
-      const x = col * colGap + subCol * (colGap * 0.7);
-      const y = (rowInCol - (rowsInThisSubCol - 1) / 2) * rowGap;
+      // Offset sub-columns by half a step so parallel tickers fit
+      const x = col * COL_STEP + subCol * Math.round(COL_STEP * 0.7);
+      const y = Math.round(
+        (rowInCol - (rowsInThisSubCol - 1) / 2) * ROW_STEP,
+      );
+      // Snap to grid
       out.push({
         id: n.id,
         type: "card",
-        position: { x, y },
+        position: {
+          x: Math.round(x / GRID_SIZE) * GRID_SIZE,
+          y: Math.round(y / GRID_SIZE) * GRID_SIZE,
+        },
         data: { node: n, highlighted: false, dimmed: false },
       });
     });
@@ -84,25 +98,6 @@ function toRFEdges(graph: CausalGraph): Edge[] {
   }));
 }
 
-/**
- * Re-fits the viewport whenever the underlying node set changes.
- */
-function AutoFit({ nodeIds }: { nodeIds: string }) {
-  const { fitView } = useReactFlow();
-  useEffect(() => {
-    const id = requestAnimationFrame(() => {
-      fitView({ padding: 0.2, duration: 300 });
-    });
-    return () => cancelAnimationFrame(id);
-  }, [nodeIds, fitView]);
-  return null;
-}
-
-/**
- * BFS upstream from a target to the event node, returning every node id
- * and edge id on any shortest path. Used to highlight causal chains
- * when the user hovers a ticker (or any node).
- */
 function upstreamPathFrom(
   nodeId: string,
   graph: CausalGraph,
@@ -128,35 +123,81 @@ function upstreamPathFrom(
   return { nodes: seenNodes, edges: seenEdges };
 }
 
-export function CausalGraphView({ graph }: { graph: CausalGraph }) {
+function AutoFit({ sig }: { sig: string }) {
+  const { fitView } = useReactFlow();
+  useEffect(() => {
+    const id = requestAnimationFrame(() => {
+      fitView({ padding: 0.2, duration: 300 });
+    });
+    return () => cancelAnimationFrame(id);
+  }, [sig, fitView]);
+  return null;
+}
+
+/**
+ * Internal component that owns the mutable node/edge state. Lives
+ * inside ReactFlowProvider so hooks work. Dragging updates only the
+ * local node positions; switching events reseeds from the fresh
+ * layout (keyed by the graph's node id set).
+ */
+function GraphInner({ graph }: { graph: CausalGraph }) {
   const baseNodes = useMemo(() => layout(graph), [graph]);
   const baseEdges = useMemo(() => toRFEdges(graph), [graph]);
+
+  // useNodesState / useEdgesState give us the mutable state React Flow
+  // needs for drag + selection. We seed them from the deterministic
+  // layout and reseed whenever the event (and thus the graph) changes.
+  const [nodes, setNodes, onNodesChange] = useNodesState(baseNodes);
+  const [edges, setEdges, onEdgesChange] = useEdgesState(baseEdges);
+
+  const nodeSig = useMemo(
+    () => graph.nodes.map((n) => n.id).join("|"),
+    [graph],
+  );
+
+  useEffect(() => {
+    setNodes(baseNodes);
+    setEdges(baseEdges);
+  }, [nodeSig, baseNodes, baseEdges, setNodes, setEdges]);
+
+  // Hover path highlighting — applied as a transform over whatever
+  // positions the user currently has (dragged or not).
   const [hoverId, setHoverId] = useState<string | null>(null);
 
-  const { highlightNodes, highlightEdges } = useMemo(() => {
-    if (!hoverId) {
-      return { highlightNodes: null, highlightEdges: null };
-    }
-    const { nodes, edges } = upstreamPathFrom(hoverId, graph);
-    return { highlightNodes: nodes, highlightEdges: edges };
-  }, [hoverId, graph]);
-
   const displayNodes = useMemo(() => {
-    if (!highlightNodes) return baseNodes;
-    return baseNodes.map((n) => ({
+    if (!hoverId) {
+      return nodes.map((n) =>
+        n.data?.highlighted || n.data?.dimmed
+          ? { ...n, data: { ...n.data, highlighted: false, dimmed: false } }
+          : n,
+      );
+    }
+    const { nodes: onPath } = upstreamPathFrom(hoverId, graph);
+    return nodes.map((n) => ({
       ...n,
       data: {
         ...n.data,
-        highlighted: highlightNodes.has(n.id),
-        dimmed: !highlightNodes.has(n.id),
+        highlighted: onPath.has(n.id),
+        dimmed: !onPath.has(n.id),
       },
     }));
-  }, [baseNodes, highlightNodes]);
+  }, [nodes, hoverId, graph]);
 
   const displayEdges = useMemo(() => {
-    if (!highlightEdges) return baseEdges;
-    return baseEdges.map((e) => {
-      const on = highlightEdges.has(e.id);
+    if (!hoverId) {
+      return edges.map((e) =>
+        e.animated || (e.style?.opacity ?? 1) !== 1
+          ? {
+              ...e,
+              animated: false,
+              style: { ...e.style, strokeWidth: 1.25, opacity: 1 },
+            }
+          : e,
+      );
+    }
+    const { edges: onPath } = upstreamPathFrom(hoverId, graph);
+    return edges.map((e) => {
+      const on = onPath.has(e.id);
       return {
         ...e,
         style: {
@@ -167,38 +208,50 @@ export function CausalGraphView({ graph }: { graph: CausalGraph }) {
         animated: on && (e.data?.confidence as string) !== "speculative",
       };
     });
-  }, [baseEdges, highlightEdges]);
+  }, [edges, hoverId, graph]);
 
-  const nodeIds = useMemo(
-    () => graph.nodes.map((n) => n.id).join("|"),
-    [graph],
+  return (
+    <>
+      <ReactFlow
+        nodes={displayNodes}
+        edges={displayEdges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        nodeTypes={nodeTypes}
+        fitView
+        fitViewOptions={{ padding: 0.2, duration: 300 }}
+        proOptions={{ hideAttribution: true }}
+        minZoom={0.25}
+        maxZoom={1.75}
+        nodesDraggable
+        nodesConnectable={false}
+        elementsSelectable
+        panOnDrag
+        onNodeMouseEnter={(_, n) => setHoverId(n.id)}
+        onNodeMouseLeave={() => setHoverId(null)}
+        onNodeDragStart={() => setHoverId(null)}
+      >
+        <Background
+          variant={BackgroundVariant.Dots}
+          gap={GRID_SIZE}
+          size={1}
+          color="#1a1a1a"
+        />
+        <Controls showInteractive={false} />
+        <AutoFit sig={nodeSig} />
+      </ReactFlow>
+      <HoverHint show={!!hoverId} />
+    </>
   );
+}
 
+export function CausalGraphView({ graph }: { graph: CausalGraph }) {
   return (
     <div className="relative h-full w-full">
       <ReactFlowProvider>
-        <ReactFlow
-          nodes={displayNodes}
-          edges={displayEdges}
-          nodeTypes={nodeTypes}
-          fitView
-          fitViewOptions={{ padding: 0.2, duration: 300 }}
-          proOptions={{ hideAttribution: true }}
-          minZoom={0.3}
-          maxZoom={1.5}
-          nodesDraggable={false}
-          nodesConnectable={false}
-          panOnDrag
-          onNodeMouseEnter={(_, n) => setHoverId(n.id)}
-          onNodeMouseLeave={() => setHoverId(null)}
-        >
-          <Background color="#111111" gap={24} />
-          <Controls showInteractive={false} />
-          <AutoFit nodeIds={nodeIds} />
-        </ReactFlow>
+        <GraphInner graph={graph} />
       </ReactFlowProvider>
       <GraphLegend />
-      <HoverHint show={!!hoverId} />
     </div>
   );
 }
@@ -222,6 +275,9 @@ function GraphLegend() {
       <LegendRow color="#ffa940" label="direct" />
       <LegendRow color="#888888" label="inferred" dashed />
       <LegendRow color="#444444" label="speculative" dashed />
+      <div className="mt-1 border-t border-border/60 pt-1 text-[8px] text-fg-faint">
+        drag nodes to rearrange
+      </div>
     </div>
   );
 }
