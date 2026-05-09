@@ -195,19 +195,19 @@ export default function HeroSection() {
               Launch Terminal
             </Button>
           </motion.div>
-
-          {/* Terminal screenshot in Safari mockup */}
-          <motion.div
-            custom={4}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-            className="mt-12 w-[95vw] max-w-[1600px] mx-auto left-1/2 -translate-x-1/2 relative"
-          >
-            <Safari url="macro-chain.io" imageSrc="/terminal-screenshot.png" />
-          </motion.div>
         </div>
       </div>
+
+      {/* Terminal screenshot in Safari mockup — full width, centred */}
+      <motion.div
+        custom={4}
+        variants={fadeUpVariants}
+        initial="hidden"
+        animate="visible"
+        className="relative z-10 mt-12 w-full max-w-[1200px] mx-auto px-4"
+      >
+        <Safari url="macro-chain.io" imageSrc="/terminal-screenshot.png" />
+      </motion.div>
 
       {/* Integrations bar at the bottom */}
       <motion.div
