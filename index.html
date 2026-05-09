@@ -5,89 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Macro-Chain | Causal Intelligence Terminal</title>
   <link rel="preload" href="/src/fonts/inter-var.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="/src/styles/main.css">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Skip to main content</a>
-  <main id="main-content">
-    <section id="hero" aria-labelledby="hero-heading">
-      <h1 id="hero-heading">Stop Trading the News. Trade the Ripple.</h1>
-      <p class="hero-sub">Identify third-order equity impacts before the market prices them in. The only causal intelligence engine built for the information latency gap.</p>
-      <div class="hero-ctas">
-        <a class="btn btn-primary" href="/terminal">Launch Terminal</a>
-        <a class="btn btn-secondary" href="/alphas">View Backtested Alphas</a>
-      </div>
-    </section>
-
-    <section id="alpha-decay" aria-labelledby="alpha-decay-heading">
-      <h2 id="alpha-decay-heading">The Alpha Decay Problem</h2>
-      <div class="alpha-decay-grid">
-        <div class="alpha-decay-card">
-          <span class="alpha-decay-label">1st Order</span>
-          <h3 class="alpha-decay-descriptor">High Entropy</h3>
-          <p class="alpha-decay-explanation">Bots trade the headline in milliseconds</p>
-          <span class="alpha-decay-indicator">Alpha: 0</span>
-        </div>
-        <div class="alpha-decay-card">
-          <span class="alpha-decay-label">2nd Order</span>
-          <h3 class="alpha-decay-descriptor">Market Reaction</h3>
-          <p class="alpha-decay-explanation">Analysts publish; retail follows</p>
-          <span class="alpha-decay-indicator">Alpha: Marginal</span>
-        </div>
-        <div class="alpha-decay-card alpha-decay-card--highlighted">
-          <span class="alpha-decay-label">3rd Order</span>
-          <h3 class="alpha-decay-descriptor">The Fuse</h3>
-          <p class="alpha-decay-sub-descriptor">The Information Edge</p>
-          <p class="alpha-decay-explanation">Supply chain ripples and byproduct shocks. This is where Macro-Chain lives</p>
-        </div>
-      </div>
-    </section>
-
-    <section id="agent-stack" aria-labelledby="agent-stack-heading">
-      <h2 id="agent-stack-heading">The Agent Stack</h2>
-      <div class="agent-grid">
-        <article class="agent-card">
-          <h3 class="agent-card__title">The Scraper</h3>
-          <p class="agent-card__desc">Real-time monitoring of Polymarket, Kalshi, and industrial news APIs</p>
-        </article>
-        <article class="agent-card">
-          <h3 class="agent-card__title">The Auditor</h3>
-          <p class="agent-card__desc">Autonomous parsing of 10-K filings and global shipping manifests to find hidden dependencies</p>
-        </article>
-        <article class="agent-card">
-          <h3 class="agent-card__title">The Entropy Model</h3>
-          <p class="agent-card__desc">Mathematical modelling of 'Information Decay' to determine if a link is already priced in</p>
-        </article>
-        <article class="agent-card">
-          <h3 class="agent-card__title">The Reporter</h3>
-          <p class="agent-card__desc">Institutional-grade briefs delivered instantly to your existing workflow</p>
-        </article>
-      </div>
-    </section>
-
-    <section id="workflow" aria-labelledby="workflow-heading">
-      <h2 id="workflow-heading">Integrations</h2>
-      <p class="workflow-copy">Own the most painful 30 minutes of your research day. Automated causal mapping with one-click export to your team's workspace.</p>
-      <div class="workflow-buttons">
-        <button class="btn btn-secondary workflow-btn" type="button">Send to Notion</button>
-        <button class="btn btn-secondary workflow-btn" type="button">Alert Slack</button>
-      </div>
-    </section>
-
-    <section id="technical-proof" aria-labelledby="technical-proof-heading">
-      <h2 id="technical-proof-heading">The Mathematics</h2>
-      <div class="technical-proof-grid">
-        <div class="technical-proof-concept">
-          <h3 class="technical-proof-concept__title">Shannon Entropy</h3>
-          <p class="technical-proof-concept__desc">Shannon Entropy quantifies the information content of a signal. Macro-Chain applies it to measure how rapidly a market event's novelty decays across participants, identifying the point at which a causal link is already priced in.</p>
-        </div>
-        <div class="technical-proof-concept">
-          <h3 class="technical-proof-concept__title">Bayesian Causal Networks</h3>
-          <p class="technical-proof-concept__desc">Bayesian Causal Networks model probabilistic dependencies between economic variables. The system uses directed acyclic graphs to validate whether an observed correlation reflects a genuine causal pathway or a spurious coincidence.</p>
-        </div>
-      </div>
-    </section>
-  </main>
-  <script type="module" src="/src/scripts/main.js"></script>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
 </body>
 </html>

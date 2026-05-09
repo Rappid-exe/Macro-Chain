@@ -7,7 +7,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
 ## Tasks
 
 - [ ] 1. Project scaffolding and build configuration
-  - [ ] 1.1 Initialise React + TypeScript project structure
+  - [x] 1.1 Initialise React + TypeScript project structure
     - Install dependencies: react, react-dom, @vitejs/plugin-react, typescript, @types/react, @types/react-dom, tailwindcss, postcss, autoprefixer, framer-motion, @radix-ui/react-slot, class-variance-authority, lucide-react, clsx, tailwind-merge
     - Update `package.json` with new dependencies and adjust scripts
     - Create `tsconfig.json` with strict mode, JSX react-jsx, path alias `@` → `src/`
@@ -17,7 +17,7 @@ Migrate the Macro-Chain marketing landing page from vanilla HTML/CSS/JS to React
     - Update `index.html` to remove old CSS/JS references, add `<div id="root"></div>`, keep font preload
     - _Requirements: 1.1, 1.4, 1.6, 1.7_
 
-  - [ ] 1.2 Configure Tailwind CSS with design system tokens
+  - [-] 1.2 Configure Tailwind CSS with design system tokens
     - Create `tailwind.config.ts` with custom colours (bg-primary, surface, border, text-primary, text-secondary, signal-green), font family (Inter with system fallbacks), border-radius (2px for all sizes), and content paths
     - Create `src/styles/globals.css` with `@tailwind base; @tailwind components; @tailwind utilities;` directives, `@font-face` for Inter variable font, and CSS custom properties
     - Import `globals.css` in `src/main.tsx`
