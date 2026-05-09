@@ -52,7 +52,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Ensure all hero content renders above the fold on 1024x768 viewport
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 9.3, 9.4, 10.3_
 
-  - [ ]* 3.2 Write unit tests for Hero Section content
+  - [x]* 3.2 Write unit tests for Hero Section content
     - Verify headline text matches "Stop Trading the News. Trade the Ripple."
     - Verify sub-headline text matches requirements
     - Verify primary CTA label is "Launch Terminal" with href="/terminal"
@@ -70,7 +70,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Build 3rd Order column: label "3rd Order", descriptor "The Fuse", sub-descriptor "The Information Edge", explanation "Supply chain ripples and byproduct shocks. This is where Macro-Chain lives", Signal Green left border (2px solid #00E676)
     - _Requirements: 2.1, 2.2, 2.3, 2.4, 2.5, 2.6_
 
-  - [ ]* 4.2 Write unit tests for Alpha Decay Section content
+  - [x]* 4.2 Write unit tests for Alpha Decay Section content
     - Verify section heading text is "The Alpha Decay Problem"
     - Verify all three columns contain correct labels, descriptors, and explanations
     - Verify 3rd Order column has Signal Green border-left
@@ -87,13 +87,13 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Include full description text for each card per requirements
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-  - [ ]* 5.2 Write unit tests for Agent Stack Section content
+  - [x]* 5.2 Write unit tests for Agent Stack Section content
     - Verify four cards exist in correct order
     - Verify each card title and description matches requirements exactly
     - Verify title elements have distinct styling from description elements
     - _Requirements: 3.3, 3.4, 3.5, 3.6, 3.7, 3.8_
 
-- [ ] 6. Checkpoint - Verify core sections
+- [x] 6. Checkpoint - Verify core sections
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 7. Implement Workflow Integration Section
@@ -106,7 +106,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Implement hover/active states on mock buttons (CSS `:hover`/`:active` with JS enhancement)
     - _Requirements: 4.1, 4.2, 4.3, 4.4_
 
-  - [ ]* 7.2 Write E2E tests for Workflow Section mock buttons
+  - [x]* 7.2 Write E2E tests for Workflow Section mock buttons
     - Verify "Send to Notion" and "Alert Slack" buttons are visible
     - Verify clicking mock buttons does not trigger navigation or external calls
     - Verify hover/pressed states are visually applied
@@ -122,7 +122,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Use UK English spelling throughout (e.g., "modelling", "analysing")
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 7.1, 7.2_
 
-  - [ ]* 8.2 Write unit tests for Technical Proof Section content
+  - [x]* 8.2 Write unit tests for Technical Proof Section content
     - Verify Shannon Entropy concept is named and described
     - Verify Bayesian Causal Networks concept is named and described
     - Verify each description is ≤50 words
@@ -130,7 +130,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 5.1, 5.2, 5.3, 5.4_
 
 - [ ] 9. Implement responsive layout and final styling
-  - [ ] 9.1 Implement responsive breakpoints and layout rules
+  - [x] 9.1 Implement responsive breakpoints and layout rules
     - Verify CSS Grid responds correctly at 1024px breakpoint (Agent Stack: 2-col → 1-col)
     - Verify CSS Grid responds correctly at 768px breakpoint (Alpha Decay: 3-col → 1-col)
     - Ensure tablet (768px–1023px) reduces to max 2 columns with no horizontal overflow
@@ -139,14 +139,14 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Add `max-width: var(--max-width)` container with auto margins for content centering
     - _Requirements: 8.1, 8.2, 8.3, 8.6_
 
-  - [ ] 9.2 Implement critical CSS inlining for build
+  - [-] 9.2 Implement critical CSS inlining for build
     - Configure Vite plugin or build script to extract and inline critical above-the-fold CSS
     - Load remaining CSS asynchronously via `media="print" onload="this.media='all'"` pattern
     - Verify hero section renders styled without waiting for full CSS bundle
     - _Requirements: 1.7, 9.1_
 
 - [ ] 10. Implement accessibility hardening
-  - [ ] 10.1 Add semantic structure and accessibility attributes
+  - [-] 10.1 Add semantic structure and accessibility attributes
     - Verify single `<h1>` exists (hero heading) with sequential heading levels (h1 → h2, no skips)
     - Add `aria-labelledby` attributes to all `<section>` elements referencing their headings
     - Add meaningful `alt` text (1–150 chars) to any non-decorative images/mock-ups
@@ -163,7 +163,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify heading hierarchy (no skipped levels)
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6_
 
-- [ ] 11. Checkpoint - Full page integration
+- [~] 11. Checkpoint - Full page integration
   - Ensure all tests pass, ask the user if questions arise.
 
 - [x] 12. Set up testing infrastructure and write integration tests
@@ -189,7 +189,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 1.5, 1.6, 10.4, 10.6_
 
 - [ ] 13. Performance optimisation and Lighthouse CI
-  - [ ] 13.1 Optimise for Core Web Vitals targets
+  - [~] 13.1 Optimise for Core Web Vitals targets
     - Verify font preload eliminates render-blocking
     - Verify critical CSS inline prevents layout shift (CLS ≤ 0.1)
     - Verify no layout shifts from font swap (explicit dimensions or font-size-adjust)
@@ -206,7 +206,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - _Requirements: 9.1, 9.2, 9.5_
 
 - [ ] 14. Content validation and UK English compliance
-  - [ ] 14.1 Validate all copy for UK English and style compliance
+  - [~] 14.1 Validate all copy for UK English and style compliance
     - Review all user-visible text for UK English spelling (modelling, analysing, optimised, colour)
     - Verify zero em dash (—) or en dash (–) characters in any visible text
     - Verify glossary terms used consistently (no synonyms or alternate phrasings)
@@ -214,7 +214,7 @@ Build a static, dark-mode landing page for Macro-Chain using vanilla HTML, CSS, 
     - Verify no warm-toned hues (HSL hue 0°–60°) in any CSS colour value
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 6.3, 6.8_
 
-- [ ] 15. Final checkpoint - Complete validation
+- [~] 15. Final checkpoint - Complete validation
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
