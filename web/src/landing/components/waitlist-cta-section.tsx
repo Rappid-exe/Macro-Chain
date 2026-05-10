@@ -93,7 +93,7 @@ export default function WaitlistCTASection() {
 
             <Button
               type="submit"
-              variant="default"
+              variant="solid"
               size="lg"
               className="min-w-[200px]"
             >

@@ -1,24 +1,16 @@
 import { lazy, Suspense } from "react";
 import HeroSection from "@/landing/components/hero-section";
+import Navbar from "@/landing/components/navbar";
 import { SectionErrorBoundary } from "@/landing/components/section-error-boundary";
+import { LandingContactBridge } from "@/components/landing-contact-bridge";
 
-// Below-fold sections lazy-loaded to keep the first paint snappy.
 const AlphaDecaySection = lazy(
   () => import("@/landing/components/alpha-decay-section"),
 );
 const AgentStackSection = lazy(
   () => import("@/landing/components/agent-stack-section"),
 );
-const WorkflowSection = lazy(
-  () => import("@/landing/components/workflow-section"),
-);
-const TechnicalProofSection = lazy(
-  () => import("@/landing/components/technical-proof-section"),
-);
 const FAQSection = lazy(() => import("@/landing/components/faq-section"));
-const ProofOfAlphaSection = lazy(
-  () => import("@/landing/components/proof-of-alpha-section"),
-);
 const WaitlistCTASection = lazy(
   () => import("@/landing/components/waitlist-cta-section"),
 );
@@ -38,6 +30,9 @@ export default function Landing() {
         Skip to main content
       </a>
 
+      <Navbar />
+      <LandingContactBridge />
+
       <main id="main-content">
         <HeroSection />
 
@@ -55,25 +50,7 @@ export default function Landing() {
 
         <SectionErrorBoundary fallback={<SectionFallback />}>
           <Suspense fallback={<SectionFallback />}>
-            <WorkflowSection />
-          </Suspense>
-        </SectionErrorBoundary>
-
-        <SectionErrorBoundary fallback={<SectionFallback />}>
-          <Suspense fallback={<SectionFallback />}>
-            <TechnicalProofSection />
-          </Suspense>
-        </SectionErrorBoundary>
-
-        <SectionErrorBoundary fallback={<SectionFallback />}>
-          <Suspense fallback={<SectionFallback />}>
             <FAQSection />
-          </Suspense>
-        </SectionErrorBoundary>
-
-        <SectionErrorBoundary fallback={<SectionFallback />}>
-          <Suspense fallback={<SectionFallback />}>
-            <ProofOfAlphaSection />
           </Suspense>
         </SectionErrorBoundary>
 

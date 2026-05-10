@@ -14,7 +14,7 @@ import type {
 export const HERO_HEADLINE = "The Causal Intelligence Terminal";
 
 export const HERO_SUB_HEADLINE =
-  "Macro-Chain maps 3rd-order geopolitical triggers to equity impact before the market prices them in.";
+  "Macro-Chain maps 3rd-order triggers to equity impact before the market prices them in.";
 
 // ---------------------------------------------------------------------------
 // Live Signals Marquee
@@ -71,27 +71,27 @@ export const ALPHA_DECAY_CARDS: AlphaDecayCard[] = [
 
 export const AGENT_CARDS: AgentCard[] = [
   {
-    title: "The Scraper",
+    title: "The Detector",
     description:
-      "Real-time monitoring of Polymarket, Kalshi, and industrial news APIs.",
+      "Monitors real-time prediction markets and financial news feeds to identify high-impact global triggers.",
     emphasis: "standard",
   },
   {
-    title: "The Auditor",
+    title: "The Architect",
     description:
-      "Autonomous parsing of 10-K filings and global shipping manifests to find hidden dependencies.",
-    emphasis: "highlighted",
+      "Automatically parses corporate reports and trade data to build a logical map of industrial connections.",
+    emphasis: "standard",
   },
   {
-    title: "The Entropy Model",
+    title: "The Analyst",
     description:
-      "Mathematical modelling of 'Information Decay' to determine if a link is already priced in.",
-    emphasis: "highlighted",
+      "Evaluates the strength of the causal link to determine which specific equities are most likely to be affected.",
+    emphasis: "standard",
   },
   {
-    title: "The Reporter",
+    title: "The Publisher",
     description:
-      "Institutional-grade briefs delivered instantly to your existing workflow.",
+      "Generates structured institutional reports and downloadable briefs directly within the Macro-Chain terminal.",
     emphasis: "standard",
   },
 ];
@@ -109,19 +109,24 @@ export const WORKFLOW_COPY =
 
 export const FAQ_ITEMS: FAQItem[] = [
   {
-    question: "How does Macro-Chain prevent hallucinations?",
+    question: "What is Causal Intelligence and how does it differ from standard news alerts?",
     answer:
-      "Our Auditor agent cross-references 10-K filings with global shipping manifests. We do not generate links; we verify existing industrial dependencies.",
+      "Standard alerts tell you what happened. Causal Intelligence identifies the hidden ripples, the secondary and tertiary effects that headlines create across global supply chains and equities.",
   },
   {
-    question:
-      "What is the average latency between a trigger and a 3rd-order alert?",
-    answer: "Our stack delivers validated causal maps in under 180 seconds.",
+    question: "Who is Macro-Chain built for?",
+    answer:
+      "While our terminal is designed for institutional fund managers and macro strategists, it is an essential tool for any trader looking to identify high-conviction opportunities before they become common market knowledge.",
   },
   {
-    question: "Can I customise the sectors monitored?",
+    question: "How accurate are the predictive models?",
     answer:
-      "Yes, the Terminal allows for vertical-specific focus on Energy, Semis, or Ag-Tech.",
+      "Macro-Chain uses a multi-agent system to cross-reference real-world data, such as shipping manifests and regulatory filings, with geopolitical triggers. We provide a Confidence Score for every causal link to help you weigh risk.",
+  },
+  {
+    question: "Does this platform automate trading?",
+    answer:
+      "No. Macro-Chain is a decision-support terminal. It identifies opportunities and generates institutional-grade reports, but the final execution remains in the hands of the human operator.",
   },
 ];
 
@@ -131,36 +136,9 @@ export const FAQ_ITEMS: FAQItem[] = [
 
 export const FOOTER_TAGLINE = "The Causal Intelligence Engine.";
 
-export const FOOTER_LINK_GROUPS: FooterLinkGroup[] = [
-  {
-    heading: "Product",
-    links: [
-      { label: "Terminal", href: "#terminal" },
-      { label: "API", href: "#api" },
-      { label: "Backtesting", href: "#backtesting" },
-    ],
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About", href: "#about" },
-      { label: "Ethics", href: "#ethics" },
-      { label: "Research", href: "#research" },
-    ],
-  },
-];
+export const FOOTER_LINK_GROUPS: FooterLinkGroup[] = [];
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  {
-    platform: "twitter",
-    href: "https://x.com/macrochain",
-    ariaLabel: "Follow Macro-Chain on X (formerly Twitter)",
-  },
-  {
-    platform: "linkedin",
-    href: "https://linkedin.com/company/macrochain",
-    ariaLabel: "Connect with Macro-Chain on LinkedIn",
-  },
   {
     platform: "github",
     href: "https://github.com/Rappid-exe/Macro-Chain",
